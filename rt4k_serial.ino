@@ -1,4 +1,4 @@
-// RT4K HD15 serial remote control w/ Arduino Pro Micro
+// RT4K HD15 serial remote control w/ Arduino Pro Micro (not 5v tolerant, unless voltage divider is used)
 //
 // HD15 pin 15 = RX --> Arduino Pro Micro TX pin
 // HD15 pin 12 = TX --> Arduino Pro Micro RX pin
@@ -90,6 +90,5 @@ void loop() {
       scart3prev = scart3;
     }  
 
-    //Serial.println("loop");
     delay(500);
 }
