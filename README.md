@@ -1,6 +1,8 @@
 # RT4k HD15 serial control
 RetroTink 4K HD15 Serial Control using an Arduino Pro Micro. Integrated with a 10 Port Otaku Games Scart Switch.
 
+See it in action: https://www.youtube.com/watch?v=1q2scC0S7wM
+
 ![IMG_7124](https://github.com/user-attachments/assets/133d5b34-9a24-4d79-8ec8-e0fd2d12612a)
 
 ![IMG_7125](https://github.com/user-attachments/assets/cb80afc6-6046-4799-8f1e-254dff0abf41)
