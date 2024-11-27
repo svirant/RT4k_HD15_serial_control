@@ -5,7 +5,7 @@ RetroTink 4K HD15 Serial Control using an Arduino Pro Micro. Integrated with a 1
 
 ![IMG_7125](https://github.com/user-attachments/assets/cb80afc6-6046-4799-8f1e-254dff0abf41)
 
-![IMG_7126](https://github.com/user-attachments/assets/7ddb474a-4fd3-4e5b-b2d5-5f239b2e4f02)
+![IMG_7126](https://github.com/user-attachments/assets/8a61883e-884f-4f6f-b0f0-30499aa8844d)
 
 ![IMG_7127](https://github.com/user-attachments/assets/cab39bfc-166b-4c0b-815d-2e5f10645496)
 
