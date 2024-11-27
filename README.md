@@ -7,7 +7,7 @@ See it in action: https://www.youtube.com/watch?v=1q2scC0S7wM
 
 ![IMG_7125](https://github.com/user-attachments/assets/cb80afc6-6046-4799-8f1e-254dff0abf41)
 
-![IMG_7126](https://github.com/user-attachments/assets/8a61883e-884f-4f6f-b0f0-30499aa8844d)
+![IMG_7126 2](https://github.com/user-attachments/assets/e4909073-4bfe-493b-b2da-54f2a3deb295)
 
 ![IMG_7127](https://github.com/user-attachments/assets/cab39bfc-166b-4c0b-815d-2e5f10645496)
 
