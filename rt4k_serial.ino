@@ -25,6 +25,7 @@ void setup() {
 void loop() {
 
     // Read scart ports (bitwise NOT results in a 1 when scart port is active)
+    // Active when low voltage
     scart1 = ~(PIND & B11110011);
     scart2 = ~(PINF & B11110000);
     scart3 = ~(PINB & B00010010);
