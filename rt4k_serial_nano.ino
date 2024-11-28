@@ -16,12 +16,22 @@ void setup() {
     PORTD |=  B11111100; // Enable internal pull-up resistors
     DDRB  &= ~B00011111; // Set PB0 - PB4 as inputs (shown on nano as pins D8-12)
     PORTB |=  B00011111; // Enable internal pull-up resistors
+
+    //If you 
 }
 
 void loop() {
 
-    // Read scart ports (bitwise NOT results in a 1 when scart port is active)
-    // Active when low voltage
+    // Read scart ports (bitwise NOT results in a 1 when scart port is Active / Low voltage on uln2003 leg)
+    //
+    // If you are wanting to use this for a different application where an Active port is High instead of Low,
+    // replace this following with this instead: (removing the ~)
+    //
+    // scart1 = (PIND & B11111100);
+    // scart2 = (PINB & B00011111);
+    //
+    // Also comment out the PORTD, PORTB lines above to disable the internal pull-up resistors.
+    
     scart1 = ~(PIND & B11111100);
     scart2 = ~(PINB & B00011111);
 
