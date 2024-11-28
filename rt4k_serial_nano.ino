@@ -12,7 +12,7 @@ uint16_t scart2prev = 0x0f;
 void setup() {
 
     Serial.begin(9600); // Set the baud rate for the RT4K Serial Connection
-    DDRD  &= ~B11111100; // Set PD0,1,4,7 as inputs (shown on pro micro as pins 2,3,4,6)
+    DDRD  &= ~B11111100; // Set PD2-7 as inputs (shown on nano as pins D2-D7)
     PORTD |=  B11111100; // Enable internal pull-up resistors
     DDRB  &= ~B00011111; // Set PB0 - PB4 as inputs (shown on nano as pins D8-12)
     PORTB |=  B00011111; // Enable internal pull-up resistors
@@ -21,6 +21,7 @@ void setup() {
 void loop() {
 
     // Read scart ports (bitwise NOT results in a 1 when scart port is active)
+    // Active when low voltage
     scart1 = ~(PIND & B11111100);
     scart2 = ~(PINB & B00011111);
 
