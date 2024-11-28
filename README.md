@@ -3,7 +3,7 @@ RetroTink 4K HD15 Serial Control using an Arduino Pro Micro or Nano, Integrated 
 
 See it in action: https://youtu.be/L7HAki0e440
 
-This implementation taps into 2x ULN2003 Darlington Arrays that are used to power a led when a Scart port is active. This does not touch the Scart signal or MCU and should not affect image quality. This is all based on my general observation of the PCB, I don't have any official documentation to go by. 
+This implementation taps into 2x ULN2003 Darlington Arrays that are used to power a led when a Scart port is active. Each individual led line is connected to an input pin on the Arduino. If an input pin on the Arduino detects a voltage drop, then a command is sent to the RetroTink telling it to change to that pin's / scart ports assigned remote profile. This does not touch the Scart signal or MCU and should not affect image quality. This is all based on my general observation of the PCB, I don't have any official documentation to go by. 
 
 ![IMG_7124](https://github.com/user-attachments/assets/133d5b34-9a24-4d79-8ec8-e0fd2d12612a)
 
