@@ -17,7 +17,6 @@ void setup() {
     DDRB  &= ~B00011111; // Set PB0 - PB4 as inputs (shown on nano as pins D8-12)
     PORTB |=  B00011111; // Enable internal pull-up resistors
 
-    //If you 
 }
 
 void loop() {
