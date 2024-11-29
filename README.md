@@ -11,6 +11,7 @@ This implementation taps into 2x ULN2003 Darlington Arrays that are used to acti
 ![IMG_7125](https://github.com/user-attachments/assets/cb80afc6-6046-4799-8f1e-254dff0abf41)
 
 ![IMG_7126 2](https://github.com/user-attachments/assets/e4909073-4bfe-493b-b2da-54f2a3deb295)
+Standard 3.5mm stereo jack and cable used to connect tx,rx,gnd lines to HD15
 
 ![IMG_7127](https://github.com/user-attachments/assets/cab39bfc-166b-4c0b-815d-2e5f10645496)
 
