@@ -33,7 +33,7 @@ void setup() {
 
     Serial.begin(9600); // Set the baud rate for the RT4K Serial Connection
     DDRD  &= ~B11100000; // Set PD5-7 as inputs (shown on nano as pins D5-D7)
-    //PORTD |=  B11111100; // Enable internal pull-up resistors
+    //PORTD |=  B11100000; // Enable internal pull-up resistors
 
 }
 
