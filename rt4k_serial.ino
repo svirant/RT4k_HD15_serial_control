@@ -30,7 +30,7 @@ void loop() {
     // replace this following with this instead: (removing the ~)
     //
     // scart1 = (PIND & B11111100);
-    // scart2 = (PINB & B00011111);
+    // scart2 = (PINF & B00011111);
     // scart3 = (PINB & B00010010);
     //
     // Also comment out the PORTD, PORTF, PORTB lines above to disable the internal pull-up resistors.
