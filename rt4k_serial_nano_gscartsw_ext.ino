@@ -33,27 +33,25 @@ void setup() {
 
     Serial.begin(9600); // Set the baud rate for the RT4K Serial Connection
     DDRD  &= ~B11100000; // Set PD5-7 as inputs (shown on nano as pins D5-D7)
-    //PORTD |=  B11100000; // Enable internal pull-up resistors
+    //PORTD |=  B11111100; // Enable internal pull-up resistors
 
 }
 
 void loop() {
 
     // If you are wanting to use this for a different application where an Active pin is Low instead of High,
-    // replace the following with this instead: (adding the ~)
+    // replace this following with this instead: (adding the ~)
     //
     // scart1 = ~(PIND & B11100000);
     //
     // Also comment out the PORTD line above to disable the internal pull-up resistors.
     
-    scart1 = (PIND & B11100000); //read IN_BIT0, IN_BIT1, IN_BIT2
+    scart1 = (PIND & B11100000);
 
     // Has active scart port changed? Group 1
     if(scart1 != scart1prev){
       //Detect which scart port is now active and change profile accordingly
-      if(scart1 & B00000000)
-        Serial.println("remote prof1\r");
-      else if(scart1 & B00100000)
+      if(scart1 & B00100000)
         Serial.println("remote prof2\r");
       else if(scart1 & B01000000)
         Serial.println("remote prof3\r");
@@ -67,6 +65,8 @@ void loop() {
         Serial.println("remote prof7\r");
       else if(scart1 & B11100000)
         Serial.println("remote prof8\r");
+      else
+        Serial.println("remote prof1\r");
 
       scart1prev = scart1;
     }
