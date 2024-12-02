@@ -26,11 +26,20 @@ void setup() {
 }
 
 void loop() {
-
+    // Read scart ports (bitwise NOT results in a 1 when scart port is Active / Low voltage on uln2003 leg)
+    //
+    // If you are wanting to use this for a different application where an Active port is High instead of Low,
+    // replace this following with this instead: (removing the ~)
+    //
+    // scart1 = (PIND & B11111100);
+    // scart2 = (PINB & B00011111);
+    //
+    // Also comment out the PORTD, PORTB lines above to disable the internal pull-up resistors.
+    
     // Read scart ports (bitwise NOT results in a 1 when scart port is active)
-    scart1 = ~(PIND & B11111100);
-    scart2 = ~(PINB & B00011111);
-    scartoff = (!(scart1 & B11111100) & !(scart2 & B00011111));
+    scart1 = ~(PIND & B11111100); //read pins D2-D7
+    scart2 = ~(PINB & B00011111); //read pins D8-D12
+    scartoff = (!(scart1 & B11111100) && !(scart2 & B00011111));
 
     // Has active scart port changed? Group 1
     if(scart1 != scart1prev){
@@ -69,7 +78,7 @@ void loop() {
     }
 
     // If all ports are in-active, load profile 12. You can assign it to a generic HDMI profile for example.
-    if((scartoff != scartoffprev) & ScartOffProfile){
+    if((scartoff != scartoffprev) && ScartOffProfile){
       if((scart1 & B11111100) + (scart2 & B00011111) == 0)
         Serial.println("remote prof12\r");
         
