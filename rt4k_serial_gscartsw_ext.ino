@@ -53,11 +53,7 @@ void loop() {
     // Has active scart port changed? Group 1
     if(scart1 != scart1prev){
       //Detect which scart port is now active and change profile accordingly
-      if(scart1 & B00000000){
-        Serial1.println("remote prof1\r");
-        Serial.println("remote prof1\r");
-      }
-      else if(scart1 & B00100000){
+      if(scart1 & B00100000){
         Serial1.println("remote prof2\r");
         Serial.println("remote prof2\r");
       }
@@ -85,6 +81,10 @@ void loop() {
         Serial1.println("remote prof8\r");
         Serial.println("remote prof8\r");
       }
+      else{
+        Serial1.println("remote prof1\r");
+        Serial.println("remote prof1\r");
+      }      
 
       scart1prev = scart1;
     }
