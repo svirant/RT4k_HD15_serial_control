@@ -46,7 +46,7 @@ void loop() {
     //
     // Also comment out the PORTD line above to disable the internal pull-up resistors.
     
-    scart1 = (PIND & B11100000);
+    scart1 = (PIND & B11100000); //read state of pins D5,D6,D7 (IN_BIT0, IN_BIT1, IN_BIT2)
 
     // Has active scart port changed? Group 1
     if(scart1 != scart1prev){
