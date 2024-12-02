@@ -10,7 +10,7 @@ bool ScartOffProfile = false; //set to "true" loads Remote Profile 12 when all s
 uint16_t scart1 = 0x0f; //used to store state of first grouping of scart ports
 uint16_t scart2 = 0x0f; //second grouping...
 uint16_t scart3 = 0x0f; //third grouping...
-int scartoff = 1; //used to keep track of scart off profile state, if enabled
+int scartoff = 1; //used to keep track of scart off profile state
 int scartoffprev = 1; //used to store previous state of scartoff
 uint16_t scart1prev = 0x0f; //used to store previous state of first group
 uint16_t scart2prev = 0x0f; 
@@ -36,7 +36,7 @@ void loop() {
     // replace this following with this instead: (removing the ~)
     //
     // scart1 = (PIND & B10010011);
-    // scart2 = (PINB & B11110000);
+    // scart2 = (PINF & B11110000);
     // scart3 = (PINB & B00010010);
     //
     // Also comment out the PORTD, PORTF, PORTB lines above to disable the internal pull-up resistors.
