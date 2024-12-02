@@ -3,7 +3,7 @@
 // HD15 pin 15 = RX --> Arduino Pro Micro TX pin
 // HD15 pin 12 = TX --> Arduino Pro Micro RX pin
 
-bool ScartOffProfile = true; //set to "true" loads Remote Profile 12 when all scart inputs are off. You can assign it to a generic HDMI input profile for example.
+bool ScartOffProfile = false; //set to "true" loads Remote Profile 12 when all scart inputs are off. You can assign it to a generic HDMI input profile for example.
                               //set to "false" always leaves the last active scart input profile loaded
                               //set to "false" by default
                               
