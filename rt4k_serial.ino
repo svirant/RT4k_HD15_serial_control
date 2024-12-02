@@ -3,9 +3,15 @@
 // HD15 pin 15 = RX --> Arduino Pro Micro TX pin
 // HD15 pin 12 = TX --> Arduino Pro Micro RX pin
 
+bool ScartOffProfile = false; //set to "true" loads Remote Profile 12 when all scart inputs are off. You can assign it to a generic HDMI input profile for example.
+                              //set to "false" always leaves the last active scart input profile loaded
+                              //set to "false" by default
+                              
 uint16_t scart1 = 0x0f; //used to store state of first grouping of scart ports
 uint16_t scart2 = 0x0f; //second grouping...
 uint16_t scart3 = 0x0f; //third grouping...
+int scartoff = 0;
+int scartoffprev = 0;
 uint16_t scart1prev = 0x0f; //used to store previous state of first group
 uint16_t scart2prev = 0x0f; 
 uint16_t scart3prev = 0x0f;
@@ -30,7 +36,7 @@ void loop() {
     // replace this following with this instead: (removing the ~)
     //
     // scart1 = (PIND & B10010011);
-    // scart2 = (PINF & B11110000);
+    // scart2 = (PINB & B11110000);
     // scart3 = (PINB & B00010010);
     //
     // Also comment out the PORTD, PORTF, PORTB lines above to disable the internal pull-up resistors.
@@ -38,6 +44,7 @@ void loop() {
     scart1 = ~(PIND & B10010011);
     scart2 = ~(PINF & B11110000);
     scart3 = ~(PINB & B00010010);
+    scartoff = (!(scart1 & B10010011) & !(scart2 & B11110000) & !(scart3 & B00010010));
 
     // Has active scart port changed? Group 1
     if(scart1 != scart1prev){
@@ -98,7 +105,18 @@ void loop() {
       }
 
       scart3prev = scart3;
-    }  
+    }
+
+
+    // If all ports are in-active, load profile 12. You can assign it to a generic HDMI profile for example.
+    if((scartoff != scartoffprev) & ScartOffProfile){
+      if((scart1 & B10010011) + (scart2 & B11110000) + (scart3 & B00010010) == 0){
+        Serial1.println("remote prof12\r");
+        Serial.println("remote prof12\r");
+      }
+      scartoffprev = scartoff;
+    }
+
 
     delay(500);
 }
