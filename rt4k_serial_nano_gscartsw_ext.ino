@@ -40,13 +40,13 @@ void setup() {
 void loop() {
 
     // If you are wanting to use this for a different application where an Active pin is Low instead of High,
-    // replace this following with this instead: (adding the ~)
+    // replace the following with this instead: (adding the ~)
     //
     // scart1 = ~(PIND & B11100000);
     //
     // Also comment out the PORTD line above to disable the internal pull-up resistors.
     
-    scart1 = (PIND & B11100000);
+    scart1 = (PIND & B11100000); //read IN_BIT0, IN_BIT1, IN_BIT2
 
     // Has active scart port changed? Group 1
     if(scart1 != scart1prev){
