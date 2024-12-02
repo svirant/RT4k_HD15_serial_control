@@ -3,7 +3,7 @@
 // HD15 pin 15 = RX --> Arduino Pro Micro TX pin
 // HD15 pin 12 = TX --> Arduino Pro Micro RX pin
 
-bool ScartOffProfile = false; //set to "true" loads Remote Profile 12 when all scart inputs are off. You can assign it to a generic HDMI input profile for example.
+bool ScartOffProfile = true; //set to "true" loads Remote Profile 12 when all scart inputs are off. You can assign it to a generic HDMI input profile for example.
                               //set to "false" always leaves the last active scart input profile loaded
                               //set to "false" by default
                               
@@ -19,8 +19,8 @@ uint16_t scart3prev = 0x0f;
 void setup() {
 
     Serial1.begin(9600); // Set the baud rate for the RT4K Serial Connection
-    Serial.begin(115200); // Set the baud rate for the Terminal Monitor (debug)
-    DDRD  &= ~B10010011; // Set PD0,1,4,7 as inputs (shown on pro micro as pins 2,3,4,6)
+    Serial.begin(9600); // Set the baud rate for the Terminal Monitor (debug)
+    DDRD  &= ~B10010011; // Set PD0,1,4,7 as inputs (shown on pro micro as pins 3,2,4,6)
     PORTD |=  B10010011; // Enable internal pull-up resistors
     DDRF  &= ~B11110000; // Set pins A0-A3 as inputs
     PORTF |=  B11110000; // Enable internal pull-up resistors
@@ -41,10 +41,10 @@ void loop() {
     //
     // Also comment out the PORTD, PORTF, PORTB lines above to disable the internal pull-up resistors.
     
-    scart1 = ~(PIND & B10010011);
-    scart2 = ~(PINF & B11110000);
-    scart3 = ~(PINB & B00010010);
-    scartoff = (!(scart1 & B10010011) & !(scart2 & B11110000) & !(scart3 & B00010010));
+    scart1 = ~(PIND & B10010011); //read pins 3,2,4,6 
+    scart2 = ~(PINF & B11110000); //read pins A3,A2,A1,A0
+    scart3 = ~(PINB & B00010010); //read pins 15,8
+    scartoff = (!(scart1 & B10010011) && !(scart2 & B11110000) && !(scart3 & B00010010));
 
     // Has active scart port changed? Group 1
     if(scart1 != scart1prev){
@@ -109,7 +109,7 @@ void loop() {
 
 
     // If all ports are in-active, load profile 12. You can assign it to a generic HDMI profile for example.
-    if((scartoff != scartoffprev) & ScartOffProfile){
+    if((scartoff != scartoffprev) && ScartOffProfile){
       if((scart1 & B10010011) + (scart2 & B11110000) + (scart3 & B00010010) == 0){
         Serial1.println("remote prof12\r");
         Serial.println("remote prof12\r");
