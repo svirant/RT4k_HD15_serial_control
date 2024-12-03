@@ -1,6 +1,3 @@
-//
-// EXPERIMENTAL - NOT CONFIRMED WORKING
-//
 // RT4K HD15 serial remote control w/ Arduino Nano edition (5v tolerant)
 //
 // HD15 pin 15 = RX --> Arduino Nano TX pin
