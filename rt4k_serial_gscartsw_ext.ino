@@ -1,6 +1,3 @@
-//
-// EXPERIMENTAL - NOT CONFIRMED WORKING
-//
 // RT4K HD15 serial remote control w/ Arduino Pro Micro (not 5v tolerant, unless voltage divider is used)
 //
 // HD15 pin 15 = RX --> Arduino Pro Micro TX pin
