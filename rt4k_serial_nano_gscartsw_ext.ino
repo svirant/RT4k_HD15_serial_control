@@ -1,7 +1,7 @@
-// RT4K HD15 serial remote control w/ Arduino Nano edition (5v tolerant)
+// RT4K HD15 serial remote control w/ Arduino Nano
 //
-// HD15 pin 15 = RX --> Arduino Nano TX pin
-// HD15 pin 12 = TX --> Arduino Nano RX pin
+// HD15 pin 15 = RX --> Arduino Nano TX1 pin
+// HD15 pin 12 = TX --> Arduino Nano RX0 pin
 //
 // Connect gscartsw / gcompsw EXT pins 5,6,7 to pins D5,6,7 on the Arduino Nano
 // You can also connect EXT pin 1 (Gnd) and EXT pin 4 (5v) to GND and VIN on the Arduino Nano for power/gnd.
@@ -19,8 +19,6 @@
 //
 // Pin 5-7 represents selected input in binary.
 //
-// For the gscartsw binary representation above, it is "Assumed" that low voltage on an EXT pin is a 0 and high voltage is a 1
-//
 
 uint16_t scart1 = 0x0f; //used to store state of first grouping of scart ports
 uint16_t scart1prev = 0x0f; //used to store previous state of first group
@@ -36,12 +34,6 @@ void setup() {
 
 void loop() {
 
-    // If you are wanting to use this for a different application where an Active pin is Low instead of High,
-    // replace this following with this instead: (adding the ~)
-    //
-    // scart1 = ~(PIND & B11100000);
-    //
-    // Also comment out the PORTD line above to disable the internal pull-up resistors.
     
     scart1 = (PIND & B11100000); //read state of pins D5,D6,D7 (IN_BIT0, IN_BIT1, IN_BIT2)
 
@@ -68,6 +60,7 @@ void loop() {
 
       scart1prev = scart1;
     }
+
 
     delay(500);
 }
