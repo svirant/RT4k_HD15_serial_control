@@ -1,7 +1,12 @@
 // RT4K HD15 serial remote control w/ Arduino Nano
 //
+// DISCLAIMER: Do not connect usb power to the Arduino AFTER it's wired in unless first disconnecting either EXT pin 4 (5v) or VIN on the Arduino.
+//             Please Upload/Program the Arduino BEFORE connecting it to the EXT pins.
+//
+//
 // HD15 pin 15 = RX --> Arduino Nano TX1 pin
 // HD15 pin 12 = TX --> Arduino Nano RX0 pin
+// HD15 pin 5 = Gnd --> Arduino Gnd pin (any Gnd pin is fine)
 //
 // Connect gscartsw / gcompsw EXT pins 5,6,7 to pins D5,6,7 on the Arduino Nano
 // You can also connect EXT pin 1 (Gnd) and EXT pin 4 (5v) to GND and VIN on the Arduino Nano for power/gnd.
