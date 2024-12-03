@@ -1,7 +1,7 @@
 # RT4k HD15 serial control
 
 ***<Updates:>***
-- gscartsw / gcompsw EXT implementation has been confirmed to work
+- gscartsw / gcompsw EXT implementation has been confirmed to work (wiring instructions in code comments atm)
 - added **"Scart Off Profile"** option that will load Remote Profile 12 when all inputs are off.  You can assign it to a HDMI input profile for example. Default is off. This is currently only implemented for <ins>rt4k_serial</ins> and <ins>rt4k_serial_nano</ins>.
 
 RetroTink 4K HD15 Serial Control using an Arduino Pro Micro or Nano, Integrated with a 10 Port Otaku Games Scart Switch. The code is very basic at the moment, but allows executing multiple commands to the RT4K (even with delays inbetween) if needed. Please feel free to fork / create PRs / etc. 
