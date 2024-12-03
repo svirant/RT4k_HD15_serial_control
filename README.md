@@ -1,14 +1,45 @@
 # RT4k HD15 serial control
 ***<Updates:>***
-- gscartsw / gcompsw EXT implementation has been confirmed to work (wiring instructions in code comments atm)
+- gscartsw / gcompsw EXT implementation has been confirmed to work
 - added **"Scart Off Profile"** option that will load Remote Profile 12 when all inputs are off.  You can assign it to a HDMI input profile for example. Default is off. This is currently only implemented for <ins>rt4k_serial</ins> and <ins>rt4k_serial_nano</ins>.
 ##
 > [!CAUTION]
 **DISCLAIMER**</red>
 - GSCARTSW / GCOMPSW - Do not connect usb power to the Arduino AFTER it's wired in unless first disconnecting either EXT pin 4 (5v) or RAW on the Arduino.  Please Upload/Program the Arduino BEFORE connecting it to the EXT pins.
 - Otaku Games Scart Switch - Do not connect usb power to the Arduino (AFTER it's wired in) and the switch at the same time. If Programming the Arduino, please make sure the Switch's USB power cable is first disconnected.
+ 
+## GSCARTSW / GCOMPSW install notes
 
-##
+### Connect RT4K to Arduino
+- RT4K HD15 pin 15 = RX --> Arduino TX0 pin
+- RT4K HD15 pin 12 = TX --> Arduino RX1 pin
+- RT4K HD15 pin 5 = Gnd --> Arduino Gnd pin (any Gnd pin is fine)
+
+### Connect EXT pins to Arduino
+- gscartsw / gcompsw EXT pin 5 ---> Pin A2 (Pro Micro) or Pin D5 (Nano)
+- gscartsw / gcompsw EXT pin 6 ---> Pin A1 (Pro Micro) or Pin D6 (Nano)
+- gscartsw / gcompsw EXT pin 7 ---> Pin A0 (Pro Micro) or Pin D7 (Nano)
+
+  Pins 5-7 represents selected input in binary.
+
+### Power / Gnd
+- EXT pin 1 (Gnd) ---> any Arduino GND pin 
+- EXT pin 4 (5v)  ---> RAW (Pro Micro) or VIN (Nano)
+
+https://shmups.system11.org/viewtopic.php?p=1307320#p1307320
+### gscartsw / gcompsw EXT pinout:
+- Pin 1: GND
+- Pin 2: Override
+- Pin 3: N/C
+- Pin 4: +5V
+- Pin 5: IN_BIT0
+- Pin 6: IN_BIT1
+- Pin 7: IN_BIT2
+- Pin 8: N/C
+
+
+
+## Otaku Games Scart Switch
 RetroTink 4K HD15 Serial Control using an Arduino Pro Micro or Nano, Integrated with a 10 Port Otaku Games Scart Switch. The code is very basic at the moment, but allows executing multiple commands to the RT4K (even with delays inbetween) if needed. Please feel free to fork / create PRs / etc. 
 
 See it in action: https://youtu.be/L7HAki0e440
