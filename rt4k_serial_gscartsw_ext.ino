@@ -1,7 +1,12 @@
 // RT4K HD15 serial remote control w/ Arduino Pro Micro (no need for a voltage divider since the IN_BITs are 3.3v)
 //
+// DISCLAIMER: Do not connect usb power to the Arduino AFTER it's wired in unless first disconnecting either EXT pin 4 (5v) or RAW on the Arduino.
+//             Please Upload/Program the Arduino BEFORE connecting it to the EXT pins.
+//
+//
 // HD15 pin 15 = RX --> Arduino Pro Micro TX0 pin
 // HD15 pin 12 = TX --> Arduino Pro Micro RX1 pin
+// HD15 pin 5 = Gnd --> Arduino Gnd pin (any Gnd pin is fine)
 //
 // Connect gscartsw / gcompsw EXT pin 5 ---> Pin A2 (Arduino Pro Micro)
 //                            EXT pin 6 ---> Pin A1 (Arduino Pro Micro)
