@@ -1,13 +1,13 @@
-// RT4K HD15 serial remote control w/ Arduino Pro Micro (not 5v tolerant, unless voltage divider is used)
+// RT4K HD15 serial remote control w/ Arduino Pro Micro (no need for a voltage divider since the IN_BITs are 3.3v)
 //
-// HD15 pin 15 = RX --> Arduino Pro Micro TX pin
-// HD15 pin 12 = TX --> Arduino Pro Micro RX pin
+// HD15 pin 15 = RX --> Arduino Pro Micro TX0 pin
+// HD15 pin 12 = TX --> Arduino Pro Micro RX1 pin
 //
 // Connect gscartsw / gcompsw EXT pin 5 ---> Pin A2 (Arduino Pro Micro)
 //                            EXT pin 6 ---> Pin A1 (Arduino Pro Micro)
 //                            EXT pin 7 ---> Pin A0 (Arduino Pro Micro)
 //
-// You can also connect EXT pin 1 (Gnd) and EXT pin 4 (5v) to GND and RAW on the Arduino Nano for Power/Gnd.
+// You can also connect EXT pin 1 (Gnd) and EXT pin 4 (5v) to RAW and GND on the Arduino for Power/Gnd.
 //
 // https://shmups.system11.org/viewtopic.php?p=1307320#p1307320
 // gscartsw_lite EXT pinout:
@@ -21,8 +21,6 @@
 // Pin 8: N/C
 //
 // Pin 5-7 represents selected input in binary. 
-//
-// For the gscartsw binary representation above, it is "Assumed" that low voltage on an EXT pin is a 0 and high voltage is a 1
 //
 
 uint16_t scart1 = 0x0f; //used to store state of first grouping of scart ports
@@ -38,16 +36,10 @@ void setup() {
 
 void loop() {
 
-    // If you are wanting to use this for a different application where an Active pin is Low instead of High,
-    // replace this following with this instead: (adding the ~)
-    //
-    // scart1 = ~(PINF & B11100000);
-    //
-    // Also comment out the PORTF line above to disable the internal pull-up resistors.
     
-    scart1 = (PINF & B11100000 //read state of pins A2,A1,A0 (IN_BIT0, IN_BIT1, IN_BIT2)
+    scart1 = (PINF & B11100000); //read state of pins A2,A1,A0 (IN_BIT0, IN_BIT1, IN_BIT2)
 
-    // Has active scart port changed? Group 1
+    // Has active scart port changed?
     if(scart1 != scart1prev){
       //Detect which scart port is now active and change profile accordingly
       if(!(scart1 ^ B00000000)){
