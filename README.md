@@ -20,11 +20,12 @@
 - gscartsw / gcompsw EXT pin 6 ---> Pin A1 (Pro Micro) or Pin D6 (Nano)
 - gscartsw / gcompsw EXT pin 7 ---> Pin A0 (Pro Micro) or Pin D7 (Nano)
 
-  Pins 5-7 represents selected input in binary.
+  Pins 5-7 represent selected input in binary.
 
 ### Power / Gnd
 - EXT pin 1 (Gnd) ---> any Arduino GND pin 
 - EXT pin 4 (5v)  ---> RAW (Pro Micro) or VIN (Nano)
+- Read disclaimer above :)
 
 https://shmups.system11.org/viewtopic.php?p=1307320#p1307320
 ### gscartsw / gcompsw EXT pinout:
