@@ -31,42 +31,42 @@ void loop() {
       
       // filter out unstable Extron connections and other status messages to prevent the same profile change being sent multiple times
       // use remaining results to see which input is now active and change profile accordingly
-      if(preveinput != einput && einput.substring(0,2) == "In" && einput.substring(0,3) != "In0"){
-        if(einput.substring(0,4) == "In10"){
-          Serial.println("remote prof10\r");
-        }
-        else if(einput.substring(0,4) == "In11"){
-          Serial.println("remote prof11\r");
-        }
-        else if(einput.substring(0,4) == "In12"){
-          Serial.println("remote prof12\r");
-        }
-        else if(einput.substring(0,3) == "In1"){
+      if(preveinput != einput && einput.substring(0,2) == "In" && einput != "In0 " && einput != "In00"){
+        if(einput == "In1 " || einput == "In01"){
           Serial.println("remote prof1\r");
         }
-        else if(einput.substring(0,3) == "In2"){
+        else if(einput == "In2 " || einput == "In02"){
           Serial.println("remote prof2\r");
         }
-        else if(einput.substring(0,3) == "In3"){
+        else if(einput == "In3 " || einput == "In03"){
           Serial.println("remote prof3\r");
         }
-        else if(einput.substring(0,3) == "In4"){
+        else if(einput == "In4 " || einput == "In04"){
           Serial.println("remote prof4\r");
         }
-        else if(einput.substring(0,3) == "In5"){
+        else if(einput == "In5 " || einput == "In05"){
           Serial.println("remote prof5\r");
         }
-        else if(einput.substring(0,3) == "In6"){
+        else if(einput == "In6 " || einput == "In06"){
           Serial.println("remote prof6\r");
         }
-        else if(einput.substring(0,3) == "In7"){
+        else if(einput == "In7 " || einput == "In07"){
           Serial.println("remote prof7\r");
         }
-        else if(einput.substring(0,3) == "In8"){
+        else if(einput == "In8 " || einput == "In08"){
           Serial.println("remote prof8\r");
         }
-        else if(einput.substring(0,3) == "In9"){
+        else if(einput == "In9 " || einput == "In09"){
           Serial.println("remote prof9\r");
+        }
+        else if(einput == "In10"){
+          Serial.println("remote prof10\r");
+        }
+        else if(einput == "In11"){
+          Serial.println("remote prof11\r");
+        }
+        else if(einput == "In12"){
+          Serial.println("remote prof12\r");
         }
         // Possible to add more than 12 if you hardcode SVS commands to load specific .rt4 profiles
         // SVS NEW INPUT=<input number> triggers an auto profile load
