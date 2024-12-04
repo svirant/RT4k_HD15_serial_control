@@ -1,5 +1,6 @@
 # RT4k HD15 serial control
 ***<Updates:>***
+- most Extron devices should now be supported: MVX, Crosspoint, anything that uses SIS
 - Extron RGBHV code added with guide notes below
 - gscartsw / gcompsw EXT implementation has been confirmed to work
 - added **"Scart Off Profile"** option that will load Remote Profile 12 when all inputs are off.  You can assign it to a HDMI input profile for example. Default is off. This is currently only implemented for <ins>rt4k_serial</ins> and <ins>rt4k_serial_nano</ins>.
@@ -43,7 +44,9 @@ https://shmups.system11.org/viewtopic.php?p=1307320#p1307320
 - Pin 8: N/C
 
 ## Extron RGBHV Series
-### Works in auto or manual mode. Tested and confirmed operation on RGBHV SW6 bnc switch.
+## Extron Switches
+- Any Extron switch that supports SIS should work. MVX, Crosspoint, RGBHV, etc
+- Tested and confirmed operation on RGBHV SW6 BNC switch in auto & manual mode
 ### Parts needed:
 - MAX3232 TTL Converter
   - Connects to Extron Serial port
