@@ -45,7 +45,7 @@ https://shmups.system11.org/viewtopic.php?p=1307320#p1307320
 ## Extron RGBHV Series
 ### Works in auto or manual mode. Tested and confirmed operation on RGBHV SW6 bnc switch.
 ### Parts needed:
-- MAX232 TTL Converter
+- MAX3232 TTL Converter
   - Connects to Extron Serial port
   - Voltage swing on Extron TX pin can be up to 18v, that's why you need this part to read and relay to the Arduino
   - https://www.amazon.com/dp/B07LBDZ9WG is what I used
@@ -54,8 +54,9 @@ https://shmups.system11.org/viewtopic.php?p=1307320#p1307320
 
 In the future it would be nice to have a custom PCB for all this... hmm...  
 
+![IMG_7138](https://github.com/user-attachments/assets/daee57b8-abd5-4a77-9df6-ac2364d38ac5)
 
-![IMG_7138](https://github.com/user-attachments/assets/89e9c99d-5797-4d88-83fd-f8a4e5b9f5fc)
+
 
 
 ## Otaku Games Scart Switch
