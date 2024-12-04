@@ -43,6 +43,7 @@ https://shmups.system11.org/viewtopic.php?p=1307320#p1307320
 - Pin 8: N/C
 
 ## Extron RGBHV Series
+### Works in auto or manual mode. Tested and confirmed operation on RGBHV SW6 bnc switch.
 ### Parts needed:
 - MAX232 TTL Converter
   - Connects to Extron Serial port
