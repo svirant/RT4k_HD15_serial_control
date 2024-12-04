@@ -7,7 +7,7 @@
 #include <SoftwareSerial.h>
 #define rxPin 3
 #define txPin 4
-String einput10; // used to store first 10 char of received Extron status messages
+String ecap; // used to store Extron status messages
 String einput; // used to store first 4 chars of Extron input
 String preveinput; // used to keep track of previous input
 SoftwareSerial extronSerial = SoftwareSerial(rxPin,txPin); // setup an additional serial port for listening to the Extron
@@ -26,14 +26,13 @@ void setup()  {
 
 void loop() {
 
-    // listen to the Extron Serial Port for input changes
+    // listen to the Extron Serial Port for changes
     if(extronSerial.available() > 0){
-      einput10 = extronSerial.readString().substring(0,10); // read in and store only the first 10 chars for every Extron status message received
-
-      if(einput10.substring(0,3) == "Out") // store only the input status, some Extron devices report output first instead of input
-        einput = einput10.substring(6,4);
+      ecap = extronSerial.readString().substring(0,10); // read in and store only the first 10 chars for every Extron status message received
+      if(ecap.substring(0,3) == "Out") // store only the input status, some Extron devices report output first instead of input
+        einput = ecap.substring(6,4);
       else
-        einput = einput10.substring(0,4);
+        einput = ecap.substring(0,4);
       
       // filter out unstable Extron connections and other status messages to prevent the same profile change being sent multiple times
       // use remaining results to see which input is now active and change profile accordingly
