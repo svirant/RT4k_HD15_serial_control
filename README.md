@@ -41,6 +41,19 @@ https://shmups.system11.org/viewtopic.php?p=1307320#p1307320
 - Pin 7: IN_BIT2
 - Pin 8: N/C
 
+## Extron RGBHV Series
+### Parts needed:
+- MAX232 TTL Converter
+  - Connects to Extron Serial port
+  - Voltage swing on Extron TX pin can be up to 18v, that's why you need this part to read and relay to the Arduino
+  - https://www.amazon.com/dp/B07LBDZ9WG is what I used
+- Arduino Nano or Pro Micro
+- Permanent power source for Arduino. Nowhere to wire this one in. :-/
+
+In the future it would be nice to have a custom PCB for all this... hmm...  
+
+
+![IMG_7138](https://github.com/user-attachments/assets/89e9c99d-5797-4d88-83fd-f8a4e5b9f5fc)
 
 
 ## Otaku Games Scart Switch
