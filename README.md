@@ -1,5 +1,6 @@
 # RT4k HD15 serial control
 ***<Updates:>***
+- Extron RGBHV code added with guide notes below
 - gscartsw / gcompsw EXT implementation has been confirmed to work
 - added **"Scart Off Profile"** option that will load Remote Profile 12 when all inputs are off.  You can assign it to a HDMI input profile for example. Default is off. This is currently only implemented for <ins>rt4k_serial</ins> and <ins>rt4k_serial_nano</ins>.
 ##
