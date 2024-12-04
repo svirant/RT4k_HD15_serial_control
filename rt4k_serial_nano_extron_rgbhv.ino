@@ -27,34 +27,58 @@ void loop() {
 
     // listen to the Extron Serial Port for input changes
     if(extronSerial.available() > 0){
-      einput = extronSerial.readString().substring(0,3); //read in and store only the first 3 chars for every Extron serial status received
-
+      einput = extronSerial.readString().substring(0,4); //read in and store only the first 4 chars for every Extron serial status received
+      
       // filter out unstable Extron connections and other status messages to prevent the same profile change being sent multiple times
       // use remaining results to see which input is now active and change profile accordingly
-      if(preveinput != einput && einput.substring(0,2) == "In" && einput != "In0"){
-        if(einput == "In1"){
+      if(preveinput != einput && einput.substring(0,2) == "In" && einput.substring(0,3) != "In0"){
+        if(einput.substring(0,4) == "In10"){
+          Serial.println("remote prof10\r");
+        }
+        else if(einput.substring(0,4) == "In11"){
+          Serial.println("remote prof11\r");
+        }
+        else if(einput.substring(0,4) == "In12"){
+          Serial.println("remote prof12\r");
+        }
+        else if(einput.substring(0,3) == "In1"){
           Serial.println("remote prof1\r");
         }
-        else if(einput == "In2"){
+        else if(einput.substring(0,3) == "In2"){
           Serial.println("remote prof2\r");
         }
-        else if(einput == "In3"){
+        else if(einput.substring(0,3) == "In3"){
           Serial.println("remote prof3\r");
         }
-        else if(einput == "In4"){
+        else if(einput.substring(0,3) == "In4"){
           Serial.println("remote prof4\r");
         }
-        else if(einput == "In5"){
+        else if(einput.substring(0,3) == "In5"){
           Serial.println("remote prof5\r");
         }
-        else if(einput == "In6"){
+        else if(einput.substring(0,3) == "In6"){
           Serial.println("remote prof6\r");
         }
-        
+        else if(einput.substring(0,3) == "In7"){
+          Serial.println("remote prof7\r");
+        }
+        else if(einput.substring(0,3) == "In8"){
+          Serial.println("remote prof8\r");
+        }
+        else if(einput.substring(0,3) == "In9"){
+          Serial.println("remote prof9\r");
+        }
+        // Possible to add more than 12 if you hardcode SVS commands to load specific .rt4 profiles
+        // SVS NEW INPUT=<input number> triggers an auto profile load
+        // When SVS signals new input, RT4K checks the /profile/SVS subfolder for a matching profile
+        // Profiles need to be named: ‘S<input number>_<user defined>.rt4’
+        // For example, SVS input 2 would look for a profile that is named S2_SNES…rt4
+        // If there’s more than one profile that fits the pattern, the first match is used
+          
           preveinput = einput;
       }
     }
 
     
    delay(250);
-}    
+}
