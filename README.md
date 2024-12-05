@@ -43,7 +43,6 @@ https://shmups.system11.org/viewtopic.php?p=1307320#p1307320
 - Pin 7: IN_BIT2
 - Pin 8: N/C
 
-## Extron RGBHV Series
 ## Extron Switches
 - Any Extron switch that supports SIS should work. MVX, Crosspoint, RGBHV, etc
 - Tested and confirmed operation on RGBHV SW6 BNC switch in auto & manual mode
@@ -55,11 +54,12 @@ https://shmups.system11.org/viewtopic.php?p=1307320#p1307320
 - Arduino Nano or Pro Micro
 - Permanent power source for Arduino. Nowhere to wire this one in. :-/
 
-In the future it would be nice to have a custom PCB for all this... hmm...  
-
+For now I also have a picture guide on how to McGuyver one together.
 ![IMG_7138](https://github.com/user-attachments/assets/daee57b8-abd5-4a77-9df6-ac2364d38ac5)
 
+in the works...
 
+<img width="760" alt="extron_serial" src="https://github.com/user-attachments/assets/3d549695-22ab-4a41-8924-d2b8dcab4eb7">
 
 
 ## Otaku Games Scart Switch
