@@ -17,8 +17,10 @@ void setup()  {
 
     pinMode(rxPin,INPUT); // set pin modes for RX and TX
     pinMode(txPin,OUTPUT);
-        
+    
     Serial.begin(9600); // set the baud rate for the RT4K Serial Connection
+    Serial.println("\r"); // when the Arduino first powers on, it sends garbage bytes out the hardware serial port. this shows up in the RT4K diag screen.
+                          // sending a carriage return clears out the buffer so the first input change works correctly
     extronSerial.begin(9600); // set the baud rate for the Extron Connection
     extronSerial.setTimeout(50); // sets the timeout for reading / saving reads into a string
     
