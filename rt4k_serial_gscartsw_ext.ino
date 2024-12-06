@@ -34,6 +34,8 @@ uint16_t scart1prev = 0x0f; //used to store previous state of first group
 void setup() {
 
     Serial1.begin(9600); // Set the baud rate for the RT4K Serial Connection
+    Serial1.println("\r"); // when the Arduino first powers on, it sends garbage bytes out the hardware serial port. this shows up in the RT4K diag screen.
+                           // sending a carriage return clears out the buffer so the first input change works correctly
     Serial.begin(9600); // Set the baud rate for the Terminal Monitor (debug)
     DDRF  &= ~B11100000; // Set pins A0-A2 as inputs, aka PF7-5
     //PORTF |=  B11100000; // Enable internal pull-up resistors
