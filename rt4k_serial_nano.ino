@@ -22,6 +22,8 @@ uint16_t scart2prev = 0x0f;
 void setup() {
 
     Serial.begin(9600); // Set the baud rate for the RT4K Serial Connection
+    Serial.println("\r"); // when the Arduino first powers on, it sends garbage bytes out the hardware serial port. this shows up in the RT4K diag screen.
+                          // sending a carriage return clears out the buffer so the first input change works correctly
     DDRD  &= ~B11111100; // Set PD2-7 as inputs (shown on nano as pins D2-D7)
     PORTD |=  B11111100; // Enable internal pull-up resistors
     DDRB  &= ~B00011111; // Set PB0 - PB4 as inputs (shown on nano as pins D8-12)
