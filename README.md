@@ -1,5 +1,9 @@
 # RT4k HD15 serial control
 ***<Updates:>***
+- Big update for Extron devices:
+  - supports up to 16 inputs w/ 16 selectable outputs for Matrix switchers
+  - remote or SVS profiles, or a mix of both
+  - option to auto load profile when no inputs are active
 - most Extron devices should now be supported: MVX, Crosspoint, anything that uses SIS
 - Extron RGBHV code added with guide notes below
 - gscartsw / gcompsw EXT implementation has been confirmed to work
