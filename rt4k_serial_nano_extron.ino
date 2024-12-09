@@ -29,7 +29,7 @@ int SVS = 0; //
              // 0 - use only "remote" profiles 1-12 for up to 12 inputs
              //     If input0 below is set to true - profile 12 is used when all ports are in-active
              //
-             // 1 - use only "SVS" profiles for up to 16 inputs
+             // 1 - use only "SVS" profiles for up to 32 inputs
              //     Make sure "Auto Load SVS" is "On" under the RT4K Profiles menu
              //     RT4K checks the /profile/SVS subfolder for profiles and need to be named: "S<input number>_<user defined>.rt4"
              //     For example, SVS input 2 would look for a profile that is named S2_SNES…rt4
@@ -37,7 +37,7 @@ int SVS = 0; //
              //
              //  ** If input0 below is set to true - create "S0_<user defined>.rt4" for when all ports are in-active. Ex: S0_DefaultHDMI.rt4
              //
-             // 2 - use "remote" profiles 1-12 and SVS profiles for 13-16
+             // 2 - use "remote" profiles 1-12 and SVS profiles for 13-32
              //     Make sure "Auto Load SVS" is "On" under the RT4K Profiles menu
              //     RT4K checks the /profile/SVS subfolder for profiles and need to be named: "S<input number>_<user defined>.rt4"
              //     For example, SVS input 2 would look for a profile that is named S2_SNES…rt4
@@ -118,14 +118,15 @@ void loop() {
     if(extronSerial.available() > 0){
       ecap = extronSerial.readString().substring(0,10); // read in and store only the first 10 chars for every Extron status message received
       if(ecap.substring(0,3) == "Out"){ // store only the input and output states, some Extron devices report output first instead of input
-        einput = ecap.substring(6,4);
-        eoutput = ecap.substring(3,2);
+        einput = ecap.substring(6,10);
+        eoutput = ecap.substring(3,5);
       }
       else{                             // less complex switches only report input status
         einput = ecap.substring(0,4);
         eoutput = "00";
       }
     }
+    
 
 
       // use remaining results to see which input is now active and change profile accordingly
@@ -258,26 +259,12 @@ void loop() {
           }
           if(RT4Kir && !input0)irsend.sendNEC(0x49,0x27,2); // RT4K profile 12
         }
-        else if(einput == "In13"){
-            Serial.println("SVS NEW INPUT=13\r");
-            delay(1000);
-            Serial.println("SVS CURRENT INPUT=13\r");
+        else{
+          Serial.print("SVS NEW INPUT=");
+          Serial.print(einput.substring(2,4));
+          Serial.println("\r");
         }
-        else if(einput == "In14"){
-            Serial.println("SVS NEW INPUT=14\r");
-            delay(1000);
-            Serial.println("SVS CURRENT INPUT=14\r");
-        }
-        else if(einput == "In15"){
-            Serial.println("SVS NEW INPUT=15\r");
-            delay(1000);
-            Serial.println("SVS CURRENT INPUT=15\r");
-        }
-        else if(einput == "In16"){
-            Serial.println("SVS NEW INPUT=16\r");
-            delay(1000);
-            Serial.println("SVS CURRENT INPUT=16\r");
-        }
+
           
         if((einput != "In0 " && einput != "In00") || input0) // if input0 is true  - always save previous state  
           preveinput = einput;                               // if input0 is false - only save when there are active inputs
