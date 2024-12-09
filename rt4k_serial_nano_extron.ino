@@ -1,7 +1,7 @@
 // Extron Arduino Nano edition
 // RT4K HD15 serial control
 //
-// Features:  - supports up to 16 inputs w/ 16 selectable outputs for Matrix switchers
+// Features:  - supports up to 32 inputs w/ 16 selectable outputs for Matrix switchers
 //            - remote or SVS profiles, or a mix of both
 //            - option to auto load profile when no inputs are active
 //            - RetroTink 5X support with IR Led for inputs 1 - 10
