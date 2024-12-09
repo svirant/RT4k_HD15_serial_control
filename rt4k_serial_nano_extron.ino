@@ -1,7 +1,7 @@
 // Extron Arduino Nano edition
 // RT4K HD15 serial control
 //
-// Features:  - supports up to 32 inputs w/ 16 selectable outputs for Matrix switchers
+// Features:  - supports up to 99 inputs w/ 32 selectable outputs for Matrix switchers
 //            - remote or SVS profiles, or a mix of both
 //            - option to auto load profile when no inputs are active
 //            - RetroTink 5X support with IR Led for inputs 1 - 10
@@ -29,7 +29,7 @@ int SVS = 0; //
              // 0 - use only "remote" profiles 1-12 for up to 12 inputs
              //     If input0 below is set to true - profile 12 is used when all ports are in-active
              //
-             // 1 - use only "SVS" profiles for up to 32 inputs
+             // 1 - use only "SVS" profiles for up to 99 inputs
              //     Make sure "Auto Load SVS" is "On" under the RT4K Profiles menu
              //     RT4K checks the /profile/SVS subfolder for profiles and need to be named: "S<input number>_<user defined>.rt4"
              //     For example, SVS input 2 would look for a profile that is named S2_SNES…rt4
@@ -37,7 +37,7 @@ int SVS = 0; //
              //
              //  ** If input0 below is set to true - create "S0_<user defined>.rt4" for when all ports are in-active. Ex: S0_DefaultHDMI.rt4
              //
-             // 2 - use "remote" profiles 1-12 and SVS profiles for 13-32
+             // 2 - use "remote" profiles 1-12 and SVS profiles for 13-99
              //     Make sure "Auto Load SVS" is "On" under the RT4K Profiles menu
              //     RT4K checks the /profile/SVS subfolder for profiles and need to be named: "S<input number>_<user defined>.rt4"
              //     For example, SVS input 2 would look for a profile that is named S2_SNES…rt4
@@ -51,7 +51,7 @@ bool input0  = false;    // set true to load profile 12 when all ports are in-ac
                          // default is false // set false to filter out unstable Extron inputs that can result in spamming the RT4K with profile changes
 
 
-uint16_t voutMatrix[17] = {1,  // MATRIX switchers // by default ALL input changes to any/all outputs result in a profile change
+uint16_t voutMatrix[33] = {1,  // MATRIX switchers // by default ALL input changes to any/all outputs result in a profile change
                                                    // disable specific outputs from triggering profile changes
                                                    //
                            1,  // output 1 (1 = enabled, 0 = disabled)
@@ -69,7 +69,23 @@ uint16_t voutMatrix[17] = {1,  // MATRIX switchers // by default ALL input chang
                            1,  // output 13
                            1,  // output 14
                            1,  // output 15
-                           1,  // output 16 (1 = enabled, 0 = disabled)
+                           1,  // output 16
+                           1,  // output 17
+                           1,  // output 18
+                           1,  // output 19
+                           1,  // output 20
+                           1,  // output 21
+                           1,  // output 22
+                           1,  // output 23
+                           1,  // output 24
+                           1,  // output 25
+                           1,  // output 26
+                           1,  // output 27
+                           1,  // output 28
+                           1,  // output 29
+                           1,  // output 30
+                           1,  // output 31
+                           1,  // output 32 (1 = enabled, 0 = disabled)
                            };
 
 
@@ -126,7 +142,6 @@ void loop() {
         eoutput = "00";
       }
     }
-    
 
 
       // use remaining results to see which input is now active and change profile accordingly
@@ -261,6 +276,10 @@ void loop() {
         }
         else{
           Serial.print("SVS NEW INPUT=");
+          Serial.print(einput.substring(2,4));
+          Serial.println("\r");
+          delay(1000);
+          Serial.print("SVS CURRENT INPUT=");
           Serial.print(einput.substring(2,4));
           Serial.println("\r");
         }
