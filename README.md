@@ -66,7 +66,7 @@ Can run lengthy wire between LED pins and rest of connecting circuit. Looking in
 - Arduino Nano or Pro Micro
 - Permanent power source for Arduino. Nowhere to wire this one in. :-/
 
-For now I also have a picture guide on how to McGuyver one together.
+For now I also have a picture guide on how to MacGuyver one together.
 ![IMG_7138](https://github.com/user-attachments/assets/daee57b8-abd5-4a77-9df6-ac2364d38ac5)
 
 in the works...
