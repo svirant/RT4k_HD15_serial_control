@@ -18,7 +18,7 @@
  
 ## GSCARTSW / GCOMPSW install notes
 ### Program Arduino (Pro Micro or Nano)
-I recommend the Official Arduino IDE and guide if you unfamiliar with Arduinos.
+I recommend the Official Arduino IDE and guide if you're unfamiliar with Arduinos.
 - https://www.arduino.cc/en/Guide
 
 ### Connect RT4K to Arduino
