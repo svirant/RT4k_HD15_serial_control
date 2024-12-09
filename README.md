@@ -1,5 +1,6 @@
 # RT4k HD15 serial control
 ***<Updates:>***
+- GSCART/GCOMP: Added **SVS** profile support and **RT5X** support via IR LED addon. Wiring diagram below. Only for Nano atm. Looking into easier implementation.
 - Big update for Extron devices:
   - supports up to 16 inputs w/ 16 selectable outputs for Matrix switchers
   - remote or SVS profiles, or a mix of both
@@ -46,6 +47,12 @@ https://shmups.system11.org/viewtopic.php?p=1307320#p1307320
 - Pin 6: IN_BIT1
 - Pin 7: IN_BIT2
 - Pin 8: N/C
+
+### IR LED Wiring
+Can run lengthy wire between LED pins and rest of connecting circuit. Looking into easier implementation.
+![IR_LED_Wiring](https://github.com/user-attachments/assets/c56fb2b4-cd95-4b97-8e89-5528a1bd5bcc)
+
+
 
 ## Extron Switches
 - Any Extron switch that supports SIS should work. MVX, Crosspoint, RGBHV, etc
