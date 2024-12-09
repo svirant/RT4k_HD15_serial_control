@@ -2,7 +2,7 @@
 ***<Updates:>***
 - GSCART/GCOMP: Added **SVS** profile support and **RT5X** support via IR LED addon. Wiring diagram below. Only for Nano atm. Looking into easier implementation.
 - Big update for Extron devices:
-  - RT5X IR LED support, RT4K IR LED support as well 
+  - **RT5X** IR LED support, RT4K IR LED support as well 
   - supports up to 16 inputs w/ 16 selectable outputs for Matrix switchers
   - remote or SVS profiles, or a mix of both
   - option to auto load profile when no inputs are active
