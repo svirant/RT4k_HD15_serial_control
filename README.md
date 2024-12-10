@@ -16,7 +16,7 @@
 **DISCLAIMER**</red>
 - GSCARTSW / GCOMPSW - Do not connect usb power to the Arduino AFTER it's wired in unless first disconnecting either EXT pin 4 (5v) or RAW on the Arduino.  Please Upload/Program the Arduino BEFORE connecting it to the EXT pins.
 - Otaku Games Scart Switch - Do not connect usb power to the Arduino (AFTER it's wired in) and the switch at the same time. If Programming the Arduino, please make sure the Switch's USB power cable is first disconnected.
- 
+--------
 ## GSCARTSW / GCOMPSW install notes
 ### Program Arduino (Pro Micro or Nano)
 I recommend the Official Arduino IDE and guide if you're unfamiliar with Arduinos.
@@ -55,7 +55,7 @@ Can run lengthy wire between LED pins and rest of connecting circuit. Looking in
 ![IR_LED_Wiring](https://github.com/user-attachments/assets/c56fb2b4-cd95-4b97-8e89-5528a1bd5bcc)
 
 
-
+--------
 ## Extron Switches
 - Any Extron switch that supports SIS should work. MVX, Crosspoint, RGBHV, etc
 - Tested and confirmed operation on RGBHV SW6 BNC switch in auto & manual mode
@@ -82,7 +82,7 @@ in the works...
 
 <img width="760" alt="extron_serial" src="https://github.com/user-attachments/assets/3d549695-22ab-4a41-8924-d2b8dcab4eb7">
 
-
+--------
 ## Otaku Games Scart Switch
 RetroTink 4K HD15 Serial Control using an Arduino Pro Micro or Nano, Integrated with a 10 Port Otaku Games Scart Switch. The code is very basic at the moment, but allows executing multiple commands to the RT4K (even with delays inbetween) if needed. Please feel free to fork / create PRs / etc. 
 
