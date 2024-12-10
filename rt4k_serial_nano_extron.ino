@@ -1,7 +1,8 @@
 // Extron Arduino Nano edition
 // RT4K HD15 serial control
 //
-// Features:  - supports up to 99 inputs w/ 32 selectable outputs for Matrix switchers
+// Features:  - supports up to 99 inputs w/ 32 selectable outputs for each switch (I don think more than 32 inputs are necessary but Extron's SIS supports it)
+//            - supports 2x switches simultaneously connected
 //            - remote or SVS profiles, or a mix of both
 //            - option to auto load profile when no inputs are active
 //            - RetroTink 5X support with IR Led for inputs 1 - 10
@@ -43,33 +44,33 @@ IRsend irsend;
 
 
 int SVS = 0; //
-             //     Make sure "Auto Load SVS" is "On" under the RT4K Profiles menu, a requirement for using options 1 or 2
+             //     Make sure "Auto Load SVS" is "On" under the RT4K Profiles menu. A requirement for using options 1 or 2.
              //
-             // 0 - use only "remote" profiles 1-12 for up to 12 inputs on 1st Extron Switch, SVS profiles used on 2nd Extron Switch if connected
-             //     If INPUT0 below is set to true - profile 12 is used when all ports are in-active
+             // 0 - use only "remote" profiles 1-12 for up to 12 inputs on 1st Extron Switch, only SVS profiles are used on 2nd Extron Switch if connected.
+             //     If INPUT0 below is set to true - profile 12 is used when all ports are in-active.
              //
-             // 1 - use only "SVS" profiles for up to 99 inputs. SVS Profiles 101-199 must be used for a 2nd Extron Switch, if connected
+             // 1 - use only "SVS" profiles for up to 99 inputs. SVS Profiles 101-199 must be used for a 2nd Extron Switch, if connected.
              //     Make sure "Auto Load SVS" is "On" under the RT4K Profiles menu
              //     RT4K checks the /profile/SVS subfolder for profiles and need to be named: "S<input number>_<user defined>.rt4"
              //     For example, SVS input 2 would look for a profile that is named S2_SNES…rt4
              //     If there’s more than one profile that fits the pattern, the first match is used
              //
-             //  ** If INPUT0 below is set to true - create "S0_<user defined>.rt4" for when all ports are in-active. Ex: S0_DefaultHDMI.rt4
+             //  ** If INPUT0 below is set to true, create "S0_<user defined>.rt4" for when all ports are in-active. Ex: S0_DefaultHDMI.rt4
              //
-             // 2 - use "remote" profiles 1-12 and SVS profiles for 13-99. SVS Profiles 101-199 must be used for a 2nd Extron Switch, if connected
+             // 2 - use "remote" profiles 1-12 and SVS profiles for 13-99. SVS Profiles 101-199 must be used for a 2nd Extron Switch, if connected.
              //     Make sure "Auto Load SVS" is "On" under the RT4K Profiles menu
              //     RT4K checks the /profile/SVS subfolder for profiles and need to be named: "S<input number>_<user defined>.rt4"
              //     For example, SVS input 2 would look for a profile that is named S2_SNES…rt4
              //     If there’s more than one profile that fits the pattern, the first match is used
              //
-             //  ** If INPUT0 below is set to true - create "S0_<user defined>.rt4" for when all ports are in-active. Ex: S0_DefaultHDMI.rt4
+             //  ** If INPUT0 below is set to true, create "S0_<user defined>.rt4" for when all ports are in-active. Ex: S0_DefaultHDMI.rt4
 
 
-bool INPUT0  = false;    // set true to load profile 12 (if SVS=0) when all ports are in-active on 1st Extron Connection. You can assign it to a generic HDMI profile for example
+bool INPUT0  = false;    // set true to load "remote" profile 12 (if SVS=0) when all ports are in-active on 1st Extron Connection. You can assign it to a generic HDMI profile for example.
                          // If your device has a 12th input, this option disables profile changes for it. "IF" you have a 2nd Extron Switch connected, the profile will only load
                          // if "BOTH" switches have all in-active ports.
                          //
-                         // If SVS=1 or 2 - load profile /profile/SVS/ "S0_<user defined>.rt4" when all ports are in-active
+                         // If SVS=1 or 2, /profile/SVS/ "S0_<user defined>.rt4" will be used instead of remote profile 12
                          //
                          // default is false // set false to filter out unstable Extron inputs that can result in spamming the RT4K with profile changes 
 
@@ -176,7 +177,7 @@ String prevzero2; // used to keep track of previous input
 String eoutput2; // used to store first 2 chars of Extron output for 2nd Extron Connection
 
 SoftwareSerial extronSerial = SoftwareSerial(rxPin,txPin); // setup an additional serial port for listening to the Extron
-AltSoftSerial extronSerial2; // setup an another serial port for listening to a 2nd connected Extron
+AltSoftSerial extronSerial2; // setup an another serial port for listening to a 2nd connected Extron. hardcoded to pins D8 / D9
 
 
 void setup(){
@@ -194,7 +195,6 @@ void setup(){
     extronSerial2.setTimeout(50); // sets the timeout for reading / saving reads into a string for the 2nd Extron Connection
 
 
-
 } // end of setup
 
 void loop(){
@@ -207,7 +207,7 @@ void loop(){
       einput = ecap.substring(6,10);
       eoutput = ecap.substring(3,5);
     }
-    else{                             // less complex switches only report input status
+    else{                             // less complex switches only report input status, no output status
       einput = ecap.substring(0,4);
       eoutput = "00";
     }
@@ -332,7 +332,7 @@ void loop(){
         }
         if(RT4Kir && !INPUT0)irsend.sendNEC(0x49,0x27,2); // RT4K profile 12
       }
-      else if(einput != "In0 " && einput != "In00" && einput2 != "In0 " && einput2 != "In00"){
+      else if(einput != "In0 " && einput != "In00" && einput2 != "In0 " && einput2 != "In00"){ // for inputs 13-99 (SVS only)
         Serial.print("SVS NEW INPUT=");
         Serial.print(einput.substring(2,4));
         Serial.println("\r");
@@ -341,8 +341,8 @@ void loop(){
         Serial.print(einput.substring(2,4));
         Serial.println("\r");
       }
-        if((einput == "In0 " && einput == "In00") || INPUT0) // if input0 is true  - always save previous state  
-          prevzero = einput;                               // if input0 is false - only save when all ports are in-active         
+        if((einput == "In0 " && einput == "In00") || INPUT0) // if INPUT0 is true  - always save previous state  
+          prevzero = einput;                                 // if INPUT0 is false - only save when all ports are in-active         
     }
     
     // listens to 2nd Extron Serial Port for changes
@@ -351,14 +351,14 @@ void loop(){
       einput2 = ecap2.substring(6,10);
       eoutput2 = ecap2.substring(3,5);
     }
-    else{                             // less complex switches only report input status
+    else{                              // less complex switches only report input status, no output status
       einput2 = ecap2.substring(0,4);
       eoutput2 = "00";
     }
 
-    // use remaining results to see which input is now active and change profile accordingly
+    // use remaining results to see which input is now active and change profile accordingly, cross-references voutMaxtrix
     if(einput2.substring(0,2) == "In" && voutMatrix[eoutput2.toInt()+32]){
-    if(einput2 != "In0 " && einput2 != "In00"){
+    if(einput2 != "In0 " && einput2 != "In00"){ // much easier method for switch 2 since ALL inputs will respond with SVS commands regardless of SVS option above
       Serial.print("SVS NEW INPUT=");
       if(einput2.substring(3,4) == " ")
         Serial.print(einput2.substring(2,3).toInt()+100);
@@ -373,19 +373,16 @@ void loop(){
         Serial.print(einput2.substring(2,4).toInt()+100);
       Serial.println("\r");
       }
-        if((einput2 == "In0 " && einput2 == "In00") || INPUT0) // if input0 is true  - always save previous state  
-          prevzero2 = einput2;                               // if input0 is false - only save when all ports are in-active
+        if((einput2 == "In0 " && einput2 == "In00") || INPUT0) // if INPUT0 is true  - always save previous state  
+          prevzero2 = einput2;                                 // if INPUT0 is false - only save when all ports are in-active
     }
 
 
-    if(prevzero == "0" && prevzero2.substring(0,2) == "In")prevzero = "In00"; // used to keep track of non-active inputs when 2 switches are connected
-    if(prevzero2 == "0" && prevzero.substring(0,2) == "In")prevzero2 = "In00";
+    if(prevzero == "0" && prevzero2.substring(0,2) == "In")prevzero = "In00";  // used to keep track of non-active inputs across 2 switches
+    if(prevzero2 == "0" && prevzero.substring(0,2) == "In")prevzero2 = "In00"; 
 
-    // debug code
-    //Serial.print("prev zero :");Serial.println(prevzero);
-    //Serial.print("prev zero2:");Serial.println(prevzero2);
     
-    // if INPUT0 is enabled and all inputs are in-active
+    // when both switches match In0 or In00 (no active ports), a default profile can be loaded if INPUT0 is enabled
     if(((prevzero == "In0 " || prevzero == "In00") && (prevzero2 == "In0 " || prevzero2 == "In00" || !EXTRON2)) && INPUT0 && voutMatrix[eoutput.toInt()] && (!EXTRON2 || voutMatrix[eoutput2.toInt()+32])){
       if(SVS==0)Serial.println("remote prof12\r");
       else if(SVS==1 || SVS==2){
