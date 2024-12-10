@@ -342,7 +342,7 @@ void loop(){
         Serial.println("\r");
       }
         if((einput == "In0 " && einput == "In00") || INPUT0) // if input0 is true  - always save previous state  
-          prevzero = einput;                               // if input0 is false - only save when there are active inputs          
+          prevzero = einput;                               // if input0 is false - only save when all ports are in-active         
     }
     
     // listens to 2nd Extron Serial Port for changes
@@ -374,7 +374,7 @@ void loop(){
       Serial.println("\r");
       }
         if((einput2 == "In0 " && einput2 == "In00") || INPUT0) // if input0 is true  - always save previous state  
-          prevzero2 = einput2;                               // if input0 is false - only save when there are active inputs
+          prevzero2 = einput2;                               // if input0 is false - only save when all ports are in-active
     }
 
 
