@@ -1,6 +1,6 @@
 # RT4k HD15 serial control
 ***<Updates:>***
-- Extron now supports **2x** simultaneous connected switches with each allowed **99 inputs / 32 outputs**
+- Extron: Now supports **2x** simultaneous connected switches with each allowed **99 inputs / 32 outputs** (I don think more than 32 inputs are necessary but Extron's SIS supports it)
 - GSCART/GCOMP: Added **SVS** profile support and **RT5X** support via IR LED addon. Wiring diagram below. Only for Nano atm. Looking into easier implementation.
 - Big update for Extron devices:
   - **RT5X** IR LED support, RT4K IR LED support as well 
