@@ -24,10 +24,15 @@
 - GSCARTSW / GCOMPSW - Do not connect usb power to the Arduino AFTER it's wired in unless first disconnecting either EXT pin 4 (5v) or RAW on the Arduino.  Please Upload/Program the Arduino BEFORE connecting it to the EXT pins.
 - Otaku Games Scart Switch - Do not connect usb power to the Arduino (AFTER it's wired in) and the switch at the same time. If Programming the Arduino, please make sure the Switch's USB power cable is first disconnected.
 --------
-## GSCARTSW / GCOMPSW install notes
-### Program Arduino (Pro Micro or Nano)
+## Programming an Arduino (Nano or Pro Micro)
 I recommend the Official Arduino IDE and guide if you're unfamiliar with Arduinos.
 - https://www.arduino.cc/en/Guide
+- All .ino files used for programming the Arduino are listed above
+--------
+
+## GSCARTSW / GCOMPSW install notes
+
+I recommend first programming your Arduino before starting
 
 ### Connect RT4K to Arduino
 - RT4K HD15 pin 15 = RX --> Arduino TX0 pin
