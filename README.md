@@ -1,5 +1,6 @@
 # RT4k HD15 serial control
 ***<Updates:>***
+- [Extron Donut Dongle & Adapters coming soon!](https://github.com/svirant/RT4k_HD15_serial_control/main/README.md#extron-donut-donglecoming-soon)
 - Extron: Now supports **2x** simultaneous connected switches with each allowed **99 inputs / 32 outputs** (I don think more than 32 inputs are necessary but Extron's SIS supports it)
 - GSCART/GCOMP: Added **SVS** profile support and **RT5X** support via IR LED addon. Wiring diagram below. Only for Nano atm. Looking into easier implementation.
 - Big update for Extron devices:
@@ -78,12 +79,34 @@ Can run lengthy wire between LED pins and rest of connecting circuit. Looking in
 For now I also have a picture guide on how to MacGuyver one together.
 ![IMG_7138](https://github.com/user-attachments/assets/daee57b8-abd5-4a77-9df6-ac2364d38ac5)
 
-in the works...
+--------
+# Extron "Donut" Dongle(coming soon)
+## Features:
+- Connects to RT4K adapters below with standard 3.5mm stereo cable (Serial Rx/Tx)
+- 2 integrated Max3232 Serial DB9 to connect to 2x Extron Switches
+- Infrared Emitter 3.5mm jack for RetroTink5x Profile switching
+<img width="836" alt="donutdongle" src="https://github.com/user-attachments/assets/ce4f887e-6f58-45ab-a3f4-7028e9a17e5f">
 
-<img width="760" alt="extron_serial" src="https://github.com/user-attachments/assets/3d549695-22ab-4a41-8924-d2b8dcab4eb7">
+## & Adapters
+
+- Enhanced S-Video & Composite video w/ Serial input
+
+<img width="200" alt="yca2vga_wserial" src="https://github.com/user-attachments/assets/c33e1b3f-451c-4261-8aec-311e247e27cf">
+
+- VGA Passthrough w/ Serial input
+
+<img width="200" alt="vgapass_wserial" src="https://github.com/user-attachments/assets/069bc0be-69d5-4457-a091-653a0f970651">
+
+
+
+
+
+
 
 --------
 ## Otaku Games Scart Switch
+
+
 RetroTink 4K HD15 Serial Control using an Arduino Pro Micro or Nano, Integrated with a 10 Port Otaku Games Scart Switch. The code is very basic at the moment, but allows executing multiple commands to the RT4K (even with delays inbetween) if needed. Please feel free to fork / create PRs / etc. 
 
 See it in action: https://youtu.be/L7HAki0e440
