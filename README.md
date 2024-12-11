@@ -1,4 +1,10 @@
-# RT4k HD15 serial control
+# RT4k HD15 serial control 
+### This project showcases many ways to integrate your current console switching setup with the RetroTink 4K and/or Retrotink 5x for Auto Profile switching.
+**So far, includes:** Extron devices, GSCART/GCOMP switches, and an Otaku Games Scart Switch
+
+
+
+--------
 ***<Updates:>***
 - [Extron Donut Dongle & Adapters coming soon!](https://github.com/svirant/RT4k_HD15_serial_control/tree/main?tab=readme-ov-file#extron-donut-donglecoming-soon)
 - Extron: Now supports **2x** simultaneous connected switches with each allowed **99 inputs / 32 outputs** (I don think more than 32 inputs are necessary but Extron's SIS supports it)
