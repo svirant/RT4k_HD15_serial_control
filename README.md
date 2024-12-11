@@ -1,5 +1,5 @@
 # RT4k HD15 serial control 
-### This project showcases many ways to integrate your current console switching setup with the RetroTink 4K and/or Retrotink 5x for Auto Profile switching.
+### This project showcases many ways to integrate your current console switching setup with the RetroTink 4K and/or RetroTink 5x for Auto Profile switching.
 **So far, includes:** Extron devices, GSCART/GCOMP switches, and an Otaku Games Scart Switch
 
 
