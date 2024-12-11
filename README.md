@@ -77,10 +77,11 @@ Can run lengthy wire between LED pins and rest of connecting circuit. Looking in
    - Step 1 - Goto: https://github.com/PaulStoffregen/AltSoftSerial 
    - Step 2 - Click the GREEN "<> Code" box and "Download ZIP"
    - Step 3 - In Arudino IDE; goto "Sketch" -> "Include Library" -> "Add .ZIP Library"
-- Connect the following pins to a 2nd Max3232
-   - 2nd Max3232 Rx = Arduino Nano D8 pin 
-   - 2nd Max3232 Tx = Arduino Nano D9 pin
-   - Power / Gnd to same spots as first Max3232 is fine
+   - Step 4 - Connect the following pins to a 2nd Max3232
+     - 2nd Max3232 Rx = Arduino Nano D8 pin
+     - 2nd Max3232 Tx = Arduino Nano D9 pin
+     - Power / Gnd to same spots as first Max3232 is fine
+
 
 For now I also have a picture guide on how to MacGuyver one together.
 ![IMG_7138](https://github.com/user-attachments/assets/daee57b8-abd5-4a77-9df6-ac2364d38ac5)
