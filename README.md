@@ -1,6 +1,6 @@
 # RT4k HD15 serial control
 ***<Updates:>***
-- [Extron Donut Dongle & Adapters coming soon!](https://github.com/svirant/RT4k_HD15_serial_control/main/README.md#extron-donut-donglecoming-soon)
+- [Extron Donut Dongle & Adapters coming soon!](https://github.com/svirant/RT4k_HD15_serial_control/tree/main?tab=readme-ov-file#extron-donut-donglecoming-soon)
 - Extron: Now supports **2x** simultaneous connected switches with each allowed **99 inputs / 32 outputs** (I don think more than 32 inputs are necessary but Extron's SIS supports it)
 - GSCART/GCOMP: Added **SVS** profile support and **RT5X** support via IR LED addon. Wiring diagram below. Only for Nano atm. Looking into easier implementation.
 - Big update for Extron devices:
