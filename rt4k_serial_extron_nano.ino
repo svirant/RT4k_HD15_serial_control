@@ -73,8 +73,7 @@ bool INPUT0  = false;    // set true to load "remote" profile 12 (if SVS=0) when
                          // If SVS=1 or 2, /profile/SVS/ "S0_<user defined>.rt4" will be used instead of remote profile 12
                          //
                          // default is false // set false to filter out unstable Extron inputs that can result in spamming the RT4K with profile changes 
-
-bool EXTRON2 = false;   // Set to true if connecting to 2 Extron Switches. If this is not set correctly, INPUT0 functionality will be lost.                         
+                        
 
 
 uint16_t voutMatrix[65] = {1,  // MATRIX switchers // by default ALL input changes to any/all outputs result in a profile change
@@ -173,7 +172,7 @@ String eoutput; // used to store first 2 chars of Extron output
 
 String ecap2; // used to store Extron status messages for 2nd Extron Connection
 String einput2; // used to store first 4 chars of Extron input for 2nd Extron Connection
-String prevzero2; // used to keep track of previous input
+String prevzero2 = "discon"; // used to keep track of previous input
 String eoutput2; // used to store first 2 chars of Extron output for 2nd Extron Connection
 
 SoftwareSerial extronSerial = SoftwareSerial(rxPin,txPin); // setup an additional serial port for listening to the Extron
@@ -383,7 +382,7 @@ void loop(){
 
     
     // when both switches match In0 or In00 (no active ports), a default profile can be loaded if INPUT0 is enabled
-    if(((prevzero == "In0 " || prevzero == "In00") && (prevzero2 == "In0 " || prevzero2 == "In00" || !EXTRON2)) && INPUT0 && voutMatrix[eoutput.toInt()] && (!EXTRON2 || voutMatrix[eoutput2.toInt()+32])){
+    if(((prevzero == "In0 " || prevzero == "In00") && (prevzero2 == "In0 " || prevzero2 == "In00" || prevzero2 == "discon")) && INPUT0 && voutMatrix[eoutput.toInt()] && (prevzero2 == "discon" || voutMatrix[eoutput2.toInt()+32])){
       if(SVS==0)Serial.println("remote prof12\r");
       else if(SVS==1 || SVS==2){
         Serial.println("SVS NEW INPUT=0\r");
@@ -394,7 +393,7 @@ void loop(){
       if(RT4Kir)irsend.sendNEC(0x49,0x27,2); // RT4K profile 12
 
       prevzero = "0";
-      prevzero2 = "0";
+      if(prevzero2 != "discon")prevzero2 = "0";
 
     }
     
