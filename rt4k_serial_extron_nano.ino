@@ -167,12 +167,12 @@ bool RT4Kir = false;      // sends Profile 1 - 12 commands to RT4K. Must have IR
                           
 String ecap; // used to store Extron status messages
 String einput; // used to store first 4 chars of Extron input
-String prevzero; // used to keep track of previous input
+String previnput; // used to keep track of previous input
 String eoutput; // used to store first 2 chars of Extron output
 
 String ecap2; // used to store Extron status messages for 2nd Extron Connection
 String einput2; // used to store first 4 chars of Extron input for 2nd Extron Connection
-String prevzero2 = "discon"; // used to keep track of previous input
+String previnput2 = "discon"; // used to keep track of previous input
 String eoutput2; // used to store first 2 chars of Extron output for 2nd Extron Connection
 
 SoftwareSerial extronSerial = SoftwareSerial(rxPin,txPin); // setup an additional serial port for listening to the Extron
@@ -340,8 +340,8 @@ void loop(){
         Serial.print(einput.substring(2,4));
         Serial.println("\r");
       }
-        if((einput == "In0 " || einput == "In00") && INPUT0) // if all ports are in-active and INPUT0 is true, save state 
-          prevzero = einput;       
+
+      previnput = einput;       
     }
     
     // listens to 2nd Extron Serial Port for changes
@@ -372,14 +372,14 @@ void loop(){
         Serial.print(einput2.substring(2,4).toInt()+100);
       Serial.println("\r");
       }
-        if((einput2 == "In0 " || einput2 == "In00") && INPUT0) // if all ports are in-active and INPUT0 is true, save state 
-          prevzero2 = einput2;
+
+      previnput2 = einput2;
     }
 
 
     
     // when both switches match In0 or In00 (no active ports), a default profile can be loaded if INPUT0 is enabled
-    if(((prevzero == "In0 " || prevzero == "In00") && (prevzero2 == "In0 " || prevzero2 == "In00" || prevzero2 == "discon")) && INPUT0 && voutMatrix[eoutput.toInt()] && (prevzero2 == "discon" || voutMatrix[eoutput2.toInt()+32])){
+    if(((previnput == "In0 " || previnput == "In00") && (previnput2 == "In0 " || previnput2 == "In00" || previnput2 == "discon")) && INPUT0 && voutMatrix[eoutput.toInt()] && (previnput2 == "discon" || voutMatrix[eoutput2.toInt()+32])){
       if(SVS==0)Serial.println("remote prof12\r");
       else if(SVS==1 || SVS==2){
         Serial.println("SVS NEW INPUT=0\r");
@@ -389,8 +389,8 @@ void loop(){
       if(RT5Xir){irsend.sendNEC(0xB3,0x87,2);delay(30);} // RT5X profile 10
       if(RT4Kir)irsend.sendNEC(0x49,0x27,2); // RT4K profile 12
 
-      prevzero = "0";
-      if(prevzero2 != "discon")prevzero2 = "0";
+      previnput = "0";
+      if(previnput2 != "discon")previnput2 = "0";
 
     }
     
