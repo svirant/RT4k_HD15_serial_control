@@ -340,8 +340,8 @@ void loop(){
         Serial.print(einput.substring(2,4));
         Serial.println("\r");
       }
-        if((einput == "In0 " && einput == "In00") || INPUT0) // if INPUT0 is true  - always save previous state  
-          prevzero = einput;                                 // if INPUT0 is false - only save when all ports are in-active         
+        if((einput == "In0 " || einput == "In00") && INPUT0) // if all ports are in-active and INPUT0 is true, save state 
+          prevzero = einput;       
     }
     
     // listens to 2nd Extron Serial Port for changes
@@ -372,13 +372,10 @@ void loop(){
         Serial.print(einput2.substring(2,4).toInt()+100);
       Serial.println("\r");
       }
-        if((einput2 == "In0 " && einput2 == "In00") || INPUT0) // if INPUT0 is true  - always save previous state  
-          prevzero2 = einput2;                                 // if INPUT0 is false - only save when all ports are in-active
+        if((einput2 == "In0 " || einput2 == "In00") && INPUT0) // if all ports are in-active and INPUT0 is true, save state 
+          prevzero2 = einput2;
     }
 
-
-    if(prevzero == "0" && prevzero2.substring(0,2) == "In")prevzero = "In00";  // used to keep track of non-active inputs across 2 switches
-    if(prevzero2 == "0" && prevzero.substring(0,2) == "In")prevzero2 = "In00"; 
 
     
     // when both switches match In0 or In00 (no active ports), a default profile can be loaded if INPUT0 is enabled
