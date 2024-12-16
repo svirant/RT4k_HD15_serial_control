@@ -186,20 +186,32 @@ void setup(){
     
     Serial.begin(9600); // set the baud rate for the RT4K Serial Connection
     while(!Serial){;}
-    Serial.print("\r"); // if the Arduino first powers on while connected to a computer, it sends some bytes out the serial port. 
+    Serial.print(F("\r")); // if the Arduino first powers on while connected to a computer, it sends some bytes out the serial port. 
                         // this can show up in the RT4K diag screen as garbage text. sending a carriage return allows the first input change to work correctly
     extronSerial.begin(9600); // set the baud rate for the Extron Connection
-    extronSerial.setTimeout(50); // sets the timeout for reading / saving reads into a string
+    extronSerial.setTimeout(70); // sets the timeout for reading / saving reads into a string
     extronSerial2.begin(9600); // set the baud rate for the 2nd Extron Connection
-    extronSerial2.setTimeout(50); // sets the timeout for reading / saving reads into a string for the 2nd Extron Connection
+    extronSerial2.setTimeout(70); // sets the timeout for reading / saving reads into a string for the 2nd Extron Connection
 
 
 } // end of setup
 
 void loop(){
 
+  readExtron1();
 
-    // listens to the Extron Serial Port for changes
+  readExtron2();
+
+  all_inactive_ports_check();
+    
+   
+  delay(250);
+
+} // end of loop
+
+void readExtron1(){
+
+  // listens to the Extron Serial Port for changes
     // SIS Command Responses reference - Page 77 https://media.extron.com/public/download/files/userman/XP300_Matrix_B.pdf
     ecap = extronSerial.readString().substring(0,10); // read in and store only the first 10 chars for every Extron status message received from 1st Extron Connection
     if(ecap.substring(0,3) == "Out"){ // store only the input and output states, some Extron devices report output first instead of input
@@ -214,136 +226,139 @@ void loop(){
     // use remaining results to see which input is now active and change profile accordingly
     if(einput.substring(0,2) == "In" && voutMatrix[eoutput.toInt()]){
       if(einput == "In1 " || einput == "In01"){
-        if(SVS==0 || SVS==2)Serial.println("remote prof1\r");
+        if(SVS==0 || SVS==2)Serial.println(F("remote prof1\r"));
         else if(SVS==1){
-          Serial.println("SVS NEW INPUT=1\r");
+          Serial.println(F("SVS NEW INPUT=1\r"));
           delay(1000);
-          Serial.println("SVS CURRENT INPUT=1\r");
+          Serial.println(F("SVS CURRENT INPUT=1\r"));
         }
         if(RT5Xir){irsend.sendNEC(0xB3,0x92,2);delay(30);} // RT5X profile 1 
         if(RT4Kir)irsend.sendNEC(0x49,0x0B,2); // RT4K profile 1
       }
       else if(einput == "In2 " || einput == "In02"){
-        if(SVS==0 || SVS==2)Serial.println("remote prof2\r");
+        if(SVS==0 || SVS==2)Serial.println(F("remote prof2\r"));
         else if(SVS==1){
-          Serial.println("SVS NEW INPUT=2\r");
+          Serial.println(F("SVS NEW INPUT=2\r"));
           delay(1000);
-          Serial.println("SVS CURRENT INPUT=2\r");
+          Serial.println(F("SVS CURRENT INPUT=2\r"));
         }
         if(RT5Xir){irsend.sendNEC(0xB3,0x93,2);delay(30);} // RT5X profile 2
         if(RT4Kir)irsend.sendNEC(0x49,0x07,2); // RT4K profile 2
       }
       else if(einput == "In3 " || einput == "In03"){
-        if(SVS==0 || SVS==2)Serial.println("remote prof3\r");
+        if(SVS==0 || SVS==2)Serial.println(F("remote prof3\r"));
         else if(SVS==1){
-          Serial.println("SVS NEW INPUT=3\r");
+          Serial.println(F("SVS NEW INPUT=3\r"));
           delay(1000);
-          Serial.println("SVS CURRENT INPUT=3\r");
+          Serial.println(F("SVS CURRENT INPUT=3\r"));
         }
         if(RT5Xir){irsend.sendNEC(0xB3,0xCC,2);delay(30);} // RT5X profile 3
         if(RT4Kir)irsend.sendNEC(0x49,0x03,2); // RT4K profile 3
       }
       else if(einput == "In4 " || einput == "In04"){
-        if(SVS==0 || SVS==2)Serial.println("remote prof4\r");
+        if(SVS==0 || SVS==2)Serial.println(F("remote prof4\r"));
         else if(SVS==1){
-          Serial.println("SVS NEW INPUT=4\r");
+          Serial.println(F("SVS NEW INPUT=4\r"));
           delay(1000);
-          Serial.println("SVS CURRENT INPUT=4\r");
+          Serial.println(F("SVS CURRENT INPUT=4\r"));
         }
         if(RT5Xir){irsend.sendNEC(0xB3,0x8E,2);delay(30);} // RT5X profile 4
         if(RT4Kir)irsend.sendNEC(0x49,0x0A,2); // RT4K profile 4
       }
       else if(einput == "In5 " || einput == "In05"){
-        if(SVS==0 || SVS==2)Serial.println("remote prof5\r");
+        if(SVS==0 || SVS==2)Serial.println(F("remote prof5\r"));
         else if(SVS==1){
-          Serial.println("SVS NEW INPUT=5\r");
+          Serial.println(F("SVS NEW INPUT=5\r"));
           delay(1000);
-          Serial.println("SVS CURRENT INPUT=5\r");
+          Serial.println(F("SVS CURRENT INPUT=5\r"));
         }
         if(RT5Xir){irsend.sendNEC(0xB3,0x8F,2);delay(30);} // RT5X profile 5
         if(RT4Kir)irsend.sendNEC(0x49,0x06,2); // RT4K profile 5
       }
       else if(einput == "In6 " || einput == "In06"){
-        if(SVS==0 || SVS==2)Serial.println("remote prof6\r");
+        if(SVS==0 || SVS==2)Serial.println(F("remote prof6\r"));
         else if(SVS==1){
-          Serial.println("SVS NEW INPUT=6\r");
+          Serial.println(F("SVS NEW INPUT=6\r"));
           delay(1000);
-          Serial.println("SVS CURRENT INPUT=6\r");
+          Serial.println(F("SVS CURRENT INPUT=6\r"));
         }
         if(RT5Xir){irsend.sendNEC(0xB3,0xC8,2);delay(30);} // RT5X profile 6
         if(RT4Kir)irsend.sendNEC(0x49,0x02,2); // RT4K profile 6
       }
       else if(einput == "In7 " || einput == "In07"){
-        if(SVS==0 || SVS==2)Serial.println("remote prof7\r");
+        if(SVS==0 || SVS==2)Serial.println(F("remote prof7\r"));
         else if(SVS==1){
-          Serial.println("SVS NEW INPUT=7\r");
+          Serial.println(F("SVS NEW INPUT=7\r"));
           delay(1000);
-          Serial.println("SVS CURRENT INPUT=7\r");
+          Serial.println(F("SVS CURRENT INPUT=7\r"));
         }
         if(RT5Xir){irsend.sendNEC(0xB3,0x8A,2);delay(30);} // RT5X profile 7
         if(RT4Kir)irsend.sendNEC(0x49,0x09,2); // RT4K profile 7
       }
       else if(einput == "In8 " || einput == "In08"){
-        if(SVS==0 || SVS==2)Serial.println("remote prof8\r");
+        if(SVS==0 || SVS==2)Serial.println(F("remote prof8\r"));
         else if(SVS==1){
-          Serial.println("SVS NEW INPUT=8\r");
+          Serial.println(F("SVS NEW INPUT=8\r"));
           delay(1000);
-          Serial.println("SVS CURRENT INPUT=8\r");
+          Serial.println(F("SVS CURRENT INPUT=8\r"));
         }
         if(RT5Xir){irsend.sendNEC(0xB3,0x8B,2);delay(30);} // RT5X profile 8
         if(RT4Kir)irsend.sendNEC(0x49,0x05,2); // RT4K profile 8
       }
       else if(einput == "In9 " || einput == "In09"){
-        if(SVS==0 || SVS==2)Serial.println("remote prof9\r");
+        if(SVS==0 || SVS==2)Serial.println(F("remote prof9\r"));
         else if(SVS==1){
-          Serial.println("SVS NEW INPUT=9\r");
+          Serial.println(F("SVS NEW INPUT=9\r"));
           delay(1000);
-          Serial.println("SVS CURRENT INPUT=9\r");
+          Serial.println(F("SVS CURRENT INPUT=9\r"));
         }
         if(RT5Xir){irsend.sendNEC(0xB3,0xC4,2);delay(30);} // RT5X profile 9
         if(RT4Kir)irsend.sendNEC(0x49,0x01,2); // RT4K profile 9
       }
       else if(einput == "In10"){
-        if(SVS==0 || SVS==2)Serial.println("remote prof10\r");
+        if(SVS==0 || SVS==2)Serial.println(F("remote prof10\r"));
         else if(SVS==1){
-          Serial.println("SVS NEW INPUT=10\r");
+          Serial.println(F("SVS NEW INPUT=10\r"));
           delay(1000);
-          Serial.println("SVS CURRENT INPUT=10\r");
+          Serial.println(F("SVS CURRENT INPUT=10\r"));
         }
         if(RT5Xir && !DP0){irsend.sendNEC(0xB3,0x87,2);delay(30);} // RT5X profile 10
         if(RT4Kir)irsend.sendNEC(0x49,0x25,2); // RT4K profile 10
       }
       else if(einput == "In11"){
-        if(SVS==0 || SVS==2)Serial.println("remote prof11\r");
+        if(SVS==0 || SVS==2)Serial.println(F("remote prof11\r"));
         else if(SVS==1){
-          Serial.println("SVS NEW INPUT=11\r");
+          Serial.println(F("SVS NEW INPUT=11\r"));
           delay(1000);
-          Serial.println("SVS CURRENT INPUT=11\r");
+          Serial.println(F("SVS CURRENT INPUT=11\r"));
         }
         if(RT4Kir)irsend.sendNEC(0x49,0x26,2); // RT4K profile 11
       }
       else if(einput == "In12"){
-        if((SVS==0 && !DP0) || SVS==2)Serial.println("remote prof12\r"); // okay to use this profile if DP0 is disabled
+        if((SVS==0 && !DP0) || SVS==2)Serial.println(F("remote prof12\r")); // okay to use this profile if DP0 is disabled
         else if(SVS==1){
-          Serial.println("SVS NEW INPUT=12\r");
+          Serial.println(F("SVS NEW INPUT=12\r"));
           delay(1000);
-          Serial.println("SVS CURRENT INPUT=12\r");
+          Serial.println(F("SVS CURRENT INPUT=12\r"));
         }
         if(RT4Kir && !DP0)irsend.sendNEC(0x49,0x27,2); // RT4K profile 12
       }
       else if(einput != "In0 " && einput != "In00" && einput2 != "In0 " && einput2 != "In00"){ // for inputs 13-99 (SVS only)
-        Serial.print("SVS NEW INPUT=");
+        Serial.print(F("SVS NEW INPUT="));
         Serial.print(einput.substring(2,4));
-        Serial.println("\r");
+        Serial.println(F("\r"));
         delay(1000);
-        Serial.print("SVS CURRENT INPUT=");
+        Serial.print(F("SVS CURRENT INPUT="));
         Serial.print(einput.substring(2,4));
-        Serial.println("\r");
+        Serial.println(F("\r"));
       }
 
       previnput = einput;       
     }
-    
+} // end of readExtron1()
+
+void readExtron2(){
+
     // listens to 2nd Extron Serial Port for changes
     ecap2 = extronSerial2.readString().substring(0,10); // read in and store only the first 10 chars for every Extron status message received on 2nd Extron Connection
     if(ecap2.substring(0,3) == "Out"){ // store only the input and output states, some Extron devices report output first instead of input
@@ -358,33 +373,35 @@ void loop(){
     // use remaining results to see which input is now active and change profile accordingly, cross-references voutMaxtrix
     if(einput2.substring(0,2) == "In" && voutMatrix[eoutput2.toInt()+32]){
     if(einput2 != "In0 " && einput2 != "In00"){ // much easier method for switch 2 since ALL inputs will respond with SVS commands regardless of SVS option above
-      Serial.print("SVS NEW INPUT=");
+      Serial.print(F("SVS NEW INPUT="));
       if(einput2.substring(3,4) == " ")
         Serial.print(einput2.substring(2,3).toInt()+100);
       else
         Serial.print(einput2.substring(2,4).toInt()+100);
-      Serial.println("\r");
+      Serial.println(F("\r"));
       delay(1000);
-      Serial.print("SVS CURRENT INPUT=");
+      Serial.print(F("SVS CURRENT INPUT="));
       if(einput2.substring(3,4) == " ")
         Serial.print(einput2.substring(2,3).toInt()+100);
       else
         Serial.print(einput2.substring(2,4).toInt()+100);
-      Serial.println("\r");
+      Serial.println(F("\r"));
       }
 
       previnput2 = einput2;
     }
 
+} // end of readExtron2()
 
-    
-    // when both switches match In0 or In00 (no active ports), a default profile can be loaded if DP0 is enabled
+void all_inactive_ports_check (){
+
+      // when both switches match In0 or In00 (no active ports), a default profile can be loaded if DP0 is enabled
     if(((previnput == "In0 " || previnput == "In00") && (previnput2 == "In0 " || previnput2 == "In00" || previnput2 == "discon")) && DP0 && voutMatrix[eoutput.toInt()] && (previnput2 == "discon" || voutMatrix[eoutput2.toInt()+32])){
-      if(SVS==0)Serial.println("remote prof12\r");
+      if(SVS==0)Serial.println(F("remote prof12\r"));
       else if(SVS==1 || SVS==2){
-        Serial.println("SVS NEW INPUT=0\r");
+        Serial.println(F("SVS NEW INPUT=0\r"));
         delay(1000);
-        Serial.println("SVS CURRENT INPUT=0\r");
+        Serial.println(F("SVS CURRENT INPUT=0\r"));
       }
       if(RT5Xir){irsend.sendNEC(0xB3,0x87,2);delay(30);} // RT5X profile 10
       if(RT4Kir)irsend.sendNEC(0x49,0x27,2); // RT4K profile 12
@@ -396,6 +413,4 @@ void loop(){
     if(previnput == "0" && previnput2.substring(0,2) == "In")previnput = "In00";  // changes previnput "0" state to "In00" when there is a newly active input on the other switch
     if(previnput2 == "0" && previnput.substring(0,2) == "In")previnput2 = "In00"; 
 
-    
-  delay(250);
-} // end of void loop
+} // end of all_inactive_ports_check()
