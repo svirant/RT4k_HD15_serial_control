@@ -47,7 +47,7 @@ int SVS = 0; //
              //     Make sure "Auto Load SVS" is "On" under the RT4K Profiles menu. A requirement for using options 1 or 2.
              //
              // 0 - use only "remote" profiles 1-12 for up to 12 inputs on 1st Extron Switch, only SVS profiles are used on 2nd Extron Switch if connected.
-             //     If INPUT0 below is set to true - profile 12 is used when all ports are in-active.
+             //     If DP0 below is set to true - profile 12 is used when all ports are in-active.
              //
              // 1 - use only "SVS" profiles for up to 99 inputs. SVS Profiles 101-199 must be used for a 2nd Extron Switch, if connected.
              //     Make sure "Auto Load SVS" is "On" under the RT4K Profiles menu
@@ -55,7 +55,7 @@ int SVS = 0; //
              //     For example, SVS input 2 would look for a profile that is named S2_SNES…rt4
              //     If there’s more than one profile that fits the pattern, the first match is used
              //
-             //  ** If INPUT0 below is set to true, create "S0_<user defined>.rt4" for when all ports are in-active. Ex: S0_DefaultHDMI.rt4
+             //  ** If DP0 below is set to true, create "S0_<user defined>.rt4" for when all ports are in-active. Ex: S0_DefaultHDMI.rt4
              //
              // 2 - use "remote" profiles 1-12 and SVS profiles for 13-99. SVS Profiles 101-199 must be used for a 2nd Extron Switch, if connected.
              //     Make sure "Auto Load SVS" is "On" under the RT4K Profiles menu
@@ -63,10 +63,10 @@ int SVS = 0; //
              //     For example, SVS input 2 would look for a profile that is named S2_SNES…rt4
              //     If there’s more than one profile that fits the pattern, the first match is used
              //
-             //  ** If INPUT0 below is set to true, create "S0_<user defined>.rt4" for when all ports are in-active. Ex: S0_DefaultHDMI.rt4
+             //  ** If DP0 below is set to true, create "S0_<user defined>.rt4" for when all ports are in-active. Ex: S0_DefaultHDMI.rt4
 
 
-bool INPUT0  = false;    // set true to load "remote" profile 12 (if SVS=0) when all ports are in-active on 1st Extron Connection. You can assign it to a generic HDMI profile for example.
+bool DP0  = false;    // set true to load "remote" profile 12 (if SVS=0) when all ports are in-active on 1st Extron Connection. You can assign it to a generic HDMI profile for example.
                          // If your device has a 12th input, this option disables profile changes for it. "IF" you have a 2nd Extron Switch connected, the profile will only load
                          // if "BOTH" switches have all in-active ports.
                          //
@@ -150,7 +150,7 @@ uint16_t voutMatrix[65] = {1,  // MATRIX switchers // by default ALL input chang
 
 bool RT5Xir = false;      // sends Profile 1 - 10 commands to RetroTink 5x. Must have IR LED connected: Wiring info in README.
                           // recommend placing the LED as close as you can (taping in front of) to the RT5X sensor for a more reliable connection
-                          // INPUT0 - if enabled uses Profile 10 on the RT5X
+                          // DP0 - if enabled uses Profile 10 on the RT5X
 
 bool RT4Kir = false;      // sends Profile 1 - 12 commands to RT4K. Must have IR LED connected: Wiring info in README.
                           // recommend placing the LED as close as you can (taping in front of) to the RT4K sensor for a more reliable connection
@@ -310,7 +310,7 @@ void loop(){
           delay(1000);
           Serial.println("SVS CURRENT INPUT=10\r");
         }
-        if(RT5Xir && !INPUT0){irsend.sendNEC(0xB3,0x87,2);delay(30);} // RT5X profile 10
+        if(RT5Xir && !DP0){irsend.sendNEC(0xB3,0x87,2);delay(30);} // RT5X profile 10
         if(RT4Kir)irsend.sendNEC(0x49,0x25,2); // RT4K profile 10
       }
       else if(einput == "In11"){
@@ -323,13 +323,13 @@ void loop(){
         if(RT4Kir)irsend.sendNEC(0x49,0x26,2); // RT4K profile 11
       }
       else if(einput == "In12"){
-        if((SVS==0 && !INPUT0) || SVS==2)Serial.println("remote prof12\r"); // okay to use this profile if INPUT0 is disabled
+        if((SVS==0 && !DP0) || SVS==2)Serial.println("remote prof12\r"); // okay to use this profile if DP0 is disabled
         else if(SVS==1){
           Serial.println("SVS NEW INPUT=12\r");
           delay(1000);
           Serial.println("SVS CURRENT INPUT=12\r");
         }
-        if(RT4Kir && !INPUT0)irsend.sendNEC(0x49,0x27,2); // RT4K profile 12
+        if(RT4Kir && !DP0)irsend.sendNEC(0x49,0x27,2); // RT4K profile 12
       }
       else if(einput != "In0 " && einput != "In00" && einput2 != "In0 " && einput2 != "In00"){ // for inputs 13-99 (SVS only)
         Serial.print("SVS NEW INPUT=");
@@ -378,8 +378,8 @@ void loop(){
 
 
     
-    // when both switches match In0 or In00 (no active ports), a default profile can be loaded if INPUT0 is enabled
-    if(((previnput == "In0 " || previnput == "In00") && (previnput2 == "In0 " || previnput2 == "In00" || previnput2 == "discon")) && INPUT0 && voutMatrix[eoutput.toInt()] && (previnput2 == "discon" || voutMatrix[eoutput2.toInt()+32])){
+    // when both switches match In0 or In00 (no active ports), a default profile can be loaded if DP0 is enabled
+    if(((previnput == "In0 " || previnput == "In00") && (previnput2 == "In0 " || previnput2 == "In00" || previnput2 == "discon")) && DP0 && voutMatrix[eoutput.toInt()] && (previnput2 == "discon" || voutMatrix[eoutput2.toInt()+32])){
       if(SVS==0)Serial.println("remote prof12\r");
       else if(SVS==1 || SVS==2){
         Serial.println("SVS NEW INPUT=0\r");
@@ -393,6 +393,9 @@ void loop(){
       if(previnput2 != "discon")previnput2 = "0";
 
     }
+    if(previnput == "0" && previnput2.substring(0,2) == "In")previnput = "In00";  // changes previnput "0" state to "In00" when there is a newly active input on the other switch
+    if(previnput2 == "0" && previnput.substring(0,2) == "In")previnput2 = "In00"; 
+
     
   delay(250);
 } // end of void loop
