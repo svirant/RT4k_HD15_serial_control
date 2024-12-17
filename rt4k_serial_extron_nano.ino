@@ -218,6 +218,10 @@ void readExtron1(){
       einput = ecap.substring(6,10);
       eoutput = ecap.substring(3,5);
     }
+    else if(ecap.substring(0,1) == "F"){
+      einput = ecap.substring(4,8);
+      eoutput = "00";
+    }
     else{                             // less complex switches only report input status, no output status
       einput = ecap.substring(0,4);
       eoutput = "00";
@@ -364,6 +368,10 @@ void readExtron2(){
     if(ecap2.substring(0,3) == "Out"){ // store only the input and output states, some Extron devices report output first instead of input
       einput2 = ecap2.substring(6,10);
       eoutput2 = ecap2.substring(3,5);
+    }
+    else if(ecap2.substring(0,1) == "F"){
+      einput2 = ecap2.substring(4,8);
+      eoutput2 = "00";
     }
     else{                              // less complex switches only report input status, no output status
       einput2 = ecap2.substring(0,4);
