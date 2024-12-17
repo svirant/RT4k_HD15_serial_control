@@ -6,6 +6,7 @@
 
 --------
 ***<Updates:>***
+- Confirmed: Arduino Nano works in an Otaku Games Scart Switch. updated guide photos below.
 - It keeps evolving! New Donut Dongle will add gscart/gcomp support. 
 - [Extron Donut Dongle & Adapters coming soon!](https://github.com/svirant/RT4k_HD15_serial_control/tree/main?tab=readme-ov-file#extron-donut-donglecoming-soon)
 - Extron: Now supports **2x** simultaneous connected switches with each allowed **99 inputs / 32 outputs** (I don't think more than 32 inputs are necessary but Extron's SIS supports it)
@@ -143,7 +144,9 @@ Standard 3.5mm stereo jack and cable used to connect tx,rx,gnd lines to HD15
 ![IMG_7128](https://github.com/user-attachments/assets/fbd2362e-8122-4716-ba14-3989fca82af9)
 
 
-## Nano [5v tolerant] (should work, but not confirmed yet)
+## Nano [5v tolerant] (confirmed working)
 No need for all the extra voltage divider resistors! Hurrah!
-![nano](https://github.com/user-attachments/assets/790f8e01-e7bd-4262-bc83-e47fe5e16e1c)
+![nano1](https://github.com/user-attachments/assets/9b19387d-a18b-4317-8e69-9c70336be7b3)
+![nano2](https://github.com/user-attachments/assets/5dbc1f2d-29f7-4366-87cd-094020f40539)
+![nano3](https://github.com/user-attachments/assets/f8a9ece3-6345-4fc6-aa8f-c3bf7cd51a53)
 
