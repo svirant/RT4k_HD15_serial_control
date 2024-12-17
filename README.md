@@ -6,6 +6,7 @@
 
 --------
 ***<Updates:>***
+- It keeps evolving! New Donut Dongle will add gscart/gcomp support. 
 - [Extron Donut Dongle & Adapters coming soon!](https://github.com/svirant/RT4k_HD15_serial_control/tree/main?tab=readme-ov-file#extron-donut-donglecoming-soon)
 - Extron: Now supports **2x** simultaneous connected switches with each allowed **99 inputs / 32 outputs** (I don't think more than 32 inputs are necessary but Extron's SIS supports it)
 - GSCART/GCOMP: Added **SVS** profile support and **RT5X** support via IR LED addon. Wiring diagram below. Only for Nano atm. Looking into easier implementation.
@@ -96,18 +97,22 @@ For now I also have a picture guide on how to MacGuyver one together.
 ## Features:
 - Connects to RT4K adapters below with standard 3.5mm stereo cable (Serial Rx/Tx)
 - 2 integrated Max3232 Serial DB9 to connect to 2x Extron Switches
+- 2 connectors for gscart/gcomp hookups. 2x4 ribbon cable connection. pogo pins would be nice for the gscart side.
 - Infrared Emitter 3.5mm jack for RetroTink5x Profile switching
-<img width="836" alt="donutdongle" src="https://github.com/user-attachments/assets/ce4f887e-6f58-45ab-a3f4-7028e9a17e5f">
+<img width="732" alt="donut3" src="https://github.com/user-attachments/assets/3dae5478-4716-4659-8e4d-2a8a518f4599" />
+
 
 ## & Adapters
 
 - Enhanced S-Video & Composite video w/ Serial input
 
-<img width="200" alt="yca2vga_wserial" src="https://github.com/user-attachments/assets/c33e1b3f-451c-4261-8aec-311e247e27cf">
+<img width="200" alt="adapter_yc" src="https://github.com/user-attachments/assets/0cbef12b-5f54-44d3-b2f0-800c544cf2a3" />
+
 
 - VGA Passthrough w/ Serial input
 
-<img width="200" alt="vgapass_wserial" src="https://github.com/user-attachments/assets/069bc0be-69d5-4457-a091-653a0f970651">
+<img width="200" alt="adapter_vga" src="https://github.com/user-attachments/assets/82b86c8f-e67a-4961-9358-ad429d2acb68" />
+
 
 
 
