@@ -146,7 +146,7 @@ Standard 3.5mm stereo jack and cable used to connect tx,rx,gnd lines to HD15
 
 ## Nano [5v tolerant] (confirmed working)
 No need for all the extra voltage divider resistors! Hurrah!
-![nano1](https://github.com/user-attachments/assets/9b19387d-a18b-4317-8e69-9c70336be7b3)
+![nano1](https://github.com/user-attachments/assets/9f876e67-234e-41ba-a159-b656da90db71)
 ![nano2](https://github.com/user-attachments/assets/5dbc1f2d-29f7-4366-87cd-094020f40539)
 ![nano3](https://github.com/user-attachments/assets/f8a9ece3-6345-4fc6-aa8f-c3bf7cd51a53)
 
