@@ -6,7 +6,7 @@
 
 --------
 ***<Updates:>***
-- RT4K Turbo Remote: Intercepts the remote's button presses and relays them through the Serial interface giving a much more responsive experience.
+- [RT4K Turbo Remote:](https://github.com/svirant/RT4k_HD15_serial_control/tree/main/README.md#turbo-remote-picture-guide) Intercepts the remote's button presses and relays them through the Serial interface giving a much more responsive experience.
 - Confirmed: Arduino Nano works in an Otaku Games Scart Switch. updated guide photos below.
 - It keeps evolving! New Donut Dongle will add gscart/gcomp support. 
 - [Extron Donut Dongle & Adapters coming soon!](https://github.com/svirant/RT4k_HD15_serial_control/tree/main?tab=readme-ov-file#extron-donut-donglecoming-soon)
@@ -147,6 +147,9 @@ Standard 3.5mm stereo jack and cable used to connect tx,rx,gnd lines to HD15. Pa
 ![IMG_7127](https://github.com/user-attachments/assets/cab39bfc-166b-4c0b-815d-2e5f10645496)
 ![IMG_7128](https://github.com/user-attachments/assets/fbd2362e-8122-4716-ba14-3989fca82af9)
 
+--------
+# Turbo Remote picture guide
+<img width="1015" alt="turbo_remote_guide" src="https://github.com/user-attachments/assets/ba79c0a1-8897-43bc-ac21-bf9792a7d635" />
 
 
 
