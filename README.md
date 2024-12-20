@@ -6,7 +6,7 @@
 
 --------
 ***<Updates:>***
-- RT4K Turbo Remote: Serial relay for the Tink's IR remote control. Results in a much more responsive and accurate remote control experience.
+- RT4K Turbo Remote: Intercepts the remote's button presses and relays them through the Serial interface giving a much more responsive experience.
 - Confirmed: Arduino Nano works in an Otaku Games Scart Switch. updated guide photos below.
 - It keeps evolving! New Donut Dongle will add gscart/gcomp support. 
 - [Extron Donut Dongle & Adapters coming soon!](https://github.com/svirant/RT4k_HD15_serial_control/tree/main?tab=readme-ov-file#extron-donut-donglecoming-soon)
