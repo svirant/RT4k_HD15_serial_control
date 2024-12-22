@@ -4,9 +4,11 @@
 // interface instead. Ultimately making the remote control much more responsive. Can also be used when the RetroTink's IR window is hidden or not easily reached by the 
 // IR of the remote.
 //
+// TLDR; intercepts the remote's button presses and relays them through the Serial interface giving a much more responsive experience
 
 #define IR_RECEIVE_PIN 12
 #include "TinyIRReceiver.hpp"
+int pwrtoggle = 0; // used to toggle remote power button on/off 
 
 void setup(){
 
@@ -182,7 +184,14 @@ void loop(){
         Serial.println(F("remote menu\r"));
       }
       else if(ir_recv_command == 26){
-        Serial.println(F("remote pwr on\r"));
+        if(pwrtoggle){
+          Serial.println(F("pwr on\r"));
+          pwrtoggle = 0;
+        }
+        else{
+          Serial.println(F("remote pwr\r"));
+          pwrtoggle = 1;
+        }
       }
     }
     else if(ir_recv_address == 73){ // allow directional buttons to be repeated when held down
