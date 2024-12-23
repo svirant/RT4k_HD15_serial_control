@@ -6,6 +6,7 @@
 
 --------
 ***<Updates:>***
+- TESmart HDMI switch support added. being added here soon.
 - [RT4K Turbo Remote:](https://github.com/svirant/RT4k_HD15_serial_control/tree/main/README.md#turbo-remote-picture-guide) Intercepts the remote's button presses and relays them through the Serial interface giving a much more responsive experience.
 - Confirmed: Arduino Nano works in an Otaku Games Scart Switch. updated guide photos below.
 - It keeps evolving! New Donut Dongle will add gscart/gcomp support. 
