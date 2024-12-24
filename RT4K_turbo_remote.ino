@@ -1,10 +1,14 @@
 // RetroTink 4K Turbo Remote
 //
+// ** Make sure the front of the RT4K is blocked when using this or else double button presses may register **
+//
 // With an IR Receiver connected to the Arduino that has must better reception, RT4K IR remote control button presses get relayed through the RetroTink 4K's serial
 // interface instead. Ultimately making the remote control much more responsive. Can also be used when the RetroTink's IR window is hidden or not easily reached by the 
 // IR of the remote.
 //
 // TLDR; intercepts the remote's button presses and relays them through the Serial interface giving a much more responsive experience
+//
+//
 
 #define IR_RECEIVE_PIN 12
 #include "TinyIRReceiver.hpp"
