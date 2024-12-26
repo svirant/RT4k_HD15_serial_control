@@ -3,11 +3,8 @@
 //
 //
 
-
-// set SCL pin back to GPIO
-#define PORT->Group[g_APinDescription[SCL].ulPort].PINCFG[g_APinDescription[SCL].ulPin].bit.PMUXEN = 0;
-// set SDA pin back to GPIO
-#define PORT->Group[g_APinDescription[SDA].ulPort].PINCFG[g_APinDescription[SDA].ulPin].bit.PMUXEN = 0;
+#define PORT->Group[g_APinDescription[SCL].ulPort].PINCFG[g_APinDescription[SCL].ulPin].bit.PMUXEN = 0; // set SCL pin back to GPIO
+#define PORT->Group[g_APinDescription[SDA].ulPort].PINCFG[g_APinDescription[SDA].ulPin].bit.PMUXEN = 0; // set SDA pin back to GPIO
 
 #define IR_SEND_PIN 11  // Optional IR LED Emitter for RT5X compatibility. Sends IR data out Arduino pin D11
 #define IR_RECEIVE_PIN 2 // Optional IR Receiver on pin D2
@@ -15,7 +12,7 @@
 #include "TinyIRReceiver.hpp"
 #include <IRremote.h>
 #include <SoftwareSerial.h>
-#include <AltSoftSerial.h> // https://github.com/PaulStoffregen/AltSoftSerial in order to have a 3rd Serial port for 2nd Extron Switch
+#include <AltSoftSerial.h> // https://github.com/PaulStoffregen/AltSoftSerial in order to have a 3rd Serial port for 2nd Extron Switch / alt sw2
                            // Step 1 - Goto the github link above. Click the GREEN "<> Code" box and "Download ZIP"
                            // Step 2 - In Arudino IDE; goto "Sketch" -> "Include Library" -> "Add .ZIP Library"
 IRsend irsend;
@@ -183,24 +180,24 @@ int RT4Kir = 0;      // 0 = disables IR Emitter for RetroTink 4K
                           
 //////////////////  
 
-
-#define rxPin 3 // sets Rx pin to D3 on Arduino to talk to MAX3232 TTL Serial IC
+// Extron sw1 / alt sw1 software serial port -> MAX3232 TTL IC
+#define rxPin 3 // sets Rx pin to D3 on Arduino
 #define txPin 4 // sets Tx pin to D4 ...
 
-byte ecapbytes[13]; // used to store first 13 captured bytes / messages for 1st switch                    
+byte ecapbytes[13]; // used to store first 13 captured bytes / messages for Extron sw1 / alt sw1                    
 String ecap; // used to store Extron status messages for 1st Extron in String format
 String einput; // used to store first 4 chars of Extron input
 String previnput; // used to keep track of previous input
 String eoutput; // used to store first 2 chars of Extron output
 
-byte ecapbytes2[13]; // used to store first 13 captured bytes / messages for 2nd switch
+byte ecapbytes2[13]; // used to store first 13 captured bytes / messages for Extron sw2 / alt sw2
 String ecap2; // used to store Extron status messages for 2nd Extron in String format
 String einput2; // used to store first 4 chars of Extron input for 2nd Extron
 String previnput2 = "discon"; // used to keep track of previous input
 String eoutput2; // used to store first 2 chars of Extron output for 2nd Extron
 
-SoftwareSerial extronSerial = SoftwareSerial(rxPin,txPin); // setup an additional serial port for listening to the Extron
-AltSoftSerial extronSerial2; // setup an another serial port for listening to a 2nd connected Extron. hardcoded to pins D8 / D9
+SoftwareSerial extronSerial = SoftwareSerial(rxPin,txPin); // setup a software serial port for listening to Extron sw1 / alt sw1 
+AltSoftSerial extronSerial2; // setup yet another serial port for listening to Extron sw2 / alt sw2. hardcoded to pins D8 / D9
 
 int pwrtoggle = 0; // used to toggle remote power button command (on/off) when using the optional IR Receiver
 
@@ -208,19 +205,19 @@ int pwrtoggle = 0; // used to toggle remote power button command (on/off) when u
 
 void setup(){
 
-    pinMode(rxPin,INPUT); // set pin modes for RX and TX for Extron Connection
+    pinMode(rxPin,INPUT); // set pin modes for RX and TX
     pinMode(txPin,OUTPUT);
     initPCIInterruptForTinyReceiver(); // for IR Receiver
     
     Serial.begin(9600); // set the baud rate for the RT4K Serial Connection
-    while(!Serial){;}
+    while(!Serial){;}   // allow connection to establish before continuing
     Serial.print(F("\r")); // if the Arduino first powers on while connected to a computer, it sends some bytes out the serial port. 
                         // this can show up in the RT4K diag screen as garbage text. sending a carriage return allows the first input change to work correctly
-    extronSerial.begin(9600); // set the baud rate for the Extron Connection
+    extronSerial.begin(9600); // set the baud rate for the Extron sw1 Connection
     extronSerial.setTimeout(150); // sets the timeout for reading / saving reads into a string
-    extronSerial2.begin(9600); // set the baud rate for the 2nd Extron Connection
-    extronSerial2.setTimeout(150); // sets the timeout for reading / saving reads into a string for the 2nd Extron Connection
-    DDRC  &= ~B00111111; // Set PC0-PC5 as inputs (shown on Nano as pins A0-A5) Connected to gscart1 IN_BIT0,IN_BIT1,IN_BIT2 and gscart2 IN_BIT0,IN_BIT1,IN_BIT2
+    extronSerial2.begin(9600); // set the baud rate for Extron sw2 Connection
+    extronSerial2.setTimeout(150); // sets the timeout for reading / saving reads into a string for the Extron sw2 Connection
+    DDRC  &= ~B00111111; // for gscart/gcomp, Set PC0-PC5 as inputs (shown on Nano as pins A0-A5) Connected to gscart1 IN_BIT0,IN_BIT1,IN_BIT2 and gscart2 IN_BIT0,IN_BIT1,IN_BIT2
 
 
 } // end of setup
@@ -228,15 +225,17 @@ void setup(){
 
 void loop(){
 
+// below are a list of functions that loop over and over to read in port changes and other misc tasks. you can disable them by commenting them out
+
 irRec(); // intercepts the remote's button presses and relays them through the Serial interface giving a much more responsive experience
 
 readGscart1();
 
 readGscart2();
 
-readExtron1(); // also reads TESmart HDMI and Otaku Games Scart switch on "alt Extron sw1" port
+readExtron1(); // also reads TESmart HDMI and Otaku Games Scart switch on "alt sw1" port
 
-readExtron2(); // also reads TESmart HDMI and Otaku Games Scart switch on "alt Extron sw2" port
+readExtron2(); // also reads TESmart HDMI and Otaku Games Scart switch on "alt sw2" port
 
 all_inactive_ports_check();
 
@@ -267,7 +266,7 @@ void readExtron1(){
     }
 
 
-    // or Extron devices, use remaining results to see which input is now active and change profile accordingly, cross-references voutMaxtrix
+    // for Extron devices, use remaining results to see which input is now active and change profile accordingly, cross-references voutMaxtrix
     if(einput.substring(0,2) == "In" && voutMatrix[eoutput.toInt()]){
       if(einput == "In1 " || einput == "In01"){
         if(SVS==0)Serial.println(F("remote prof1\r"));
@@ -648,7 +647,7 @@ void readExtron1(){
 
 void readExtron2(){
     
-    // listens to the 2nd Extron SW Port for changes
+    // listens to the Extron sw2 Port for changes
     if(extronSerial2.available() > 0){ // if there is data available for reading, read
     extronSerial2.readBytes(ecapbytes2,13); // read in and store only the first 13 chars for every status message received from 2nd Extron port
     }
@@ -781,9 +780,9 @@ void readGscart1(){
 // Pin 7: IN_BIT2
 // Pin 8: N/C
 
-    gscart1 = PINC & B00000111; // read state of pins A0,A1,A2 (IN_BIT0, IN_BIT1, IN_BIT2 for gscart switch 1)
+    gscart1 = PINC & B00000111; // read state of pins A0,A1,A2 (IN_BIT0, IN_BIT1, IN_BIT2 for gscart sw1)
 
-    //Has active port changed on gscart switch 1?
+    // has active port changed on gscart sw1?
     if(gscart1 != gscart1prev){
       //Detect which scart port is now active and change profile accordingly
       if(!(gscart1 ^ B00000000)){
@@ -886,9 +885,9 @@ void readGscart2(){
 // Pin 7: IN_BIT2
 // Pin 8: N/C
 
-    gscart2 = PINC & B00111000; //read state of pins A3,A4,A5 (IN_BIT0, IN_BIT1, IN_BIT2 for gscart switch 2)
+    gscart2 = PINC & B00111000; //read state of pins A3,A4,A5 (IN_BIT0, IN_BIT1, IN_BIT2 for gscart sw2)
 
-    // Has active port changed on gscart switch 2?
+    // has active port changed on gscart sw2?
     if(gscart2 != gscart2prev){
       //Detect which scart port is now active and change profile accordingly
       if(!(gscart2 ^ B00000000)){
@@ -958,7 +957,7 @@ void readGscart2(){
 
 void all_inactive_ports_check(){
 
-    // when both switches match In0 or In00 (no active ports), a default profile can be loaded if DP0 is enabled
+    // when both Extron switches match In0 or In00 (no active ports), a default profile can be loaded if DP0 is enabled
     if(((previnput == "In0 " || previnput == "In00") && (previnput2 == "In0 " || previnput2 == "In00" || previnput2 == "discon")) && DP0 && voutMatrix[eoutput.toInt()] && (previnput2 == "discon" || voutMatrix[eoutput2.toInt()+32])){
       if(SVS==0)Serial.println(F("remote prof12\r"));
       else{
