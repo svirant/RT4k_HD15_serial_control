@@ -202,6 +202,7 @@ SoftwareSerial extronSerial = SoftwareSerial(rxPin,txPin); // setup a software s
 AltSoftSerial extronSerial2; // setup yet another serial port for listening to Extron sw2 / alt sw2. hardcoded to pins D8 / D9
 
 int pwrtoggle = 0; // used to toggle remote power button command (on/off) when using the optional IR Receiver
+int repeatcount = 0; // used to help emulate the repeat nature of directional button presses for the IR Serial Remote, irRec() function below
 
 
 
@@ -1020,7 +1021,10 @@ void irRec(){
       // Serial.print(F(" Command="));
       // Serial.println(ir_recv_command);
 
+    if(TinyIRReceiverData.Flags == IRDATA_FLAGS_IS_REPEAT){repeatcount++;} // directional buttons have to be held down for just a bit before repeating
+
     if(ir_recv_address == 73 && TinyIRReceiverData.Flags != IRDATA_FLAGS_IS_REPEAT){ // block most buttons from being repeated when held
+      repeatcount = 0;
       if(ir_recv_command == 63){
         Serial.println(F("remote aux8\r"));
       }
@@ -1179,7 +1183,7 @@ void irRec(){
         }
       }
     }
-    else if(ir_recv_address == 73){ // allow directional buttons to be repeated when held down
+    else if(ir_recv_address == 73 && repeatcount > 4){ // allow directional buttons to be repeated when held down
       if(ir_recv_command == 24){
         Serial.println(F("remote up\r"));
       }
