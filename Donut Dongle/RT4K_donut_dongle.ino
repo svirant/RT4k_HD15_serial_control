@@ -1,4 +1,4 @@
-// RT4K Donut Dongle v0.3
+// RT4K Donut Dongle v0.4
 //
 //
 //
@@ -16,6 +16,11 @@
                            // Step 1 - Goto the github link above. Click the GREEN "<> Code" box and "Download ZIP"
                            // Step 2 - In Arudino IDE; goto "Sketch" -> "Include Library" -> "Add .ZIP Library"
 IRsend irsend;
+
+
+// Extron sw1 / alt sw1 software serial port -> MAX3232 TTL IC
+#define rxPin 3 // sets Rx pin to D3 on Arduino
+#define txPin 4 // sets Tx pin to D4 ...
 
 uint16_t gscart1 = 0x0f; //used to store state of first gscart switch
 uint16_t gscart1prev = 0x0f; //used to store previous state of first gscart switch
@@ -72,7 +77,7 @@ int SVS = 0; //     "Remote" profiles are profiles that are assigned to buttons 
 
 
 
-bool DP0  = true;        // (Default Profile 0) 
+bool DP0  = false;        // (Default Profile 0) 
                          //
                          // ** Best to set DP0 to false if using gscart due to the current detection method (not knowing if all inputs are off) **
                          //
@@ -180,9 +185,6 @@ int RT4Kir = 0;      // 0 = disables IR Emitter for RetroTink 4K
                           
 //////////////////  
 
-// Extron sw1 / alt sw1 software serial port -> MAX3232 TTL IC
-#define rxPin 3 // sets Rx pin to D3 on Arduino
-#define txPin 4 // sets Tx pin to D4 ...
 
 byte ecapbytes[13]; // used to store first 13 captured bytes / messages for Extron sw1 / alt sw1                    
 String ecap; // used to store Extron status messages for 1st Extron in String format
@@ -219,7 +221,6 @@ void setup(){
     extronSerial2.setTimeout(150); // sets the timeout for reading / saving reads into a string for the Extron sw2 Connection
     DDRC  &= ~B00111111; // for gscart/gcomp, Set PC0-PC5 as inputs (shown on Nano as pins A0-A5) Connected to gscart1 IN_BIT0,IN_BIT1,IN_BIT2 and gscart2 IN_BIT0,IN_BIT1,IN_BIT2
 
-
 } // end of setup
 
 
@@ -251,6 +252,7 @@ void readExtron1(){
     extronSerial.readBytes(ecapbytes,13); // read in and store only the first 13 chars for every status message received from 1st Extron SW port
     }
     ecap = String((char *)ecapbytes); // convert bytes to String for Extron switches
+    
 
     if(ecap.substring(0,3) == "Out"){ // store only the input and output states, some Extron devices report output first instead of input
       einput = ecap.substring(6,10);
@@ -409,6 +411,8 @@ void readExtron1(){
           delay(1000);
           Serial.println(F("SVS CURRENT INPUT=1\r"));
         }
+        if(RT5Xir == 1){irsend.sendNEC(0xB3,0x92,2);delay(30);} // RT5X profile 1 
+        if(RT4Kir == 1)irsend.sendNEC(0x49,0x0B,2); // RT4K profile 1
       }
       else if(ecapbytes[6] == 23){
         if(SVS==0)Serial.println(F("remote prof2\r"));
@@ -417,6 +421,8 @@ void readExtron1(){
           delay(1000);
           Serial.println(F("SVS CURRENT INPUT=2\r"));
         }
+        if(RT5Xir == 1){irsend.sendNEC(0xB3,0x93,2);delay(30);} // RT5X profile 2
+        if(RT4Kir == 1)irsend.sendNEC(0x49,0x07,2); // RT4K profile 2
       }
       else if(ecapbytes[6] == 24){
         if(SVS==0)Serial.println(F("remote prof3\r"));
@@ -425,6 +431,8 @@ void readExtron1(){
           delay(1000);
           Serial.println(F("SVS CURRENT INPUT=3\r"));
         }
+        if(RT5Xir == 1){irsend.sendNEC(0xB3,0xCC,2);delay(30);} // RT5X profile 3
+        if(RT4Kir == 1)irsend.sendNEC(0x49,0x03,2); // RT4K profile 3
       }
       else if(ecapbytes[6] == 25){
         if(SVS==0)Serial.println(F("remote prof4\r"));
@@ -433,6 +441,8 @@ void readExtron1(){
           delay(1000);
           Serial.println(F("SVS CURRENT INPUT=4\r"));
         }
+        if(RT5Xir == 1){irsend.sendNEC(0xB3,0x8E,2);delay(30);} // RT5X profile 4
+        if(RT4Kir == 1)irsend.sendNEC(0x49,0x0A,2); // RT4K profile 4
       }
       else if(ecapbytes[6] == 26){
         if(SVS==0)Serial.println(F("remote prof5\r"));
@@ -441,6 +451,8 @@ void readExtron1(){
           delay(1000);
           Serial.println(F("SVS CURRENT INPUT=5\r"));
         }
+        if(RT5Xir == 1){irsend.sendNEC(0xB3,0x8F,2);delay(30);} // RT5X profile 5
+        if(RT4Kir == 1)irsend.sendNEC(0x49,0x06,2); // RT4K profile 5
       }
       else if(ecapbytes[6] == 27){
         if(SVS==0)Serial.println(F("remote prof6\r"));
@@ -449,6 +461,8 @@ void readExtron1(){
           delay(1000);
           Serial.println(F("SVS CURRENT INPUT=6\r"));
         }
+        if(RT5Xir == 1){irsend.sendNEC(0xB3,0xC8,2);delay(30);} // RT5X profile 6
+        if(RT4Kir == 1)irsend.sendNEC(0x49,0x02,2); // RT4K profile 6
       }
       else if(ecapbytes[6] == 28){
         if(SVS==0)Serial.println(F("remote prof7\r"));
@@ -457,6 +471,8 @@ void readExtron1(){
           delay(1000);
           Serial.println(F("SVS CURRENT INPUT=7\r"));
         }
+        if(RT5Xir == 1){irsend.sendNEC(0xB3,0x8A,2);delay(30);} // RT5X profile 7
+        if(RT4Kir == 1)irsend.sendNEC(0x49,0x09,2); // RT4K profile 7
       }
       else if(ecapbytes[6] == 29){
         if(SVS==0)Serial.println(F("remote prof8\r"));
@@ -465,6 +481,8 @@ void readExtron1(){
           delay(1000);
           Serial.println(F("SVS CURRENT INPUT=8\r"));
         }
+        if(RT5Xir == 1){irsend.sendNEC(0xB3,0x8B,2);delay(30);} // RT5X profile 8
+        if(RT4Kir == 1)irsend.sendNEC(0x49,0x05,2); // RT4K profile 8
       }
       else if(ecapbytes[6] == 30){
         if(SVS==0)Serial.println(F("remote prof9\r"));
@@ -473,14 +491,18 @@ void readExtron1(){
           delay(1000);
           Serial.println(F("SVS CURRENT INPUT=9\r"));
         }
+        if(RT5Xir == 1){irsend.sendNEC(0xB3,0xC4,2);delay(30);} // RT5X profile 9
+        if(RT4Kir == 1)irsend.sendNEC(0x49,0x01,2); // RT4K profile 9
       }
       else if(ecapbytes[6] == 31){
-        if(SVS==0)Serial.println(F("remote prof10\r"));
+        if(SVS==0 && !DP0)Serial.println(F("remote prof10\r"));
         else{
           Serial.println(F("SVS NEW INPUT=10\r"));
           delay(1000);
           Serial.println(F("SVS CURRENT INPUT=10\r"));
         }
+        if((RT5Xir == 1) && !DP0){irsend.sendNEC(0xB3,0x87,2);delay(30);} // RT5X profile 10
+        if(RT4Kir == 1)irsend.sendNEC(0x49,0x25,2); // RT4K profile 10
       }
       else if(ecapbytes[6] == 32){
         if(SVS==0)Serial.println(F("remote prof11\r"));
@@ -489,6 +511,7 @@ void readExtron1(){
           delay(1000);
           Serial.println(F("SVS CURRENT INPUT=11\r"));
         }
+        if(RT4Kir == 1)irsend.sendNEC(0x49,0x26,2); // RT4K profile 11
       }
       else if(ecapbytes[6] == 33){
         if(SVS==0 && !DP0)Serial.println(F("remote prof12\r")); // okay to use this profile if DP0 is set to false
@@ -497,6 +520,7 @@ void readExtron1(){
           delay(1000);
           Serial.println(F("SVS CURRENT INPUT=12\r"));
         }
+        if((RT4Kir == 1) && !DP0)irsend.sendNEC(0x49,0x27,2); // RT4K profile 12
       }
       else if(ecapbytes[6] > 33 && ecapbytes[6] < 38){
       Serial.print(F("SVS NEW INPUT="));
