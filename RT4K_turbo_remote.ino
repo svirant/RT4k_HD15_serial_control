@@ -1,18 +1,15 @@
 // RetroTink 4K Turbo Remote
 //
-// ** Make sure the front of the RT4K is blocked when using this or else double button presses may register **
-//
 // With an IR Receiver connected to the Arduino that has must better reception, RT4K IR remote control button presses get relayed through the RetroTink 4K's serial
 // interface instead. Ultimately making the remote control much more responsive. Can also be used when the RetroTink's IR window is hidden or not easily reached by the 
 // IR of the remote.
 //
 // TLDR; intercepts the remote's button presses and relays them through the Serial interface giving a much more responsive experience
-//
-//
 
-#define IR_RECEIVE_PIN 12
+#define IR_RECEIVE_PIN 12 // can use either pin 12 or 2, was unable to find another pin this worked on
 #include "TinyIRReceiver.hpp"
 int pwrtoggle = 0; // used to toggle remote power button on/off 
+int repeatcount = 0;
 
 void setup(){
 
@@ -38,8 +35,11 @@ void loop(){
       // Serial.print(ir_recv_address);
       // Serial.print(F(" Command="));
       // Serial.println(ir_recv_command);
+    
+    if(TinyIRReceiverData.Flags == IRDATA_FLAGS_IS_REPEAT){repeatcount++;} // directional buttons have to be held down for just a bit before repeating
 
     if(ir_recv_address == 73 && TinyIRReceiverData.Flags != IRDATA_FLAGS_IS_REPEAT){ // block most buttons from being repeated when held
+      repeatcount = 0;
       if(ir_recv_command == 63){
         Serial.println(F("remote aux8\r"));
       }
@@ -198,7 +198,7 @@ void loop(){
         }
       }
     }
-    else if(ir_recv_address == 73){ // allow directional buttons to be repeated when held down
+    else if(ir_recv_address == 73 && repeatcount > 4){ // directional buttons have to be held down for just a bit before repeating
       if(ir_recv_command == 24){
         Serial.println(F("remote up\r"));
       }
