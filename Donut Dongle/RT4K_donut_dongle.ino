@@ -201,9 +201,12 @@ String eoutput2; // used to store first 2 chars of Extron output for 2nd Extron
 SoftwareSerial extronSerial = SoftwareSerial(rxPin,txPin); // setup a software serial port for listening to Extron sw1 / alt sw1 
 AltSoftSerial extronSerial2; // setup yet another serial port for listening to Extron sw2 / alt sw2. hardcoded to pins D8 / D9
 
+// irRec() variables
 int pwrtoggle = 0; // used to toggle remote power button command (on/off) when using the optional IR Receiver
 int repeatcount = 0; // used to help emulate the repeat nature of directional button presses for the IR Serial Remote, irRec() function below
 int extrabuttonprof = 0; // used to keep track of AUX8 button presses for addtional button profiles. Uses SVS 301 - 312
+String svsbutton = "";
+int nument = 0;
 
 
 
@@ -1021,14 +1024,84 @@ void irRec(){
       // Serial.print(ir_recv_address);
       // Serial.print(F(" Command="));
       // Serial.println(ir_recv_command);
-    
-    if(ir_recv_address == 73 && TinyIRReceiverData.Flags != IRDATA_FLAGS_IS_REPEAT && extrabuttonprof){
-      if(ir_recv_command == 11){
+
+    if(ir_recv_address == 73 && TinyIRReceiverData.Flags != IRDATA_FLAGS_IS_REPEAT && extrabuttonprof == 2){
+      if(ir_recv_command == 11){                                                                        // load SVS profiles 301 - 312 (profile button 1 - 12)
+        //Serial.println(F("remote prof1\r"));
+        svsbutton += 1;
+        nument++;
+        ir_recv_command = 0;
+      }
+      else if(ir_recv_command == 7){
+        //Serial.println(F("remote prof2\r"));
+        svsbutton += 2;
+        nument++;
+        ir_recv_command = 0;
+      }
+      else if(ir_recv_command == 3){
+        //Serial.println(F("remote prof3\r"));
+        svsbutton += 3;
+        nument++;
+        ir_recv_command = 0;
+      }
+      else if(ir_recv_command == 10){
+        //Serial.println(F("remote prof4\r"));
+        svsbutton += 4;
+        nument++;
+        ir_recv_command = 0;
+      }
+      else if(ir_recv_command == 6){
+        //Serial.println(F("remote prof5\r"));
+        svsbutton += 5;
+        nument++;
+        ir_recv_command = 0;
+      }
+      else if(ir_recv_command == 2){
+        //Serial.println(F("remote prof6\r"));
+        svsbutton += 6;
+        nument++;
+        ir_recv_command = 0;
+      }
+      else if(ir_recv_command == 9){
+        //Serial.println(F("remote prof7\r"));
+        svsbutton += 7;
+        nument++;
+        ir_recv_command = 0;
+      }
+      else if(ir_recv_command == 5){
+        //Serial.println(F("remote prof8\r"));
+        svsbutton += 8;
+        nument++;
+        ir_recv_command = 0;
+      }
+      else if(ir_recv_command == 1){
+        //Serial.println(F("remote prof9\r"));
+        svsbutton += 9;
+        nument++;
+        ir_recv_command = 0;
+      }
+      else if(ir_recv_command == 37 || ir_recv_command == 38 || ir_recv_command == 39){
+        svsbutton += 0;
+        nument++;
+        ir_recv_command = 0;
+      }
+      else{
+        extrabuttonprof = 0;
+        svsbutton = "";
+        nument = 0;
+      }
+
+      
+    } // end of extrabutton == 2
+
+    if(ir_recv_address == 73 && TinyIRReceiverData.Flags != IRDATA_FLAGS_IS_REPEAT && extrabuttonprof == 1){ // if AUX8 was pressed and a profile button is pressed next,
+      if(ir_recv_command == 11){                                                                        // load SVS profiles 301 - 312 (profile button 1 - 12)
         //Serial.println(F("remote prof1\r"));
           Serial.println(F("SVS NEW INPUT=301\r"));
           delay(1000);
           Serial.println(F("SVS CURRENT INPUT=301\r"));
           ir_recv_command = 0;
+          extrabuttonprof = 0;
       }
       else if(ir_recv_command == 7){
         //Serial.println(F("remote prof2\r"));
@@ -1036,6 +1109,7 @@ void irRec(){
           delay(1000);
           Serial.println(F("SVS CURRENT INPUT=302\r"));
           ir_recv_command = 0;
+          extrabuttonprof = 0;
       }
       else if(ir_recv_command == 3){
         //Serial.println(F("remote prof3\r"));
@@ -1043,6 +1117,7 @@ void irRec(){
           delay(1000);
           Serial.println(F("SVS CURRENT INPUT=303\r"));
           ir_recv_command = 0;
+          extrabuttonprof = 0;
       }
       else if(ir_recv_command == 10){
         //Serial.println(F("remote prof4\r"));
@@ -1050,6 +1125,7 @@ void irRec(){
           delay(1000);
           Serial.println(F("SVS CURRENT INPUT=304\r"));
           ir_recv_command = 0;
+          extrabuttonprof = 0;
       }
       else if(ir_recv_command == 6){
         //Serial.println(F("remote prof5\r"));
@@ -1057,6 +1133,7 @@ void irRec(){
           delay(1000);
           Serial.println(F("SVS CURRENT INPUT=305\r"));
           ir_recv_command = 0;
+          extrabuttonprof = 0;
       }
       else if(ir_recv_command == 2){
         //Serial.println(F("remote prof6\r"));
@@ -1064,6 +1141,7 @@ void irRec(){
           delay(1000);
           Serial.println(F("SVS CURRENT INPUT=306\r"));
           ir_recv_command = 0;
+          extrabuttonprof = 0;
       }
       else if(ir_recv_command == 9){
         //Serial.println(F("remote prof7\r"));
@@ -1071,6 +1149,7 @@ void irRec(){
           delay(1000);
           Serial.println(F("SVS CURRENT INPUT=307\r"));
           ir_recv_command = 0;
+          extrabuttonprof = 0;
       }
       else if(ir_recv_command == 5){
         //Serial.println(F("remote prof8\r"));
@@ -1078,6 +1157,7 @@ void irRec(){
           delay(1000);
           Serial.println(F("SVS CURRENT INPUT=308\r"));
           ir_recv_command = 0;
+          extrabuttonprof = 0;
       }
       else if(ir_recv_command == 1){
         //Serial.println(F("remote prof9\r"));
@@ -1085,6 +1165,7 @@ void irRec(){
           delay(1000);
           Serial.println(F("SVS CURRENT INPUT=309\r"));
           ir_recv_command = 0;
+          extrabuttonprof = 0;
       }
       else if(ir_recv_command == 37){
         //Serial.println(F("remote prof10\r"));
@@ -1092,6 +1173,7 @@ void irRec(){
           delay(1000);
           Serial.println(F("SVS CURRENT INPUT=310\r"));
           ir_recv_command = 0;
+          extrabuttonprof = 0;
       }
       else if(ir_recv_command == 38){
         //Serial.println(F("remote prof11\r"));
@@ -1099,6 +1181,7 @@ void irRec(){
           delay(1000);
           Serial.println(F("SVS CURRENT INPUT=311\r"));
           ir_recv_command = 0;
+          extrabuttonprof = 0;
       }
       else if(ir_recv_command == 39){
         //Serial.println(F("remote prof12\r"));
@@ -1106,18 +1189,39 @@ void irRec(){
           delay(1000);
           Serial.println(F("SVS CURRENT INPUT=312\r"));
           ir_recv_command = 0;
+          extrabuttonprof = 0;
+      }
+      else if(ir_recv_command == 63){
+        ir_recv_command = 0;
+        extrabuttonprof++;
+
+      }
+      else{
+        extrabuttonprof = 0;
+        svsbutton = "";
+        nument = 0;
       }
       
-      extrabuttonprof = 0;
-    } // end extrabuttonprof
+    } // end extrabuttonprof == 1
 
+
+    if(nument == 3){
+      Serial.print(F("SVS NEW INPUT="));Serial.print(svsbutton);Serial.println(F("\r"));
+      delay(1000);
+      Serial.print(F("SVS CURRENT INPUT="));Serial.print(svsbutton);Serial.println(F("\r"));
+      nument = 0;
+      svsbutton = "";
+      extrabuttonprof = 0;
+      ir_recv_command = 0;
+    }
+    
     if(TinyIRReceiverData.Flags == IRDATA_FLAGS_IS_REPEAT){repeatcount++;} // directional buttons have to be held down for just a bit before repeating
 
     if(ir_recv_address == 73 && TinyIRReceiverData.Flags != IRDATA_FLAGS_IS_REPEAT){ // block most buttons from being repeated when held
       repeatcount = 0;
       if(ir_recv_command == 63){
         //Serial.println(F("remote aux8\r"));
-        extrabuttonprof = 1;
+        extrabuttonprof++;
       }
       else if(ir_recv_command == 62){
         Serial.println(F("remote aux7\r"));
