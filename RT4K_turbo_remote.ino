@@ -24,6 +24,12 @@ void setup(){
 
 void loop(){
 
+irRec();
+
+} // end of loop()
+
+void irRec(){
+
   int ir_recv_command = 0;
   int ir_recv_address = 0;
 
@@ -310,4 +316,4 @@ void loop(){
     
   } // end of TinyReceiverDecode() 
 
-} // end of loop()
+} // end of irRec()
