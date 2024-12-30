@@ -10,11 +10,11 @@
 #define IR_RECEIVE_PIN 2 // Optional IR Receiver on pin D2
 
 #include "TinyIRReceiver.hpp"
-#include <IRremote.h>
+#include <IRremote.h>       // found in the built-in Library Manager
 #include <SoftwareSerial.h>
-#include <AltSoftSerial.h> // https://github.com/PaulStoffregen/AltSoftSerial in order to have a 3rd Serial port for 2nd Extron Switch / alt sw2
-                           // Step 1 - Goto the github link above. Click the GREEN "<> Code" box and "Download ZIP"
-                           // Step 2 - In Arudino IDE; goto "Sketch" -> "Include Library" -> "Add .ZIP Library"
+#include <AltSoftSerial.h>  // https://github.com/PaulStoffregen/AltSoftSerial in order to have a 3rd Serial port for 2nd Extron Switch / alt sw2
+                            // Step 1 - Goto the github link above. Click the GREEN "<> Code" box and "Download ZIP"
+                            // Step 2 - In Arudino IDE; goto "Sketch" -> "Include Library" -> "Add .ZIP Library"
 IRsend irsend;
 
 
@@ -407,7 +407,7 @@ void readExtron1(){
 
     }
 
-    // for TESmart HDMI switch on Extron sw1 Port
+    // for TESmart HDMI switch on alt sw1 Port
     if(ecapbytes[4] == 17){
       if(ecapbytes[6] == 22){
         if(SVS==0)Serial.println(F("remote prof1\r"));
@@ -500,7 +500,7 @@ void readExtron1(){
         if(RT4Kir == 1)irsend.sendNEC(0x49,0x01,2); // RT4K profile 9
       }
       else if(ecapbytes[6] == 31){
-        if(SVS==0 && !DP0)Serial.println(F("remote prof10\r"));
+        if(SVS==0)Serial.println(F("remote prof10\r"));
         else{
           Serial.println(F("SVS NEW INPUT=10\r"));
           delay(1000);
@@ -1017,13 +1017,13 @@ void irRec(){
     ir_recv_command = TinyIRReceiverData.Command;
     ir_recv_address = TinyIRReceiverData.Address;
         
-      // printTinyReceiverResultMinimal(&Serial);
-      // Serial.print("Address=0x");Serial.print(ir_recv_address,HEX);
-      // Serial.print(" Command=0x");Serial.println(ir_recv_command,HEX);
-      // Serial.print(F("Address="));
-      // Serial.print(ir_recv_address);
-      // Serial.print(F(" Command="));
-      // Serial.println(ir_recv_command);
+    // printTinyReceiverResultMinimal(&Serial);
+    // Serial.print("Address=0x");Serial.print(ir_recv_address,HEX);
+    // Serial.print(" Command=0x");Serial.println(ir_recv_command,HEX);
+    // Serial.print(F("Address="));
+    // Serial.print(ir_recv_address);
+    // Serial.print(F(" Command="));
+    // Serial.println(ir_recv_command);
 
     if(ir_recv_address == 73 && TinyIRReceiverData.Flags != IRDATA_FLAGS_IS_REPEAT && extrabuttonprof == 2){
       if(ir_recv_command == 11){                                                                        // load SVS profiles 301 - 312 (profile button 1 - 12)
