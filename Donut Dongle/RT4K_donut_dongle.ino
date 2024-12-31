@@ -169,14 +169,14 @@ uint16_t voutMatrix[65] = {1,  // MATRIX switchers // by default ALL input chang
 
 
 int RT5Xir = 1;      // 0 = disables IR Emitter for RetroTink 5x
-                     // 1 = enabled for SW1 Extron switch or Otaku Games Scart Switch if connected
+                     // 1 = enabled for Extron sw1 switch, TESmart HDMI, or Otaku Games Scart Switch if connected
                      //     sends Profile 1 - 10 commands to RetroTink 5x. Must have IR LED emitter connected.
                      //     (DP0 - if enabled uses Profile 10 on the RT5X)
                      //
                      // 2 = enabled for gscart switch only (remote profiles 1-8 for first gscart, 9-10 for first 2 inputs on second)
 
 int RT4Kir = 0;      // 0 = disables IR Emitter for RetroTink 4K
-                     // 1 = enabled for SW1 Extron switch or Otaku Games Scart Switch if connected
+                     // 1 = enabled for Extron sw1 switch, TESmart HDMI, or Otaku Games Scart Switch if connected
                      //     sends Profile 1 - 12 commands to RetroTink 4K. Must have IR LED emitter connected.
                      //     (DP0 - if enabled uses Profile 12 on the RT4K)
                      //
@@ -201,12 +201,12 @@ String eoutput2; // used to store first 2 chars of Extron output for 2nd Extron
 SoftwareSerial extronSerial = SoftwareSerial(rxPin,txPin); // setup a software serial port for listening to Extron sw1 / alt sw1 
 AltSoftSerial extronSerial2; // setup yet another serial port for listening to Extron sw2 / alt sw2. hardcoded to pins D8 / D9
 
-// irRec() variables
+// irRec() (IR Receiver) variables
 int pwrtoggle = 0; // used to toggle remote power button command (on/off) when using the optional IR Receiver
-int repeatcount = 0; // used to help emulate the repeat nature of directional button presses for the IR Serial Remote, irRec() function below
-int extrabuttonprof = 0; // used to keep track of AUX8 button presses for addtional button profiles. Uses SVS 301 - 312
-String svsbutton = "";
-int nument = 0;
+int repeatcount = 0; // used to help emulate the repeat nature of directional button presses
+int extrabuttonprof = 0; // used to keep track of AUX8 button presses for addtional button profiles
+String svsbutton = ""; // used to store 3 digit SVS profile when AUX8 is double pressed
+int nument = 0; // used to keep track of how many digits have been entered for 3 digit SVS profile
 
 
 
@@ -926,7 +926,7 @@ void readGscart2(){
           delay(1000);
           Serial.println(F("SVS CURRENT INPUT=209\r"));
         }
-        if(RT5Xir == 2){irsend.sendNEC(0xB3,0x92,2);delay(30);} // RT5X profile 9
+        if(RT5Xir == 2){irsend.sendNEC(0xB3,0xC4,2);delay(30);} // RT5X profile 9
         if(RT4Kir == 2)irsend.sendNEC(0x49,0x01,2);  // RT4K profile 9
       } 
       else if(!(gscart2 ^ B00001000)){
@@ -936,7 +936,7 @@ void readGscart2(){
           delay(1000);
           Serial.println(F("SVS CURRENT INPUT=210\r"));
         }
-        if(RT5Xir == 2){irsend.sendNEC(0xB3,0x93,2);delay(30);} // RT5X profile 10
+        if(RT5Xir == 2){irsend.sendNEC(0xB3,0x87,2);delay(30);} // RT5X profile 10
         if(RT4Kir == 2)irsend.sendNEC(0x49,0x25,2);  // RT4K profile 10
       }
       else if(!(gscart2 ^ B00010000)){
@@ -1291,33 +1291,43 @@ void irRec(){
       }
       else if(ir_recv_command == 11){
         Serial.println(F("remote prof1\r"));
+        if(RT5Xir >= 1){irsend.sendNEC(0xB3,0x92,2);delay(30);irsend.sendNEC(0xB3,0x92,2);} // RT5X profile 1 
       }
       else if(ir_recv_command == 7){
         Serial.println(F("remote prof2\r"));
+        if(RT5Xir >= 1){irsend.sendNEC(0xB3,0x93,2);delay(30);irsend.sendNEC(0xB3,0x93,2);} // RT5X profile 2
       }
       else if(ir_recv_command == 3){
         Serial.println(F("remote prof3\r"));
+        if(RT5Xir >= 1){irsend.sendNEC(0xB3,0xCC,2);delay(30);irsend.sendNEC(0xB3,0xCC,2);} // RT5X profile 3
       }
       else if(ir_recv_command == 10){
         Serial.println(F("remote prof4\r"));
+        if(RT5Xir >= 1){irsend.sendNEC(0xB3,0x8E,2);delay(30);irsend.sendNEC(0xB3,0x8E,2);} // RT5X profile 4
       }
       else if(ir_recv_command == 6){
         Serial.println(F("remote prof5\r"));
+        if(RT5Xir >= 1){irsend.sendNEC(0xB3,0x8F,2);delay(30);irsend.sendNEC(0xB3,0x8F,2);} // RT5X profile 5
       }
       else if(ir_recv_command == 2){
         Serial.println(F("remote prof6\r"));
+        if(RT5Xir >= 1){irsend.sendNEC(0xB3,0xC8,2);delay(30);irsend.sendNEC(0xB3,0xC8,2);} // RT5X profile 6
       }
       else if(ir_recv_command == 9){
         Serial.println(F("remote prof7\r"));
+        if(RT5Xir >= 1){irsend.sendNEC(0xB3,0x8A,2);delay(30);irsend.sendNEC(0xB3,0x8A,2);} // RT5X profile 7
       }
       else if(ir_recv_command == 5){
         Serial.println(F("remote prof8\r"));
+        if(RT5Xir >= 1){irsend.sendNEC(0xB3,0x8B,2);delay(30);irsend.sendNEC(0xB3,0x8B,2);} // RT5X profile 8
       }
       else if(ir_recv_command == 1){
         Serial.println(F("remote prof9\r"));
+        if(RT5Xir >= 1){irsend.sendNEC(0xB3,0xC4,2);delay(30);irsend.sendNEC(0xB3,0xC4,2);} // RT5X profile 9
       }
       else if(ir_recv_command == 37){
         Serial.println(F("remote prof10\r"));
+        if(RT5Xir >= 1){irsend.sendNEC(0xB3,0x87,2);delay(30);irsend.sendNEC(0xB3,0x87,2);} // RT5X profile 10
       }
       else if(ir_recv_command == 38){
         Serial.println(F("remote prof11\r"));
@@ -1394,5 +1404,5 @@ void irRec(){
     } // end of if(ir_recv_address)
 
   } // end of TinyReceiverDecode() 
-
+  
 } // end of irRec()
