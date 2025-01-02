@@ -6,6 +6,7 @@
 
 --------
 ***<Updates:>***
+- YC2VGA "shorty" gerber added
 - More "Turbo" remote features added.
   - AUX8 button + profile button 1 - 12 loads SVS profiles 301 - 312.
   - AUX8 pressed twice, manually enter a SVS profile to load with the profile buttons using 1 - 9 and 10,11,12 buttons for 0. Must use 3 digits. Ex: 001 = 1, 010 = 10, etc
