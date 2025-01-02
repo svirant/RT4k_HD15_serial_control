@@ -6,6 +6,7 @@
 
 --------
 ***<Updates:>***
+- final? VGA Passthrough Adapter / Donut Dongle proto pcb in the mail. Once verified, I'll post them here.
 - YC2VGA "shorty" gerber added
 - More "Turbo" remote features added.
   - AUX8 button + profile button 1 - 12 loads SVS profiles 301 - 312.
