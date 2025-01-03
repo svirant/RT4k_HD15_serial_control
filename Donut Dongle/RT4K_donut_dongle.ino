@@ -1079,61 +1079,52 @@ void irRec(){
     // Serial.println(ir_recv_command);
 
     if(ir_recv_address == 73 && TinyIRReceiverData.Flags != IRDATA_FLAGS_IS_REPEAT && extrabuttonprof == 2){
-      if(ir_recv_command == 11){                                                                        // load SVS profiles 301 - 312 (profile button 1 - 12)
-        //Serial.println(F("remote prof1\r"));
+      if(ir_recv_command == 11){ // profile button 1
         svsbutton += 1;
         nument++;
         ir_recv_command = 0;
       }
-      else if(ir_recv_command == 7){
-        //Serial.println(F("remote prof2\r"));
+      else if(ir_recv_command == 7){ // profile button 2
         svsbutton += 2;
         nument++;
         ir_recv_command = 0;
       }
-      else if(ir_recv_command == 3){
-        //Serial.println(F("remote prof3\r"));
+      else if(ir_recv_command == 3){ // profile button 3
         svsbutton += 3;
         nument++;
         ir_recv_command = 0;
       }
-      else if(ir_recv_command == 10){
-        //Serial.println(F("remote prof4\r"));
+      else if(ir_recv_command == 10){ // profile button 4
         svsbutton += 4;
         nument++;
         ir_recv_command = 0;
       }
-      else if(ir_recv_command == 6){
-        //Serial.println(F("remote prof5\r"));
+      else if(ir_recv_command == 6){ // profile button 5
         svsbutton += 5;
         nument++;
         ir_recv_command = 0;
       }
-      else if(ir_recv_command == 2){
-        //Serial.println(F("remote prof6\r"));
+      else if(ir_recv_command == 2){ // profile button 6
         svsbutton += 6;
         nument++;
         ir_recv_command = 0;
       }
-      else if(ir_recv_command == 9){
-        //Serial.println(F("remote prof7\r"));
+      else if(ir_recv_command == 9){ // profile button 7
         svsbutton += 7;
         nument++;
         ir_recv_command = 0;
       }
-      else if(ir_recv_command == 5){
-        //Serial.println(F("remote prof8\r"));
+      else if(ir_recv_command == 5){ // profile button 8
         svsbutton += 8;
         nument++;
         ir_recv_command = 0;
       }
-      else if(ir_recv_command == 1){
-        //Serial.println(F("remote prof9\r"));
+      else if(ir_recv_command == 1){ // profile button 9
         svsbutton += 9;
         nument++;
         ir_recv_command = 0;
       }
-      else if(ir_recv_command == 37 || ir_recv_command == 38 || ir_recv_command == 39){
+      else if(ir_recv_command == 37 || ir_recv_command == 38 || ir_recv_command == 39){ // profile buttons 10,11,12
         svsbutton += 0;
         nument++;
         ir_recv_command = 0;
