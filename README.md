@@ -9,7 +9,7 @@
 - final? VGA Passthrough Adapter / Donut Dongle proto pcb in the mail. Once verified, I'll post them here.
 - YC2VGA "shorty" gerber added
 - More "Turbo" remote features added.
-  - AUX8 button + profile button 1 - 12 loads SVS profiles 301 - 312.
+  - AUX8 button + profile button 1 - 12 loads SVS profiles of your choosing. By default is SVS 1 - 12
   - AUX8 pressed twice, manually enter a SVS profile to load with the profile buttons using 1 - 9 and 10,11,12 buttons for 0. Must use 3 digits. Ex: 001 = 1, 010 = 10, etc
 - TESmart HDMI switch support added. being added here soon.
 - [RT4K Turbo Remote:](https://github.com/svirant/RT4k_HD15_serial_control/tree/main/README.md#turbo-remote-picture-guide) Intercepts the remote's button presses and relays them through the Serial interface giving a much more responsive experience.
