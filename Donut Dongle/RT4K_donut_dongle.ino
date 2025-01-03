@@ -77,7 +77,7 @@ int SVS = 0; //     "Remote" profiles are profiles that are assigned to buttons 
 
 
 
-bool DP0  = false;        // (Default Profile 0) 
+bool DP0  = false;       // (Default Profile 0) 
                          //
                          // ** Best to set DP0 to false if using gscart due to the current detection method (not knowing if all inputs are off) **
                          //
@@ -182,11 +182,12 @@ int RT4Kir = 0;      // 0 = disables IR Emitter for RetroTink 4K
                      //
                      // 2 = enabled for gscart switch only (remote profiles 1-8 for first gscart, 9-12 for first 4 inputs on second)
 
-                            // Assign SVS profiles to IR remote profile buttons. 
+
+  uint16_t auxprof[12] =    // Assign SVS profiles to IR remote profile buttons. 
                             // Replace 1, 2, 3, etc below with "ANY" SVS profile number.
                             // Press AUX8 then profile button to load. Must have IR Receiver connected and Serial connection to RT4K.
                             // 
-uint16_t auxprof[12] = {1,  // AUX8 + profile 1 button
+                       {1,  // AUX8 + profile 1 button
                         2,  // AUX8 + profile 2 button
                         3,  // AUX8 + profile 3 button
                         4,  // AUX8 + profile 4 button
@@ -1147,147 +1148,87 @@ void irRec(){
     } // end of extrabutton == 2
 
     if(ir_recv_address == 73 && TinyIRReceiverData.Flags != IRDATA_FLAGS_IS_REPEAT && extrabuttonprof == 1){ // if AUX8 was pressed and a profile button is pressed next,
-      if(ir_recv_command == 11){                                                                        // load "SVS" profiles 1 - 12 (profile button 1 - 12).
-        //Serial.println(F("remote prof1\r"));                                                          // Can be changed to "ANY" SVS profile in the OPTIONS section
-          Serial.print(F("SVS NEW INPUT="));
-          Serial.print(auxprof[0]);
-          Serial.println(F("\r"));
+      if(ir_recv_command == 11){ // profile button 1                                                         // load "SVS" profiles 1 - 12 (profile button 1 - 12).
+          Serial.print(F("SVS NEW INPUT="));Serial.print(auxprof[0]);Serial.println(F("\r"));                // Can be changed to "ANY" SVS profile in the OPTIONS section
           delay(1000);
-          Serial.print(F("SVS CURRENT INPUT="));
-          Serial.print(auxprof[0]);
-          Serial.println(F("\r"));
+          Serial.print(F("SVS CURRENT INPUT="));Serial.print(auxprof[0]);Serial.println(F("\r"));
           ir_recv_command = 0;
           extrabuttonprof = 0;
       }
-      else if(ir_recv_command == 7){
-        //Serial.println(F("remote prof2\r"));
-          Serial.print(F("SVS NEW INPUT="));
-          Serial.print(auxprof[1]);
-          Serial.println(F("\r"));
+      else if(ir_recv_command == 7){ // profile button 2
+          Serial.print(F("SVS NEW INPUT="));Serial.print(auxprof[1]);Serial.println(F("\r"));
           delay(1000);
-          Serial.print(F("SVS CURRENT INPUT="));
-          Serial.print(auxprof[1]);
-          Serial.println(F("\r"));
+          Serial.print(F("SVS CURRENT INPUT="));Serial.print(auxprof[1]);Serial.println(F("\r"));
           ir_recv_command = 0;
           extrabuttonprof = 0;
       }
-      else if(ir_recv_command == 3){
-        //Serial.println(F("remote prof3\r"));
-          Serial.print(F("SVS NEW INPUT="));
-          Serial.print(auxprof[2]);
-          Serial.println(F("\r"));
+      else if(ir_recv_command == 3){ // profile button 3
+          Serial.print(F("SVS NEW INPUT="));Serial.print(auxprof[2]);Serial.println(F("\r"));
           delay(1000);
-          Serial.print(F("SVS CURRENT INPUT="));
-          Serial.print(auxprof[2]);
-          Serial.println(F("\r"));
+          Serial.print(F("SVS CURRENT INPUT="));Serial.print(auxprof[2]);Serial.println(F("\r"));
           ir_recv_command = 0;
           extrabuttonprof = 0;
       }
-      else if(ir_recv_command == 10){
-        //Serial.println(F("remote prof4\r"));
-          Serial.print(F("SVS NEW INPUT="));
-          Serial.print(auxprof[3]);
-          Serial.println(F("\r"));
+      else if(ir_recv_command == 10){ // profile button 4
+          Serial.print(F("SVS NEW INPUT="));Serial.print(auxprof[3]);Serial.println(F("\r"));
           delay(1000);
-          Serial.print(F("SVS CURRENT INPUT="));
-          Serial.print(auxprof[3]);
-          Serial.println(F("\r"));
+          Serial.print(F("SVS CURRENT INPUT="));Serial.print(auxprof[3]);Serial.println(F("\r"));
           ir_recv_command = 0;
           extrabuttonprof = 0;
       }
-      else if(ir_recv_command == 6){
-        //Serial.println(F("remote prof5\r"));
-          Serial.print(F("SVS NEW INPUT="));
-          Serial.print(auxprof[4]);
-          Serial.println(F("\r"));
+      else if(ir_recv_command == 6){ // profile button 5
+          Serial.print(F("SVS NEW INPUT="));Serial.print(auxprof[4]);Serial.println(F("\r"));
           delay(1000);
-          Serial.print(F("SVS CURRENT INPUT="));
-          Serial.print(auxprof[4]);
-          Serial.println(F("\r"));
+          Serial.print(F("SVS CURRENT INPUT="));Serial.print(auxprof[4]);Serial.println(F("\r"));
           ir_recv_command = 0;
           extrabuttonprof = 0;
       }
-      else if(ir_recv_command == 2){
-        //Serial.println(F("remote prof6\r"));
-          Serial.print(F("SVS NEW INPUT="));
-          Serial.print(auxprof[5]);
-          Serial.println(F("\r"));
+      else if(ir_recv_command == 2){ // profile button 6
+          Serial.print(F("SVS NEW INPUT="));Serial.print(auxprof[5]);Serial.println(F("\r"));
           delay(1000);
-          Serial.print(F("SVS CURRENT INPUT="));
-          Serial.print(auxprof[5]);
-          Serial.println(F("\r"));
+          Serial.print(F("SVS CURRENT INPUT="));Serial.print(auxprof[5]);Serial.println(F("\r"));
           ir_recv_command = 0;
           extrabuttonprof = 0;
       }
-      else if(ir_recv_command == 9){
-        //Serial.println(F("remote prof7\r"));
-          Serial.print(F("SVS NEW INPUT="));
-          Serial.print(auxprof[6]);
-          Serial.println(F("\r"));
+      else if(ir_recv_command == 9){ // profile button 7
+          Serial.print(F("SVS NEW INPUT="));Serial.print(auxprof[6]);Serial.println(F("\r"));
           delay(1000);
-          Serial.print(F("SVS CURRENT INPUT="));
-          Serial.print(auxprof[6]);
-          Serial.println(F("\r"));
+          Serial.print(F("SVS CURRENT INPUT="));Serial.print(auxprof[6]);Serial.println(F("\r"));
           ir_recv_command = 0;
           extrabuttonprof = 0;
       }
-      else if(ir_recv_command == 5){
-        //Serial.println(F("remote prof8\r"));
-          Serial.print(F("SVS NEW INPUT="));
-          Serial.print(auxprof[7]);
-          Serial.println(F("\r"));
+      else if(ir_recv_command == 5){ // profile button 8
+          Serial.print(F("SVS NEW INPUT="));Serial.print(auxprof[7]);Serial.println(F("\r"));
           delay(1000);
-          Serial.print(F("SVS CURRENT INPUT="));
-          Serial.print(auxprof[7]);
-          Serial.println(F("\r"));
+          Serial.print(F("SVS CURRENT INPUT="));Serial.print(auxprof[7]);Serial.println(F("\r"));
           ir_recv_command = 0;
           extrabuttonprof = 0;
       }
-      else if(ir_recv_command == 1){
-        //Serial.println(F("remote prof9\r"));
-          Serial.print(F("SVS NEW INPUT="));
-          Serial.print(auxprof[8]);
-          Serial.println(F("\r"));
+      else if(ir_recv_command == 1){ // profile button 9
+          Serial.print(F("SVS NEW INPUT="));Serial.print(auxprof[8]);Serial.println(F("\r"));
           delay(1000);
-          Serial.print(F("SVS CURRENT INPUT="));
-          Serial.print(auxprof[8]);
-          Serial.println(F("\r"));
+          Serial.print(F("SVS CURRENT INPUT="));Serial.print(auxprof[8]);Serial.println(F("\r"));
           ir_recv_command = 0;
           extrabuttonprof = 0;
       }
-      else if(ir_recv_command == 37){
-        //Serial.println(F("remote prof10\r"));
-          Serial.print(F("SVS NEW INPUT="));
-          Serial.print(auxprof[9]);
-          Serial.println(F("\r"));
+      else if(ir_recv_command == 37){ // profile button 10
+          Serial.print(F("SVS NEW INPUT="));Serial.print(auxprof[9]);Serial.println(F("\r"));
           delay(1000);
-          Serial.print(F("SVS CURRENT INPUT="));
-          Serial.print(auxprof[9]);
-          Serial.println(F("\r"));
+          Serial.print(F("SVS CURRENT INPUT="));Serial.print(auxprof[9]);Serial.println(F("\r"));
           ir_recv_command = 0;
           extrabuttonprof = 0;
       }
-      else if(ir_recv_command == 38){
-        //Serial.println(F("remote prof11\r"));
-          Serial.print(F("SVS NEW INPUT="));
-          Serial.print(auxprof[10]);
-          Serial.println(F("\r"));
+      else if(ir_recv_command == 38){ // profile button 11
+          Serial.print(F("SVS NEW INPUT="));Serial.print(auxprof[10]);Serial.println(F("\r"));
           delay(1000);
-          Serial.print(F("SVS CURRENT INPUT="));
-          Serial.print(auxprof[10]);
-          Serial.println(F("\r"));
+          Serial.print(F("SVS CURRENT INPUT="));Serial.print(auxprof[10]);Serial.println(F("\r"));
           ir_recv_command = 0;
           extrabuttonprof = 0;
       }
-      else if(ir_recv_command == 39){
-        //Serial.println(F("remote prof12\r"));
-          Serial.print(F("SVS NEW INPUT="));
-          Serial.print(auxprof[11]);
-          Serial.println(F("\r"));
+      else if(ir_recv_command == 39){ // profile button 12
+          Serial.print(F("SVS NEW INPUT="));Serial.print(auxprof[11]);Serial.println(F("\r"));
           delay(1000);
-          Serial.print(F("SVS CURRENT INPUT="));
-          Serial.print(auxprof[11]);
-          Serial.println(F("\r"));
+          Serial.print(F("SVS CURRENT INPUT="));Serial.print(auxprof[11]);Serial.println(F("\r"));
           ir_recv_command = 0;
           extrabuttonprof = 0;
       }
@@ -1502,7 +1443,5 @@ void irRec(){
         Serial.println(F("remote right\r"));
       }
     } // end of if(ir_recv_address)
-
-  } // end of TinyReceiverDecode() 
-  
+  } // end of TinyReceiverDecode()   
 } // end of irRec()
