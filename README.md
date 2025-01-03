@@ -33,11 +33,3 @@
 I recommend the Official Arduino IDE and guide if you're unfamiliar with Arduinos.
 - https://www.arduino.cc/en/Guide
 - All .ino files used for programming the Arduino are listed above
-
-
-### IR LED Wiring
-Can run lengthy wire between LED pins and rest of connecting circuit. Looking into easier implementation.
-![IR_LED_Wiring](https://github.com/user-attachments/assets/c56fb2b4-cd95-4b97-8e89-5528a1bd5bcc)
-
-
-
