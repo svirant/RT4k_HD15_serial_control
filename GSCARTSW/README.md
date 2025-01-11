@@ -10,9 +10,9 @@ I recommend first programming your Arduino before starting
 - RT4K HD15 pin 5 = Gnd --> Arduino Gnd pin (any Gnd pin is fine)
 
 ### Connect EXT pins to Arduino
-- gscartsw / gcompsw EXT pin 5 ---> Pin A2 (Pro Micro) or Pin D5 (Nano)
-- gscartsw / gcompsw EXT pin 6 ---> Pin A1 (Pro Micro) or Pin D6 (Nano)
-- gscartsw / gcompsw EXT pin 7 ---> Pin A0 (Pro Micro) or Pin D7 (Nano)
+- gscartsw / gcompsw EXT pin 5 ---> Pin A0 (Nano)
+- gscartsw / gcompsw EXT pin 6 ---> Pin A1 (Nano)
+- gscartsw / gcompsw EXT pin 7 ---> Pin A2 (Nano)
 
   Pins 5-7 represent selected input in binary.
 
