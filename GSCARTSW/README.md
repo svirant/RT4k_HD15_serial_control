@@ -1,3 +1,5 @@
+### This has been merged into the Donut Dongle project -> https://github.com/svirant/DonutDongle
+
 ## GSCARTSW / GCOMPSW install notes
 
 I recommend first programming your Arduino before starting
