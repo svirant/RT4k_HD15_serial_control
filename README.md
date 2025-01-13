@@ -1,4 +1,4 @@
-# RetroTink Auto Profile switching 
+# RetroTink Auto Profile switching  
 ### With an Arduino, this project showcases many ways to integrate your current console switching setup with the RetroTink 4K and/or RetroTink 5x for Auto Profile switching.
 **So far, includes:** TESmart HDMI switch, Extron devices, GSCART/GCOMP switches, and an Otaku Games Scart Switch
 
