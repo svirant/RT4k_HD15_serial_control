@@ -18,8 +18,6 @@
 
 // RT4K HD15 serial remote control w/ Arduino Pro Micro (not 5v tolerant, unless voltage divider is used)
 //
-// DISCLAIMER: Do not connect usb power to the Arduino (AFTER it's wired in) and the switch at the same time. If Programming the Arduino, please make sure the Switch's USB power cable is first disconnected.
-//
 // HD15 pin 15 = RX --> Arduino Pro Micro TX pin
 // HD15 pin 12 = TX --> Arduino Pro Micro RX pin
 // HD15 pin 5 = Gnd --> Arduino Gnd pin (any Gnd pin is fine)
