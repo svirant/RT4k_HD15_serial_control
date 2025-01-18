@@ -28,25 +28,32 @@ bool ScartOffProfile = false; //set to "true" loads Remote Profile 12 when all s
                               
 uint16_t scart1 = 0x0f; //used to store state of first grouping of scart ports
 uint16_t scart2 = 0x0f; //second grouping...
-int scartoff = 1; //used to keep track of scart off profile state, if enabled
-int scartoffprev = 1; //used to store previous state of scartoff
+uint8_t scartoff = 1; //used to keep track of scart off profile state, if enabled
+uint8_t scartoffprev = 1; //used to store previous state of scartoff
 uint16_t scart1prev = 0x0f; //used to store previous state of first group
 uint16_t scart2prev = 0x0f; 
 
 
-void setup() {
+void setup(){
 
     Serial.begin(9600); // Set the baud rate for the RT4K Serial Connection
-    Serial.println("\r"); // when the Arduino first powers on, it sends garbage bytes out the hardware serial port. this shows up in the RT4K diag screen.
+    while(!Serial){;}   // allow connection to establish before continuing
+    Serial.println(F("\r")); // when the Arduino first powers on, it sends garbage bytes out the hardware serial port. this shows up in the RT4K diag screen.
                           // sending a carriage return clears out the buffer so the first input change works correctly
     DDRD  &= ~B11111100; // Set PD2-7 as inputs (shown on nano as pins D2-D7)
-    PORTD |=  B11111100; // Enable internal pull-up resistors
     DDRB  &= ~B00001111; // Set PB0 - PB4 as inputs (shown on nano as pins D8-11)
-    PORTB |=  B00001111; // Enable internal pull-up resistors
     
-}
+} // end of setup()
 
-void loop() {
+void loop(){
+
+readScart();
+
+delay(250);
+
+} // end of loop()
+
+void readScart(){
     // Read scart ports (bitwise NOT results in a 1 when scart port is Active / Low voltage on uln2003 leg)
     //
     // If you are wanting to use this for a different application where an Active port is High instead of Low,
@@ -66,17 +73,17 @@ void loop() {
     if(scart1 != scart1prev){
       //Detect which scart port is now active and change profile accordingly
       if(scart1 & B01000000) //Pin D2
-        Serial.println("remote prof10\r");
+        Serial.println(F("remote prof10\r"));
       else if(scart1 & B00100000) //Pin D3
-        Serial.println("remote prof9\r");
+        Serial.println(F("remote prof9\r"));
       else if(scart1 & B00010000) //Pin D4
-        Serial.println("remote prof8\r");
+        Serial.println(F("remote prof8\r"));
       else if(scart1 & B00001000) //Pin D5
-        Serial.println("remote prof7\r");
+        Serial.println(F("remote prof7\r"));
       else if(scart1 & B00000100) //Pin D6
-        Serial.println("remote prof6\r");
+        Serial.println(F("remote prof6\r"));
       else if(scart1 & B10000000) //Pin D7
-        Serial.println("remote prof5\r");
+        Serial.println(F("remote prof5\r"));
 
       scart1prev = scart1;
     }
@@ -85,13 +92,13 @@ void loop() {
     if(scart2 != scart2prev){
       //Detect which scart port is now active and change profile accordingly
       if(scart2 & B00000001) //Pin D8
-        Serial.println("remote prof4\r");
+        Serial.println(F("remote prof4\r"));
       else if(scart2 & B00000010) //Pin D9
-        Serial.println("remote prof3\r");
+        Serial.println(F("remote prof3\r"));
       else if(scart2 & B00000100) //Pin D10
-        Serial.println("remote prof2\r");
+        Serial.println(F("remote prof2\r"));
       else if(scart2 & B00001000) //Pin D11
-        Serial.println("remote prof1\r");
+        Serial.println(F("remote prof1\r"));
 
       scart2prev = scart2;
     }
@@ -99,11 +106,8 @@ void loop() {
     // If all ports are in-active, load profile 12. You can assign it to a generic HDMI profile for example.
     if((scartoff != scartoffprev) && ScartOffProfile){
       if((scart1 & B11111100) + (scart2 & B00001111) == 0)
-        Serial.println("remote prof12\r");
+        Serial.println(F("remote prof12\r"));
         
       scartoffprev = scartoff;
     }
-
-
-    delay(500);
-}
+} // end of readScart()
