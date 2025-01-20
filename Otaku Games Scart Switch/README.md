@@ -1,3 +1,5 @@
+## Notice: No need for wiring "Rx" in the picture guides below. You can leave it disconnected.
+
 ## Otaku Games Scart Switch
 
 
