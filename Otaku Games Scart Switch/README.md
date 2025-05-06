@@ -1,4 +1,6 @@
-## Notice: No need for wiring "Rx" in the picture guides below. You can leave it disconnected.
+# Please Notice:
+  - It is recommended to place a 10k resistor between the Arduino's Tx and RT4K's Rx. In the guide, this could easily be done between the Arduino's Tx and 3.5mm jack. This is the prevent the RT4K from being backpowered by the Arduino when it's power is off.
+  - No need for wiring "Rx" in the picture guides below as it has no current purpose. You can leave it disconnected.
 
 ## Otaku Games Scart Switch
 
