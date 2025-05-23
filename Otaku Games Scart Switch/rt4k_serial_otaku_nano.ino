@@ -1,5 +1,5 @@
 /*
-* RT4K Serial Otaku Games Scart Auto-switcher - Arduino Nano edition
+* RT4K Serial Otaku Games Scart Auto-switcher - Arduino Nano edition v0.2
 * Copyright (C) 2025 @Donutswdad
 *
 * This program is free software: you can redistribute it and/or modify
@@ -19,8 +19,15 @@
 // RT4K HD15 serial remote control w/ Arduino Nano edition (5v tolerant)
 //
 // HD15 pin 15 = RX --> Arduino Nano TX pin
-// HD15 pin 12 = TX --> Arduino Nano RX pin
+// HD15 pin 12 = TX --> Arduino Nano RX pin (not needed for this project, you can leave disconnected)
 // HD15 pin 5 = Gnd --> Arduino Gnd pin (any Gnd pin is fine)
+
+uint8_t const SVS = 0;     // 0 - use "Remote" button profiles 1-10
+                           // 1 - use SVS profiles S1_<whatever>.rt4 - S10_<whatever>.rt4.
+                           //     Ex: when combined with an offset of say "offset = 600" as an example, this would translate to SVS profiles S601_<whatever>.rt4 - S610_<whatever>.rt4
+
+uint16_t const offset = 0; // by default SVS profiles 1 - 10 will be used. set the offset to add this number so they dont conflict with another SVS device.
+                           // Ex: offset = 600 would give you SVS profiles 601-610.
 
 bool ScartOffProfile = false; //set to "true" loads Remote Profile 12 when all scart inputs are off. You can assign it to a generic HDMI input profile for example.
                               //set to "false" always leaves the last active scart input profile loaded
@@ -35,7 +42,7 @@ uint16_t scart2prev = 0x0f;
 
 
 void setup(){
-
+    
     Serial.begin(9600); // Set the baud rate for the RT4K Serial Connection
     while(!Serial){;}   // allow connection to establish before continuing
     Serial.println(F("\r")); // when the Arduino first powers on, it sends garbage bytes out the hardware serial port. this shows up in the RT4K diag screen.
@@ -72,42 +79,73 @@ void readScart(){
     // Has active scart port changed? Group 1
     if(scart1 != scart1prev){
       //Detect which scart port is now active and change profile accordingly
-      if(scart1 & B01000000) //Pin D2
-        Serial.println(F("remote prof10\r"));
-      else if(scart1 & B00100000) //Pin D3
-        Serial.println(F("remote prof9\r"));
-      else if(scart1 & B00010000) //Pin D4
-        Serial.println(F("remote prof8\r"));
-      else if(scart1 & B00001000) //Pin D5
-        Serial.println(F("remote prof7\r"));
-      else if(scart1 & B00000100) //Pin D6
-        Serial.println(F("remote prof6\r"));
-      else if(scart1 & B10000000) //Pin D7
-        Serial.println(F("remote prof5\r"));
-
+      if(scart1 & B01000000){ //Pin D2
+        if(SVS) sendSVS(10);
+        else Serial.println(F("remote prof10\r"));
+      }
+      else if(scart1 & B00100000){ //Pin D3
+        if(SVS) sendSVS(9);
+        else Serial.println(F("remote prof9\r"));
+      }
+      else if(scart1 & B00010000){ //Pin D4
+        if(SVS) sendSVS(8);
+        else Serial.println(F("remote prof8\r"));
+      }
+      else if(scart1 & B00001000){ //Pin D5
+        if(SVS) sendSVS(7);
+        else Serial.println(F("remote prof7\r"));
+      }
+      else if(scart1 & B00000100){ //Pin D6
+        if(SVS) sendSVS(6);
+        else Serial.println(F("remote prof6\r"));
+      }
+      else if(scart1 & B10000000){ //Pin D7
+        if(SVS) sendSVS(5);
+        else Serial.println(F("remote prof5\r"));
+      }
       scart1prev = scart1;
     }
     
     // Has active scart port changed? Group 2
     if(scart2 != scart2prev){
       //Detect which scart port is now active and change profile accordingly
-      if(scart2 & B00000001) //Pin D8
-        Serial.println(F("remote prof4\r"));
-      else if(scart2 & B00000010) //Pin D9
-        Serial.println(F("remote prof3\r"));
-      else if(scart2 & B00000100) //Pin D10
-        Serial.println(F("remote prof2\r"));
-      else if(scart2 & B00001000) //Pin D11
-        Serial.println(F("remote prof1\r"));
+      if(scart2 & B00000001){ //Pin D8
+        if(SVS) sendSVS(4);
+        else Serial.println(F("remote prof4\r"));
+      }
+      else if(scart2 & B00000010){ //Pin D9
+        if(SVS) sendSVS(3);
+        else Serial.println(F("remote prof3\r"));
+      }
+      else if(scart2 & B00000100){ //Pin D10
+        if(SVS) sendSVS(2);
+        else Serial.println(F("remote prof2\r"));
+      }
+      else if(scart2 & B00001000){ //Pin D11
+        if(SVS) sendSVS(1);
+        else Serial.println(F("remote prof1\r"));
+      }
 
       scart2prev = scart2;
     }
 
     // If all ports are in-active, load profile 12. You can assign it to a generic HDMI profile for example.
     if((scartoff != scartoffprev) && ScartOffProfile){
-      if((scart1 & B11111100) + (scart2 & B00001111) == 0)
-        Serial.println(F("remote prof12\r"));
+      if(((scart1 & B11111100) + (scart2 & B00001111)) == 0){
+        if(SVS) sendSVS(0);
+        else Serial.println(F("remote prof12\r"));
+      }
         
       scartoffprev = scartoff;
     }
 } // end of readScart()
+
+void sendSVS(uint16_t num){
+  Serial.print(F("\rSVS NEW INPUT="));
+  Serial.print(num + offset);
+  Serial.println(F("\r"));
+  delay(1000);
+  Serial.print(F("\rSVS CURRENT INPUT="));
+  Serial.print(num + offset);
+  Serial.println(F("\r"));
+}
