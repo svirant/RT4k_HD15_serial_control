@@ -1,7 +1,7 @@
 # Please Notice:
   - It is recommended to place a 10k resistor between the Arduino's Tx and RT4K's Rx if not adding a buffer for open-drain. In the guide, this could easily be done between the Arduino's Tx and 3.5mm jack. This is the prevent the RT4K from being backpowered by the Arduino when its power is off.
-  - If you choose to forego the open-drain buffer and use push-pull, you will not be able to route any open-drain devices through the same place as the push-pull output. In short: you cannot mix and match push-pull and open-drain.
   - No need for wiring "Rx" in the picture guides below as it has no current purpose. You can leave it disconnected.
+  - If you choose to forego the open-drain buffer and use just the Nano's Tx, it must be the only serial device connected to the RT4K's HD-15 serial port. You cannot use multiple push-pull serial devices at the same time via a headphone splitter like you can with open-drain. In short: you cannot mix and match push-pull and open-drain.
 
 ## Otaku Games Scart Switch
 
