@@ -1,5 +1,6 @@
 # Please Notice:
-  - It is recommended to place a 10k resistor between the Arduino's Tx and RT4K's Rx. In the guide, this could easily be done between the Arduino's Tx and 3.5mm jack. This is the prevent the RT4K from being backpowered by the Arduino when it's power is off.
+  - It is recommended to place a 10k resistor between the Arduino's Tx and RT4K's Rx if not adding a buffer for open-drain. In the guide, this could easily be done between the Arduino's Tx and 3.5mm jack. This is the prevent the RT4K from being backpowered by the Arduino when its power is off.
+  - If you choose to forego the open-drain buffer and use push-pull, you will not be able to route any open-drain devices through the same place as the push-pull output. In short: you cannot mix and match push-pull and open-drain.
   - No need for wiring "Rx" in the picture guides below as it has no current purpose. You can leave it disconnected.
 
 ## Otaku Games Scart Switch
@@ -13,12 +14,15 @@ This implementation taps into 2x ULN2003 Darlington Arrays that are used to acti
 
 
 
-## Nano [5v tolerant] (Recommended)
+## 2024-04-11 DJF (GREEN) BOARD + Arduino Nano
 ![nano1](https://github.com/user-attachments/assets/9f876e67-234e-41ba-a159-b656da90db71)
 ![nano2](https://github.com/user-attachments/assets/5dbc1f2d-29f7-4366-87cd-094020f40539)
 ![nano3](https://github.com/user-attachments/assets/f8a9ece3-6345-4fc6-aa8f-c3bf7cd51a53)
 
-## 2023-03-13 DJF (BLUE) BOARD + Arduino Nano
+## 2024-03-13 DJF (BLUE) BOARD + Arduino Nano
+
+While I can't personally confirm it, the pinout should also match the 2025-03-17-DJF board.
+
 Step 1: We need to first determine which input corresponds to which pin in the Darlington array. To do this, we can just listen in with a multimeter by setting the one probe on a leg and cycling through inputs, as well as a second probe on any ground point. You may find that you have a negative voltage reading in your multimeter, but that's okay. It just means your probes are backwards. After probing, I found the following legs corresponded to the following inputs:
 
 ![IMG_7124](assets/52525_otakugames_donutdongle_1.png)
@@ -46,7 +50,7 @@ Step 5: With a multimeter and a 3.5mm cable, verify the pinout for your PJ-307 h
 
 Step 6: If you wish to use a Push/Pull serial connection for your output (the recommended option is open drain, please scroll down a bit to see that), wire the tip of a 3.5mm cable to the TX1 pad of your Nano, and the sleeve (not the middle part) to GND.
 
-Step 7: Connect the cables from TX1 and GND to your headphone jack. Remember that you want your TX point to connect to the tip. With a TRS cable, this means your "R" will be floating. Typically, this would be where Rx is soldered to, but there's no point in this application. You may now set your iron down, as this is all the soldering we have to do.
+Step 7: Connect the cables from TX1 and GND to your headphone jack. Remember that you want your TX point to connect to the tip. With a TRS cable, this means your "R" will be floating. Typically, this would be where Rx is soldered to, but there's no point in this application. Please note that even if you use push-pull, connecting to the Donut Dongle from the SCART switch will still work. If you plan on not using a Donut Dongle and going straight to a VGA adapter on the RetroTINK, please place an in-line 10K Ohm resistor between the TX1 point in the Arduino and the TIP of your headphone jack. Please note that if you plan on routing multiple devices to the VGA adapter, you cannot mix and match between open-drain and push-pull. You may now set your iron down, as this is all the soldering we have to do.
 
 ![IMG_7127](assets/52525_otakugames_donutdongle_5.png)
 
@@ -56,7 +60,7 @@ Step 8: Use your hot glue gun to mount the headphone jack wherever is most conve
 
 By following the instructions above alone and connecting the Nano to the Donut Dongle, you might find yourself backfeeding the Arduino Nano when it is not connected to power but connected to a powered Donut Dongle, and backfeeding the Donut Dongle when powering the Nano in the Otaku Switch and not the Donut Dongle.
 
-In short, this is due to a difference in the way Serial Communications operate between the OtakuGames Switch's Nano, and the Donut Dongle's Nano. By default, communications in the Arduino Nano use a Push-Pull configuration. The Donut Dongle uses a buffer to "convert" Push-Pull to Open Drain, which is how the RetroTINK 4K takes serial commands. This was implemented because the original Donut Dongle, without this buffer, backfed power into the RetroTINK 4K through its HD-15 port. This isn't something you really want to do to your 700+ dollar scaler, so the Donut Dongle is made to output as Open Drain. This doesn't mean you can't feed it Push-Pull, but it wouldn't be the best thing for it due to the aforementioned backfeeding.
+In short, this is due to a difference in the way Serial Communications operate between the OtakuGames Switch's Nano, and the Donut Dongle's Nano. By default, communications in the Arduino Nano use a Push-Pull configuration. The Donut Dongle uses a buffer to "convert" Push-Pull to Open Drain, which is how the RetroTINK 4K prefers serial communication. This was implemented because the original Donut Dongle, without this buffer, backfed power into the RetroTINK 4K through its HD-15 port. This isn't something you really want to do to your 700+ dollar scaler, so the Donut Dongle is made to output as Open Drain. This doesn't mean you can't feed it Push-Pull, but it wouldn't be the best thing for it due to the aforementioned backfeeding.
 
 The true solution is to convert the Nano in the OtakuGames SCART Switch to Open Drain. Thankfully, this is a very simple circuit:
 
