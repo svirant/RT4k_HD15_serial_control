@@ -1,6 +1,6 @@
 /*
-* RT4K Serial Otaku Games Scart Auto-switcher - Arduino Nano edition v0.2
-* Copyright (C) 2025 @Donutswdad
+* RT4K Serial Otaku Games Scart Auto-switcher - Arduino Nano edition v0.2a
+* Copyright (C) 2026 @Donutswdad
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -29,9 +29,11 @@ uint8_t const SVS = 0;     // 0 - use "Remote" button profiles 1-10
 uint16_t const offset = 0; // by default SVS profiles 1 - 10 will be used. set the offset to add this number so they dont conflict with another SVS device.
                            // Ex: offset = 600 would give you SVS profiles 601-610.
 
-bool ScartOffProfile = false; //set to "true" loads Remote Profile 12 when all scart inputs are off. You can assign it to a generic HDMI input profile for example.
+bool ScartOffProfile = true;  //set to "true" loads Remote Profile 12 when all scart inputs are off. You can assign it to a generic HDMI input profile for example.
+                              // When used with a Donut Dongle this allows it to fallback to another active switch.
+                              //
                               //set to "false" always leaves the last active scart input profile loaded
-                              //set to "false" by default
+                              //set to "true" by default
                               
 uint16_t scart1 = 0x0f; //used to store state of first grouping of scart ports
 uint16_t scart2 = 0x0f; //second grouping...
