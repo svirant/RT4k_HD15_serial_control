@@ -1,5 +1,5 @@
 /*
-* RT4K Serial Otaku Games Scart Auto-switcher - Arduino Nano edition v0.2a
+* RT4K Serial Otaku Games Scart Auto-switcher - Arduino Nano edition v0.2b
 * Copyright (C) 2026 @Donutswdad
 *
 * This program is free software: you can redistribute it and/or modify
@@ -132,14 +132,14 @@ void readScart(){
     }
 
     // If all ports are in-active, load profile 12. You can assign it to a generic HDMI profile for example.
-    //if((scartoff != scartoffprev) && ScartOffProfile){
-    //  if(((scart1 & B11111100) + (scart2 & B00001111)) == 0){
-    //    if(SVS) sendSVS(0);
-    //    else Serial.println(F("remote prof12\r"));
-    //  }
+    if((scartoff != scartoffprev) && ScartOffProfile){
+      if(((scart1 & B11111100) + (scart2 & B00001111)) == 0){
+        if(SVS) sendSVS(0);
+        else Serial.println(F("remote prof12\r"));
+      }
         
-    // scartoffprev = scartoff;
-    // }
+      scartoffprev = scartoff;
+    }
 } // end of readScart()
 
 void sendSVS(uint16_t num){
