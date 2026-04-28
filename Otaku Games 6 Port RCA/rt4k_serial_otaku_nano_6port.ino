@@ -1,5 +1,5 @@
 /*
-* RT4K Otaku 6 Port Serial Auto-switcher v0.1
+* RT4K Otaku 6 Port Serial Auto-switcher v0.1a
 * Copyright (C) 2026 @Donutswdad
 *
 * This program is free software: you can redistribute it and/or modify
@@ -22,14 +22,14 @@
 // HD15 pin 12 = TX --> Arduino Nano RX pin (not needed for this project, you can leave disconnected)
 // HD15 pin 5 = Gnd --> Arduino Gnd pin (any Gnd pin is fine)
 
-uint8_t const SVS = 1;     // 0 - use "Remote" button profiles 1-5
-                           // 1 - use SVS profiles S1_<whatever>.rt4 - S5_<whatever>.rt4.
-                           //     Ex: when combined with an offset of say "offset = 300" as an example, this would translate to SVS profiles S301_<whatever>.rt4 - S305_<whatever>.rt4
+uint8_t const SVS = 1;     // 0 - use "Remote" button profiles 1-6(must be set to this if going directly into a Donut Dongle SW1 or SW2 port)
+                           // 1 - use SVS profiles S1_<whatever>.rt4 - S6_<whatever>.rt4.
+                           //     Ex: when combined with an offset of say "offset = 300" as an example, this would translate to SVS profiles S301_<whatever>.rt4 - S306_<whatever>.rt4
 
-uint16_t const offset = 0; // by default SVS profiles 1 - 5 will be used. set the offset to add this number so they dont conflict with another SVS device.
+uint16_t const offset = 0; // by default SVS profiles 1 - 6 will be used. set the offset to add this number so they dont conflict with another SVS device.
                            // Ex: offset = 300 would give you SVS profiles 301-305.
 
-bool OffProfile = true; //set to "true" loads Remote Profile 12 when all OTAKU inputs are off. You can assign it to a generic OTAKU input profile for example.
+bool OffProfile = true; // set to "true" loads either S0_<whatever>.rt4 or Remote Button Profile 12 when all OTAKU inputs are off. This depends on the SVS setting above. You can assign it to a generic OTAKU input profile for example.
                         // "false" always leaves the last active OTAKU input profile loaded
                         // "true" by default
                               
