@@ -59,9 +59,9 @@ void setup() {
 void loop() {
   int currentActivePin = 0;
 
-  // Scan pins starting from 8 down to 2 to check for HIGH states.
-  // This order enforces priority if multiple pins happen to be HIGH simultaneously.
-  // Once again, you might need to change this on which digital pins you used (D2 -> D12).
+  // Scan pins starting from pinUpperBound down to pinLowerBound to check for LOW states.
+  // This order enforces priority if multiple pins happen to be LOW simultaneously.
+
   for (int pin = pinUpperBound; pin >= pinLowerBound; pin--) {
     if (digitalRead(pin) == LOW) {
       currentActivePin = pin;
@@ -76,9 +76,9 @@ void loop() {
       switch (currentActivePin) {
 
         // This is user-defined. You can tie each case statement to a profile number.
-        case 2: // For example, 8 here refers to Pin D8.
+        case 2: // For example, 2 here refers to Pin D2.
           profileNum = 1; // And profileNum here refers to what remote profile / SVS profile to send. You can add to this switch statement to fit your own needs.
-          break; // Maybe you soldered Input 2 to Pin D8, which would mean you'd need to swap profileNum = 1 to profileNum = 2. It's your life! Live it! Be free!
+          break; // Maybe you soldered Input 2 to Pin D2, which would mean you'd need to swap profileNum = 1 to profileNum = 2. It's your life! Live it! Be free!
         case 3:
           profileNum = 2; 
           break;
