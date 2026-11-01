@@ -4,26 +4,37 @@ RetroTink 4K HD15 Serial Control using an Arduino Nano, Integrated with Otaku Ga
 
 See it in action: https://youtu.be/L7HAki0e440
 
-This implementation taps into 2x ULN2003 Darlington Arrays that are used to activate a led and relays for the LAST ACTIVE port. Each individual LED/relay line is connected to an input pin on the Arduino. If an input pin on the Arduino detects a voltage drop, then a command is sent to the RetroTINK telling it to change to that pin's / input port's assigned remote profile. This does not touch the signal or MCU and should not affect image quality. This is all based on my general observation of the PCB, I don't have any official documentation to go by.
+This implementation taps into 2x ULN2003 Darlington Arrays that are used to activate a LED and relays for the LAST ACTIVE port. Each individual LED/relay line is connected to an input pin on the Arduino. If an input pin on the Arduino detects a voltage drop, then a command is sent to the RetroTINK telling it to change to that pin's / input port's assigned remote profile. This does not touch the signal or MCU and should not affect image quality. This is all based on my general observation of the PCB, I don't have any official documentation to go by.
 
 This guide will include two methods: one which taps into alternative points connected to the Darlington Arrays or the "easy" method, and one which taps into the Darlingon Arrays themselves or the "hard" method.
 
-The following BOM is related to the open-drain board. 
+## Materials
 
-## Needed Materials:
+- A soldering iron and a steady hand
+- Wire. I used 28AWG stranded wire, but you can probably get away with any
+- An Arduino Nano
+- An assembled open drain board. You can find the .gerber [here](https://github.com/svirant/RT4k_HD15_serial_control/blob/main/Otaku%20Games%20Scart%20Switch/rt4k_serial_otaku_pcb_gerber.zip). Please see the table below for more details.
+- A M->F 3.5mm TRS cable
+- BAT85 Diode (optional, but recommended)
 
-| **Qty**    | Designation | Part |  Link  |  Notes |
-| ------------- | ------------- |------------- |------------- |------------- |
-| 1  | C1 | 0.1 uF / 100nF 50V X7R 0805 Capacitor| [Digikey](https://www.digikey.com/en/products/detail/yageo/CC0805KRX7R9BB104/302874?s=N4IgTCBcDaIMwEYEFokBYAMrkDkAiIAugL5A) | |
-| 1  | R1 | 10K OHM 1% 1/8W 0805 Resistor | [Digikey](https://www.digikey.com/en/products/detail/yageo/AC0805FR-0710KL/2827834) | |
-| 1  | U1 | IC BUF NON-INVERT 5.5V SOT23-6 | [Digikey](https://www.digikey.com/en/products/detail/texas-instruments/SN74LVC2G07DBVR/486427) or [alternate](https://www.digikey.com/en/products/detail/umw/SN74LVC2G07DBVR/24889644)| |
-| 1  | PH1 | PJ-307 3.5mm Stereo Jack | [AliExpress](https://www.aliexpress.us/item/3256805624175150.html) | |
-| 1  | Misc | M->F 3.5mm TRS Cable | [Amazon (non-affil)](https://www.amazon.com/UGREEN-Extension-Adapter-Compatible-Smartphones/dp/B00LM4ON3I) | |
 
-## Step 0: Understanding the .ino file
+**The following BOM is related to the open-drain board.**
+
+| **Qty**    | Designation | Part |  Link  |
+| ------------- | ------------- |------------- |-------------
+| 1  | C1 | 0.1 uF / 100nF 50V X7R 0805 Capacitor| [Digikey](https://www.digikey.com/en/products/detail/yageo/CC0805KRX7R9BB104/302874?s=N4IgTCBcDaIMwEYEFokBYAMrkDkAiIAugL5A)
+| 1  | R1 | 10K OHM 1% 1/8W 0805 Resistor | [Digikey](https://www.digikey.com/en/products/detail/yageo/AC0805FR-0710KL/2827834)
+| 1  | U1 | IC BUF NON-INVERT 5.5V SOT23-6 | [Digikey](https://www.digikey.com/en/products/detail/texas-instruments/SN74LVC2G07DBVR/486427) or [alternate](https://www.digikey.com/en/products/detail/umw/SN74LVC2G07DBVR/24889644)
+| 1  | PH1 | PJ-307 3.5mm Stereo Jack | [AliExpress](https://www.aliexpress.us/item/3256805624175150.html)
+
+# Step 0: Understanding the .ino file
 
 The .ino has been changed for simplicity and uniformity with the HDMI .ino.
 It **requires** pre-planning, as you need to know which switch input you want to take to the Nano.
+
+This implementation sends a profile change when the input is LOW. As such, line 66 MUST be:
+
+`if (digitalRead(pin) == LOW) {`. If you use the same .ino file as the HDMI switch without changing this, this will not work.
 
 In line 21 and 22, you will need to change the bounds of which you are setting up the Nano. For example, if you have a 10-input switch, you'll need 10 pins. For simplicity's sake, let's say those pins range from D2 to D11. Please reference this picture:
 
@@ -85,7 +96,8 @@ switch (currentActivePin) {
 
 You will need to modify this to fit however you solder. I encourage you to solder the wires to the board in Step 1, check how you're doing to lay it out / connect to the Nano, program the Nano, and then solder the Nano to the board.
 
-## Step 1: The "Easy" Method
+## Step 1: Choose your method to get the switch state
+### Option A: The "Easy" Method
 
 These are alternate points in the backside of the board that are easier to solder to, in case you're not confident in soldering to the Darlington arrays. They appear to be universal to the design of the Otaku Games switches, but I can only speak from experience with the ones I've done. 
 
@@ -99,7 +111,7 @@ Note that the picture says "SCART Input 1", but this works with the Component sw
 
 ![Component Switch](assets/11126_otakugames_donutdongle_15.jpeg)
 
-## Step 1: The "Hard" Method
+### Option B: The "Hard" Method
 
 **Step 1**: We need to first determine which input corresponds to which pin in the Darlington array. To do this, we can just listen in with a multimeter by setting the one probe on a leg and cycling through inputs while your switch is turned on, as well as a second probe on any ground point. You may find that you have a negative voltage reading in your multimeter, but that's okay. It just means your probes are backwards. After probing, I found the following legs corresponded to the following inputs:
 
@@ -112,7 +124,7 @@ Solder leads to the pins. Once again, please check your own pinout before solder
 
 From here, the steps for the "easy" and "hard" methods are the same.
 
-**Step 2**: Solder to GND and 5V. We will need to power our Arduino Nano somehow, and that somehow is by tapping into the capacitor just below the Darlington Array for SCART inputs 1-5. Before soldering, please verify which is GND and which is 5V by using a multimeter in continuity mode. Note that you don't need, strictly speaking, to use the same capacitor or source as this guide. If it is too challenging, you may also be interested in using the 5V and GND from the USB port. It is recommended, however, to keep these leads as short as you can make them to minimize resistance in the leads. 
+**Step 2**: Solder to GND and 5V. We will need to power our Arduino Nano by tapping into the capacitor just below the Darlington Array for SCART inputs 1-5. Before soldering, please verify which is GND and which is 5V by using a multimeter in continuity mode. Strictly speaking, you don't need to use the same capacitor or source as this guide. If it is too challenging, you may also be interested in using the 5V and GND from the switch's USB port. It is recommended, however, to keep these leads as short as you can make them to minimize resistance in the leads. 
 
 ![Finding 5V and GND](assets/52525_otakugames_donutdongle_2.png)
 
@@ -135,7 +147,7 @@ You can find the VGA adapter [here](https://ko-fi.com/s/0a49612856). Please note
 
 If you wish to have those options sent for PCB manufacture instead, you can find the VGA + Serial adapter files [here](https://github.com/svirant/DonutDongle/blob/main/Adapters/VGAPassthrough_wSharedSerial.zip) and the DonutHole project [here](https://github.com/svirant/DonutHole). You can also use the DonutDongle, which has more features than the DonutHole. That project can be found [here](https://github.com/svirant/DonutDongle).
 
-## Option 1 - Custom PCB
+## Option A - Custom PCB
 
 The Gerber Files (.zip) for a custom PCB are included in this project. It mounts directly to your Arduino Nano's through-holes for a very simple installation with no messy wires. You can upload the .zip to your favorite PCB manufacturer such as JLC (not sponsored) or PCBway (not sponsored) and assemble it yourself.
 
@@ -154,7 +166,7 @@ You can see an installation video by clicking the image below:
 
 [![Modding the OtakuGames SCART Switch for Open-Drain Serial Output](https://img.youtube.com/vi/i_mYcqZmVAg/0.jpg)](https://www.youtube.com/watch?v=i_mYcqZmVAg)
 
-## Option 2 - Breakout Board
+## Option B - Breakout Board
 
 An Amazon seller has a very convenient breakout board for SOT-23-6 packages: 
 

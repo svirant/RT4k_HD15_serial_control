@@ -15,10 +15,12 @@
 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-// You will need to potentially change three things. All are highly dependent on how many inputs your switch has:
-// Line 35, where you'll need to change the 2 and 8 in `for (int pin = 2; pin <=8; pin++)` to the pins that you're using. For example, if you're only using Pins D4-D8, it should be `for (int pin = 4; pin <=8; pin++)`, etc.
-// Line 46, where you'll need to change for (int pin = 8; pin >=2; pin--). Same as above depending on the pins you're using.
-// The switch statement in line 57, where you might need to add or remove cases depending on which pins you're using.
+// You will need to change the switch statement in line 72, where you might need to add or remove cases depending on which pins you're using.
+// Additionally, you will need to change the two variables below.
+
+pinLowerBound = 0; // This pin is the lower bound. If your Nano's input pins are set up to start from D2, this value should be 2.
+pinUpperBound = 0; // This pin is the upper bound. If your Nano's input pins end at D11, this value would be 11.
+// Note: if your pins are set up incorrectly, you may have some noise. Be sure to set these up exactly like you plan on having them on the Nano.
 
 // Variable to store the last active pin (initialized to 0, meaning nothing was active)
 int lastActivePin = 0;
@@ -48,8 +50,8 @@ void setup() {
   // and clear any garbage bytes generated during power-on
   Serial.println(F("\r"));
   
-  // Configure digital pins 2 through 8 as standard INPUTs. You might need to change this depending on which digital pins you use (D2 -> D12)
-  for (int pin = 2; pin <= 7; pin++) {
+  // Configure digital pins from pinLowerBound through pinUpperBound as standard INPUTs.
+  for (int pin = pinLowerBound; pin <= pinUpperBound; pin++) {
     pinMode(pin, INPUT);
   }
 }
@@ -60,7 +62,7 @@ void loop() {
   // Scan pins starting from 8 down to 2 to check for HIGH states.
   // This order enforces priority if multiple pins happen to be HIGH simultaneously.
   // Once again, you might need to change this on which digital pins you used (D2 -> D12).
-  for (int pin = 7; pin >= 2; pin--) {
+  for (int pin = pinUpperBound; pin >= pinLowerBound; pin--) {
     if (digitalRead(pin) == HIGH) {
       currentActivePin = pin;
       break; // Found the active pin, exit the scan loop
