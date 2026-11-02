@@ -12,7 +12,7 @@ This implementation taps into the LEDs themselves. When an LED is lit, it natura
 - A soldering iron and a steady hand
 - Wire. I used 28AWG stranded wire, but you can probably get away with any
 - An Arduino Nano
-- An assembled open drain board. You can find the .gerber [here](../PCB%20Files/rt4k_serial_otaku_pcb_gerber.zip). Please see the table below for more details.
+- An assembled open drain board. You can find the .gerber file for the PCBs [here](../PCB%20Files/rt4k_serial_otaku_pcb_gerber.zip). Please see the table below for more details.
 - A M->F 3.5mm TRS cable
 - A small hand drill
 - BAT85 Diode (optional, but recommended)
