@@ -15,18 +15,24 @@
 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-// You will need to potentially change three things. All are highly dependent on how many inputs your switch has:
-// Line 35, where you'll need to change the 2 and 8 in `for (int pin = 2; pin <=8; pin++)` to the pins that you're using. For example, if you're only using Pins D4-D8, it should be `for (int pin = 4; pin <=8; pin++)`, etc.
-// Line 46, where you'll need to change for (int pin = 8; pin >=2; pin--). Same as above depending on the pins you're using.
-// The switch statement in line 57, where you might need to add or remove cases depending on which pins you're using.
+/* USER CONFIGURATION START */
 
-// Variable to store the last active pin (initialized to 0, meaning nothing was active)
-int lastActivePin = 0;
-int profileNum = 0;
+// You will need to change the switch statement in line 80, where you might need to add or remove cases depending on which pins you're using.
+// Additionally, you will need to change the two variables below. If you like S0, you can set it up as well.
+
+const int pinLowerBound = 0; // This pin is the lower bound. If your Nano's input pins are set up to start from D2, this value should be 2.
+const int pinUpperBound = 0; // This pin is the upper bound. If your Nano's input pins end at D11, this value would be 11.
+// Note: if your pins are set up incorrectly, you may have some noise. Be sure to set these up exactly like you plan on having them on the Nano.
 uint8_t const SVS = 0; // 0 - use "Remote button profiles"
-// 1 - use SVS profiles (S1_<blah>.rt4)
+                       // 1 - use SVS profiles (S1_<blah>.rt4)
 uint16_t const offset = 0; // by default SVS profiles 1 - 10 will be used. set the offset to add this number so they dont conflict with another SVS device.
                            // Ex: offset = 600 would give you SVS profiles 601-610.
+
+/* USER CONFIGURATION END*/
+
+// Variable to store the last active pin (initialized to 0, meaning nothing was active)
+int lastActivePin = -1;
+int profileNum = 0;
 
 void sendSVS(uint16_t num){
   Serial.print(F("\rSVS NEW INPUT="));
@@ -48,8 +54,8 @@ void setup() {
   // and clear any garbage bytes generated during power-on
   Serial.println(F("\r"));
   
-  // Configure digital pins 2 through 8 as standard INPUTs. You might need to change this depending on which digital pins you use (D2 -> D12)
-  for (int pin = 2; pin <= 7; pin++) {
+  // Configure digital pins from pinLowerBound through pinUpperBound as standard INPUTs.
+  for (int pin = pinLowerBound; pin <= pinUpperBound; pin++) {
     pinMode(pin, INPUT);
   }
 }
@@ -57,10 +63,10 @@ void setup() {
 void loop() {
   int currentActivePin = 0;
 
-  // Scan pins starting from 8 down to 2 to check for HIGH states.
-  // This order enforces priority if multiple pins happen to be HIGH simultaneously.
-  // Once again, you might need to change this on which digital pins you used (D2 -> D12).
-  for (int pin = 7; pin >= 2; pin--) {
+  // Scan pins starting from pinUpperBound down to pinLowerBound to check for LOW states.
+  // This order enforces priority if multiple pins happen to be LOW simultaneously.
+
+  for (int pin = pinUpperBound; pin >= pinLowerBound; pin--) {
     if (digitalRead(pin) == HIGH) {
       currentActivePin = pin;
       break; // Found the active pin, exit the scan loop
@@ -72,11 +78,10 @@ void loop() {
     
     if (currentActivePin != 0) {
       switch (currentActivePin) {
-
-        // This is user-defined. You can tie each case statement to a profile number.
-        case 2: // For example, 8 here refers to Pin D8.
-          profileNum = 1; // And profileNum here refers to what remote profile / SVS profile to send. You can add to this switch statement to fit your own needs.
-          break; // Maybe you soldered Input 2 to Pin D8, which would mean you'd need to swap profileNum = 1 to profileNum = 2. It's your life! Live it! Be free!
+      // This is a sample configuration and may not work with your setup. Please read the README for more instructions.
+        case 2: 
+          profileNum = 1;
+          break;
         case 3:
           profileNum = 2; 
           break;
