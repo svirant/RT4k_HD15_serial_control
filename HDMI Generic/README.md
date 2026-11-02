@@ -37,21 +37,21 @@ The following will be a demonstration of how this works with two of my HDMI swit
 The .ino has been changed for simplicity and uniformity with the HDMI .ino.
 It **requires** pre-planning, as you need to know which switch input you want to take to the Nano.
 
-This implementation sends a profile change when the input is HIGH. As such, line 66 MUST be:
+This implementation sends a profile change when the input is HIGH. As such, line 70 MUST be:
 
 `if (digitalRead(pin) == HIGH) {`. If you use the same .ino file as the SCART switch without changing this, this will not work.
 
-In line 21 and 22, you will need to change the bounds of which you are setting up the Nano. For example, if you have a 10-input switch, you'll need 10 pins. For simplicity's sake, let's say those pins range from D2 to D11. Please reference this picture:
+In line 23 and 24, you will need to change the bounds of which you are setting up the Nano. For example, if you have a 10-input switch, you'll need 10 pins. For simplicity's sake, let's say those pins range from D2 to D11. Please reference this picture:
 
 ![All wires soldered on Board 1](assets/6.jpeg)
 
-With this picture, D2 through D7 are used. So, the `pinLowerBound` value, or line 21, would be 2. The `pinUpperBound` value, or line 22, would be 7. Let's take a look at another example:
+With this picture, D2 through D7 are used. So, the `pinLowerBound` value, or line 23, would be 2. The `pinUpperBound` value, or line 24, would be 7. Let's take a look at another example:
 
 ![All wires soldered on Board 2](assets/4.jpeg)
 
 With this picture, D2 through D8 are used as this switch has 7 inputs. So, `pinLowerBound` would be 2, and `pinUpperBound` would be 8.
 
-You will also need to modify the `switch` statement in line 76, depending on which GPIO pins you use for which input. Please reference the first picture once more. D2 is wired to Input 1, D3 is Input 2, D6 is Input 3, and D7 is Input 4.
+You will also need to modify the `switch` statement in line 80, depending on which GPIO pins you use for which input. Please reference the first picture once more. D2 is wired to Input 1, D3 is Input 2, D6 is Input 3, and D7 is Input 4.
 
 As such, the `switch` statement for this board would be:
 
@@ -82,6 +82,9 @@ switch (currentActivePin) {
 ```
 
 You will need to modify this to fit however you solder. I encourage you to solder the wires to the board in Step 1, check how you're doing to lay it out / connect to the Nano, program the Nano, and then solder the Nano to the board.
+
+There are two other parameters. If you choose to use SVS profiles rather than remote profiles (if you use the Donut Dongle you'll want remote profiles), you need to change line 26 to SVS = 1.
+Additionally, if you have multiple devices, you'll want to set your offset in line 28 for SVS profiles. Whatever you choose to make this is up to you.
 
 ## Step 1: Planning
 Take your switch apart. Some of them may require you to remove feet or adhesives to get to the screws. I recommend using a hot air station (you may be able to get away with a hair dryer in a pinch) to loosen the adhesive. Otherwise, you may damage the adhesive and getting it back to how it was prior to disassembly. This is a pretty important step, so be sure to take it seriously.

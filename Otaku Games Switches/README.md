@@ -32,7 +32,7 @@ This guide will include two methods: one which taps into alternative points conn
 The .ino has been changed for simplicity and uniformity with the HDMI .ino.
 It **requires** pre-planning, as you need to know which switch input you want to take to the Nano.
 
-This implementation sends a profile change when the input is LOW. As such, line 66 MUST be:
+This implementation sends a profile change when the input is LOW. As such, line 73 MUST be:
 
 `if (digitalRead(pin) == LOW) {`. If you use the same .ino file as the HDMI switch without changing this, this will not work.
 
@@ -40,13 +40,13 @@ In line 21 and 22, you will need to change the bounds of which you are setting u
 
 ![IMG_7126 2](assets/52525_otakugames_donutdongle_3.png)
 
-With this picture, D2 through D11 are used. So, the `pinLowerBound` value, or line 21, would be 2. The `pinUpperBound` value, or line 22, would be 11. Let's take a look at another example:
+With this picture, D2 through D11 are used. So, the `pinLowerBound` value, or line 23, would be 2. The `pinUpperBound` value, or line 24, would be 11. Let's take a look at another example:
 
 ![Wiring all up to Nano](assets/11126_otakugames_donutdongle_17.jpeg)
 
 With this picture, D2 through D7 are used as this switch only has 6 inputs. So, `pinLowerBound` would be 2, and `pinUpperBound` would be 7.
 
-You will also need to modify the `switch` statement in line 76, depending on which GPIO pins you use for which input. Please reference the first picture once more. D2 is wired to SCART Input 5, D3 is SCART Input 4, etc.
+You will also need to modify the `switch` statement in line 83, depending on which GPIO pins you use for which input. Please reference the first picture once more. D2 is wired to SCART Input 5, D3 is SCART Input 4, etc.
 
 As such, the `switch` statement for this board would be:
 
@@ -95,6 +95,11 @@ switch (currentActivePin) {
 ```
 
 You will need to modify this to fit however you solder. I encourage you to solder the wires to the board in Step 1, check how you're doing to lay it out / connect to the Nano, program the Nano, and then solder the Nano to the board.
+
+There are three other parameters. If you choose to use SVS profiles rather than remote profiles (if you use the Donut Dongle you'll want remote profiles), you need to change line 29 to SVS = 1.
+Additionally, if you have multiple devices, you'll want to set your offset in line 31 for SVS profiles. Whatever you choose to make this is up to you.
+Finally, since the Otaku switches report out as all HIGH when there is no active input, you can use "S0", which you can enable in line 26. If all inputs are off, it loads a specific profile you like which you can set up in line 28. This can work as a fallback to an HDMI switch or whatever other profile you may think of.
+
 
 ## Step 1: Choose your method to get the switch state
 ### Option A: The "Easy" Method
