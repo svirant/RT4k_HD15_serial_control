@@ -13,7 +13,7 @@ This guide will include two methods: one which taps into alternative points conn
 - A soldering iron and a steady hand
 - Wire. I used 28AWG stranded wire, but you can probably get away with any
 - An Arduino Nano
-- An assembled open drain board. You can find the .gerber [here](https://github.com/svirant/RT4k_HD15_serial_control/blob/main/Otaku%20Games%20Scart%20Switch/rt4k_serial_otaku_pcb_gerber.zip). Please see the table below for more details.
+- An assembled open drain board. You can find the .gerber [here](../PCB%20Files/rt4k_serial_otaku_pcb_gerber.zip). Please see the table below for more details.
 - A M->F 3.5mm TRS cable
 - BAT85 Diode (optional, but recommended)
 
